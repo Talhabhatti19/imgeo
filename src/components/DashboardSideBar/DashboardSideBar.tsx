@@ -1,5 +1,5 @@
 import React from "react";
-import SideBarLogo from "../assets/images/TcLogo.png";
+import SideBarLogo from "../../assets/images/TcLogo.png";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 
@@ -87,7 +87,11 @@ const DasbhboardSidebar = () => {
   );
   return (
     <>
-      <Sidebar width="275px" className="col-12 sidebar-wrapper fw-bold">
+      <Sidebar
+        width="275px"
+        className="col-12 fw-bold"
+        style={{ fontSize: "12px" }}
+      >
         <div className="d-flex justify-content-center p-1 pt-4">
           <img src={Images.sidebarLogo} alt="" />
         </div>
@@ -101,7 +105,6 @@ const DasbhboardSidebar = () => {
                   <div className="menu-items">
                     {" "}
                     <MenuItem
-                      active={item.label === "Dashboard"}
                       prefix={
                         <img src={item.img} style={{ background: "none" }} />
                       }

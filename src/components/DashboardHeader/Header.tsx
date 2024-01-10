@@ -4,9 +4,9 @@ import { Images } from "../Config/Images";
 const DasbhboardHeader = () => {
   return (
     <>
-      <div className="container" style={{ backgroundColor: "#F6F6F6" }}>
+      <div className="container header_layout">
         <div className="d-flex align-items-center">
-          <h2 className="col-6">Welcome !</h2>
+          <h2 className="col-6 navbar-brand">Welcome !</h2>
           <div className="col-6 d-flex">
             <div className="col-6"></div>
             <div className="d-flex col-6">
@@ -15,12 +15,15 @@ const DasbhboardHeader = () => {
                   className="profile-logo"
                   src={Images.profileUser}
                   alt=""
-                  width={"50px"}
-                  height={"50px"}
+                  width={"40px"}
+                  height={"40px"}
                 />
               </div>
 
-              <div className="ml-5 col-5 d-flex justify-content-center align-items-center bold">
+              <div
+                className="ms-3 col-5 d-flex justify-content-start align-items-center bold"
+                style={{ fontSize: "13px" }}
+              >
                 Super Admin{" "}
               </div>
             </div>
