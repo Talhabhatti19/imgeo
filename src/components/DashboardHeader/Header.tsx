@@ -1,7 +1,11 @@
 import React from "react";
 import { Images } from "../Config/Images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
 
 const DasbhboardHeader = () => {
+  const checkReduxState = useSelector((state: RootState) => state.block.check);
+  console.log(checkReduxState,"checkReduxState")
   return (
     <>
       <div className="container header_layout">

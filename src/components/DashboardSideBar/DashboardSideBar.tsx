@@ -2,8 +2,15 @@ import React from "react";
 import SideBarLogo from "../../assets/images/TcLogo.png";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
+import { useDispatch } from "react-redux";
+import { authSlice } from "../../redux/apis/apisSlics";
 
 const DasbhboardSidebar = () => {
+  const dispatch = useDispatch();
+  dispatch(
+  authSlice.actions.
+  checkRedux("14"))
+  
   const sidebarItems = [
     { label: "Dashboard", img: Images.dashboardIcon },
     { label: "Compilance Dashboard", img: Images.dashboardIcon },
