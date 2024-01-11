@@ -10,6 +10,7 @@ import CheckTypes from "../pages/Lov/CheckTypes";
 import TypesReasons from "../pages/Lov/TypesReasons";
 import HomePageManage from "../components/HomePageManagement/HomePageManagement";
 import ManagementForm from "../components/HomePageManagement/ManagementForm";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -17,9 +18,14 @@ export const router = createBrowserRouter([
     element: <Layout />,
     children: [
       {
+        path: "/dashboard",
+        element: <Dashboard />,
+      },
+      {
         path: "/leads",
         element: <Leads />,
       },
+
       {
         path: "/customer-list",
         element: <CustomerList />,

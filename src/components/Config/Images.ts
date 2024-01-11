@@ -20,6 +20,10 @@ import dollarIcon from "../../assets/images/dollarIcon.png";
 import timerIcon from "../../assets/images/timerIcon.png";
 import formImage from "../../assets/images/formImage.jpeg";
 import innerBaner from "../../assets/images/innerBanner.jpeg";
+import Person from "../../assets/images/icon-1.svg";
+import Doc from "../../assets/images/icon-2.svg";
+import Cash from "../../assets/images/icon-3.svg";
+import Distribute from "../../assets/images/icon-4.svg";
 
 export const Images = {
   callIcon,
@@ -44,4 +48,8 @@ export const Images = {
   landingPageIcon,
   logsIcon,
   sheildCheckIcon,
+  Person,
+  Doc,
+  Cash,
+  Distribute,
 };

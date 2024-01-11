@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SideBarLogo from "../assets/images/TcLogo.png";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
@@ -12,7 +12,7 @@ const DasbhboardSidebar = () => {
   dispatch(authSlice.actions.checkRedux("14"));
 
   const sidebarItems = [
-    { label: "Dashboard", img: Images.dashboardIcon, Link: "dashbaord" },
+    { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
     {
       label: "Compilance Dashboard",
       img: Images.dashboardIcon,
@@ -99,6 +99,18 @@ const DasbhboardSidebar = () => {
       img: Images.sheildCheckIcon,
     },
   ];
+  const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+
+  const handleSubmenuClick = (label: string) => {
+    setOpenSubmenus((prevSubmenus) => ({
+      ...Object.fromEntries(
+        Object.keys(prevSubmenus).map((key) => [key, false])
+      ),
+      [label]: !prevSubmenus[label],
+    }));
+  };
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -106,14 +118,28 @@ const DasbhboardSidebar = () => {
           prefix={<img src={item.img} style={{ background: "none" }} />}
           key={item.label}
           label={item.label}
+          open={openSubmenus[item.label] || false}
+          onClick={() => handleSubmenuClick(item.label)}
         >
-          {item.menu.map((submenuItem: any, subIndex: any) => (
-            <MenuItem key={subIndex}>
-              <Link to={`${submenuItem.Link}`} style={{ color: "#000000" }}>
-                {submenuItem.subMenu}
-              </Link>
-            </MenuItem>
-          ))}
+          {openSubmenus[item.label] && (
+            <>
+              {item.menu.map((submenuItem: any, subIndex: any) => (
+                <Link
+                  to={`${submenuItem.Link}`}
+                  style={{ color: "#000000", textDecoration: "none" }}
+                >
+                  <MenuItem
+                    key={subIndex}
+                    onClick={() => {
+                      console.log(subIndex, "hello");
+                    }}
+                  >
+                    {submenuItem.subMenu}
+                  </MenuItem>
+                </Link>
+              ))}
+            </>
+          )}
         </SubMenu>
       </div>
     </>
@@ -131,19 +157,26 @@ const DasbhboardSidebar = () => {
                 {item.menu ? (
                   renderSubmenu(item)
                 ) : (
-                  <div className="menu-items">
-                    {" "}
-                    <MenuItem
-                      active={item.label === "Dashboard"}
-                      prefix={
-                        <img src={item.img} style={{ background: "none" }} />
-                      }
-                    >
-                      <Link to={`${item.Link}`} style={{ color: "#000000" }}>
-                        {item.label}
+                  <>
+                    <div className="menu-items">
+                      <Link
+                        to={`${item.Link}`}
+                        style={{ color: "#000000", textDecoration: "none" }}
+                      >
+                        <MenuItem
+                          active={item.label === "Dashboard"}
+                          prefix={
+                            <img
+                              src={item.img}
+                              style={{ background: "none" }}
+                            />
+                          }
+                        >
+                          {item.label}
+                        </MenuItem>
                       </Link>
-                    </MenuItem>
-                  </div>
+                    </div>
+                  </>
                 )}
               </React.Fragment>
             </>

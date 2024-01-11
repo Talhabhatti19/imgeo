@@ -13,7 +13,9 @@ const Lander = () => {
           </div>
           <div className="flex" style={{ flex: 9.5 }}>
             <DasbhboardHeader />
-            <Outlet />
+            <div className="p-3">
+              <Outlet />
+            </div>
           </div>
         </div>
       </div>

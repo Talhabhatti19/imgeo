@@ -5,10 +5,10 @@ import { RootState } from "../../redux/rootReducer";
 
 const DasbhboardHeader = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
-  console.log(checkReduxState,"checkReduxState")
+  console.log(checkReduxState, "checkReduxState");
   return (
     <>
-      <div className="container header_layout">
+      <div className="header_layout">
         <div className="d-flex align-items-center">
           <h2 className="col-6 navbar-brand">Welcome !</h2>
           <div className="col-6 d-flex">
