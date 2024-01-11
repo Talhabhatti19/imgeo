@@ -18,9 +18,13 @@ import closeBtn from "../../assets/images/closeBtn.svg";
 import documentationIcon from "../../assets/images/documentIcon.png";
 import dollarIcon from "../../assets/images/dollarIcon.png";
 import timerIcon from "../../assets/images/timerIcon.png";
+import formImage from "../../assets/images/formImage.jpeg";
+import innerBaner from "../../assets/images/innerBanner.jpeg";
 
 export const Images = {
   callIcon,
+  innerBaner,
+  formImage,
   documentationIcon,
   dollarIcon,
   timerIcon,

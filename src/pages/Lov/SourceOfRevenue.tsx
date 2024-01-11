@@ -1,8 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
-import { Images } from "../../components/Config/Images";
-import DataTable from "react-data-table-component";
 import TableView from "../../components/TableView/TableView";
 import { Source_Of_Revenue_Header } from "../../components/Config/TableHeaders";
 

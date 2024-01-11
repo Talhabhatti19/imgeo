@@ -109,10 +109,7 @@ const DasbhboardSidebar = () => {
         >
           {item.menu.map((submenuItem: any, subIndex: any) => (
             <MenuItem key={subIndex}>
-              <Link
-                to={`${submenuItem.Link}`}
-                style={{ color: "#000000", textDecoration: "none" }}
-              >
+              <Link to={`${submenuItem.Link}`} style={{ color: "#000000" }}>
                 {submenuItem.subMenu}
               </Link>
             </MenuItem>

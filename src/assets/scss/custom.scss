@@ -19,6 +19,7 @@ body {
 img {
   max-width: 100%;
 }
+
 .css-jun1iy img {
   width: 15px !important;
   left: 20px !important;
@@ -36,10 +37,23 @@ img {
 }
 .menu-items > li a:hover {
   background-color: #004d72 !important;
+
   color: #f6f6f6;
 }
 .menu-items > li a:hover img {
   filter: invert(1) brightness(1);
+}
+.menu-items > li a {
+  text-decoration: none !important;
+  color: black !important;
+  &:hover {
+    color: white !important;
+  }
+}
+.wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5rem;
 }
 
 .col-12 {
@@ -150,4 +164,23 @@ h3.welcome-heading {
   top: 0;
   right: 0;
   z-index: 1000; /* Adjust the z-index as needed */
+}
+.padder {
+  margin: 7rem 0rem;
+}
+.line-height {
+  line-height: 1.5rem;
+}
+.list-style {
+  list-style-type: none;
+}
+.inner-bg {
+  background-image: url("../images/innerBanner.jpeg");
+  background-position: center !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  color: white;
+  border-radius: 15px;
+  padding: 30px 0px 0px 0px;
 }
