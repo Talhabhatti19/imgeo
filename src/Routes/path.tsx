@@ -8,6 +8,8 @@ import SourceOfRevenue from "../pages/Lov/SourceOfRevenue";
 import PurposeOfRevenue from "../pages/Lov/PurposeOfRevenue";
 import CheckTypes from "../pages/Lov/CheckTypes";
 import TypesReasons from "../pages/Lov/TypesReasons";
+import HomePageManage from "../components/HomePageManagement/HomePageManagement";
+import ManagementForm from "../components/HomePageManagement/ManagementForm";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ export const router = createBrowserRouter([
       {
         path: "/type-reason",
         element: <TypesReasons />,
+      },
+      {
+        path: "/home-page-management",
+        element: <HomePageManage />,
+      },
+      {
+        path: "home-page/setting",
+        element: <ManagementForm />,
       },
     ],
   },
