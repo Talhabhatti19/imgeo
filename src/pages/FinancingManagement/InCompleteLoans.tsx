@@ -30,7 +30,7 @@ const InCompleteLoans = () => {
   console.log(checkReduxState, "checkReduxState");
   return (
     <>
-      <div className="">
+      <div className="cs-table">
         <div className="d-flex align-items-center">
           <h2 className="col-6 fs-6 fw-bold mt-5">
             Incomplete Financing Applications
