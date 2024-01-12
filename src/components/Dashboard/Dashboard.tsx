@@ -1,4 +1,5 @@
 import React from "react";
+import Graphs from "./Graphs";
 import OverView from "./OverView";
 
 function Dashboard() {
@@ -12,6 +13,7 @@ function Dashboard() {
         <div className="col-8">
           <OverView />
         </div>
+        <Graphs />
       </div>
     </div>
   );
