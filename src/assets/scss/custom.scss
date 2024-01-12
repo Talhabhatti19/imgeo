@@ -430,7 +430,15 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
   margin-bottom: 2rem;
   border-radius: 16px;
 }
-
+.side-bar aside.ps-sidebar-root nav {
+  max-height: 666px;
+  overflow-y: auto;
+}
+.side-bar aside.ps-sidebar-root {
+  max-width:300px;
+  min-width: unset;
+  position:fixed;
+}
 @media (min-width:1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
