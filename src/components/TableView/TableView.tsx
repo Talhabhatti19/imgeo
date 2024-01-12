@@ -5,7 +5,7 @@ const TableView = ({ header, data }: any) => {
   const customStyles = {
     rows: {
       style: {
-        minHeight: "60px",
+        minHeight: "44px",
         // override the row height
       },
     },
