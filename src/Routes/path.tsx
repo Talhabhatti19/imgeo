@@ -19,6 +19,10 @@ import RejectedLoans from "../pages/FinancingManagement/RejectedLoans";
 import InCompleteLoans from "../pages/FinancingManagement/InCompleteLoans";
 import CancelledLoans from "../pages/FinancingManagement/CanceledLoans";
 import ActivityLoans from "../pages/FinancingManagement/ActivityLoans";
+import PartnerList from "../pages/PartnerManagement/PartnersList";
+import PartnerCommissions from "../pages/PartnerManagement/PartnerCommissions";
+import Employees from "../pages/Settings/Employees";
+import ManageRoles from "../pages/Settings/ManageRoles";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +105,26 @@ export const router = createBrowserRouter([
       {
         path: "activity-logs",
         element: <ActivityLoans />,
+      },
+      {
+        path: "partners",
+        element: <PartnerList />,
+      },
+      {
+        path: "partner-commissions",
+        element: <PartnerCommissions />,
+      },
+      {
+        path: "employees",
+        element: <Employees />,
+      },
+      {
+        path: "employees",
+        element: <Employees />,
+      },
+      {
+        path: "role",
+        element: <ManageRoles />,
       },
     ],
   },
