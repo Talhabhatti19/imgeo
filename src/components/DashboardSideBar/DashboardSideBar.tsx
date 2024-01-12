@@ -155,7 +155,7 @@ const DasbhboardSidebar = () => {
   );
   return (
     <>
-      <Sidebar width="275px" className="col-12 sidebar-wrapper fw-bold">
+      <Sidebar width="100%" className="col-12 sidebar-wrapper fw-bold">
         <div className="d-flex justify-content-center p-1 pt-4">
           <img src={Images.sidebarLogo} alt="" />
         </div>
