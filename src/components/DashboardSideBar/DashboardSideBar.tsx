@@ -53,30 +53,31 @@ const DasbhboardSidebar = () => {
     {
       label: "Financing Management",
       menu: [
-        { subMenu: "All Applications" },
-        { subMenu: "Pending Loans" },
-        { subMenu: "In Progress Loans" },
-        { subMenu: "Approved Loans" },
-        { subMenu: "Rejected Loans" },
-        { subMenu: "Incomplete Loans" },
-        { subMenu: "Cancelled Loans" },
-        { subMenu: "Activity Logs" },
+        { subMenu: "All Applications", Link: "applications/all" },
+        { subMenu: "Pending Loans", Link: "applications/pending" },
+        { subMenu: "In Progress Loans", Link: "applications/in-progress" },
+        { subMenu: "Approved Loans", Link: "applications/approved" },
+        { subMenu: "Rejected Loans", Link: "applications/rejected" },
+        { subMenu: "Incomplete Loans", Link: "incomplete" },
+        { subMenu: "Cancelled Loans", Link: "applications/cancelled" },
+        { subMenu: "Activity Logs", Link: "activity-logs" },
       ],
       img: Images.loanIcon,
     },
     {
       label: "Partner Management",
       menu: [
-        { subMenu: "Source of Revenue" },
-        { subMenu: "Departments permission" },
+        { subMenu: "Partners List", Link: "partners" },
+        { subMenu: "Partners Commission", Link: "partner-commissions" },
       ],
       img: Images.partnerManagement,
     },
     {
       label: "Settings",
       menu: [
-        { subMenu: "Source of Revenue" },
-        { subMenu: "Departments permission" },
+        { subMenu: "Employees", Link: "employees" },
+        { subMenu: "Manage Roles", Link: "role" },
+        { subMenu: "Manage permission", Link: "permissions" },
       ],
       img: Images.settingIcon,
     },
@@ -85,20 +86,24 @@ const DasbhboardSidebar = () => {
       img: Images.landingPageIcon,
       Link: "home-page-management",
     },
-    { label: "Landing Page Management", img: Images.landingPageIcon },
+    {
+      label: "Landing Page Management",
+      img: Images.landingPageIcon,
+      Link: "landingpages",
+    },
     {
       label: "System Logs",
       menu: [
-        { subMenu: "Source of Revenue" },
-        { subMenu: "Departments permission" },
+        { subMenu: "Dashboard", Link: "systemlogs" },
+        { subMenu: "Logs", Link: "systemlogs/logs" },
       ],
       img: Images.logsIcon,
     },
     {
       label: "API Management",
       menu: [
-        { subMenu: "Source of Revenue" },
-        { subMenu: "Departments permission" },
+        { subMenu: "All APIs", Link: "apis" },
+        { subMenu: "Partner APIs", Link: "apimanagement" },
       ],
       img: Images.sheildCheckIcon,
     },
@@ -107,14 +112,14 @@ const DasbhboardSidebar = () => {
     {}
   );
 
-  const handleSubmenuClick = (label: string) => {
-    setOpenSubmenus((prevSubmenus) => ({
-      ...Object.fromEntries(
-        Object.keys(prevSubmenus).map((key) => [key, false])
-      ),
-      [label]: !prevSubmenus[label],
-    }));
-  };
+  // const handleSubmenuClick = (label: string) => {
+  //   setOpenSubmenus((prevSubmenus) => ({
+  //     ...Object.fromEntries(
+  //       Object.keys(prevSubmenus).map((key) => [key, false])
+  //     ),
+  //     [label]: !prevSubmenus[label],
+  //   }));
+  // };
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -122,28 +127,28 @@ const DasbhboardSidebar = () => {
           prefix={<img src={item.img} style={{ background: "none" }} />}
           key={item.label}
           label={item.label}
-          open={openSubmenus[item.label] || false}
-          onClick={() => handleSubmenuClick(item.label)}
+          // open={openSubmenus[item.label] || false}
+          // onClick={() => handleSubmenuClick(item.label)}
         >
-          {openSubmenus[item.label] && (
-            <>
-              {item.menu.map((submenuItem: any, subIndex: any) => (
-                <Link
-                  to={`${submenuItem.Link}`}
-                  style={{ color: "#000000", textDecoration: "none" }}
+          {/* {openSubmenus[item.label] && ( */}
+          <>
+            {item.menu.map((submenuItem: any, subIndex: any) => (
+              <Link
+                to={`${submenuItem.Link}`}
+                style={{ color: "#000000", textDecoration: "none" }}
+              >
+                <MenuItem
+                  key={subIndex}
+                  onClick={() => {
+                    console.log(subIndex, "hello");
+                  }}
                 >
-                  <MenuItem
-                    key={subIndex}
-                    onClick={() => {
-                      console.log(subIndex, "hello");
-                    }}
-                  >
-                    {submenuItem.subMenu}
-                  </MenuItem>
-                </Link>
-              ))}
-            </>
-          )}
+                  {submenuItem.subMenu}
+                </MenuItem>
+              </Link>
+            ))}
+          </>
+          {/* )} */}
         </SubMenu>
       </div>
     </>

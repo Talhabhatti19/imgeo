@@ -11,6 +11,14 @@ import TypesReasons from "../pages/Lov/TypesReasons";
 import HomePageManage from "../components/HomePageManagement/HomePageManagement";
 import ManagementForm from "../components/HomePageManagement/ManagementForm";
 import Dashboard from "../components/Dashboard/Dashboard";
+import AllApplication from "../pages/FinancingManagement/AllApplication";
+import PendingLoans from "../pages/FinancingManagement/PendingLoans";
+import InProgressLoans from "../pages/FinancingManagement/InProgressLoans";
+import ApprovedLoans from "../pages/FinancingManagement/ApprovedLoans";
+import RejectedLoans from "../pages/FinancingManagement/RejectedLoans";
+import InCompleteLoans from "../pages/FinancingManagement/InCompleteLoans";
+import CancelledLoans from "../pages/FinancingManagement/CanceledLoans";
+import ActivityLoans from "../pages/FinancingManagement/ActivityLoans";
 
 export const router = createBrowserRouter([
   {
@@ -61,6 +69,38 @@ export const router = createBrowserRouter([
       {
         path: "home-page/setting",
         element: <ManagementForm />,
+      },
+      {
+        path: "applications/all",
+        element: <AllApplication />,
+      },
+      {
+        path: "applications/pending",
+        element: <PendingLoans />,
+      },
+      {
+        path: "applications/in-progress",
+        element: <InProgressLoans />,
+      },
+      {
+        path: "applications/approved",
+        element: <ApprovedLoans />,
+      },
+      {
+        path: "applications/rejected",
+        element: <RejectedLoans />,
+      },
+      {
+        path: "incomplete",
+        element: <InCompleteLoans />,
+      },
+      {
+        path: "applications/cancelled",
+        element: <CancelledLoans />,
+      },
+      {
+        path: "activity-logs",
+        element: <ActivityLoans />,
       },
     ],
   },
