@@ -639,3 +639,46 @@ export const Activity_Loans_Header = [
     selector: (row: { Changes: any }) => row.Changes,
   },
 ];
+export const Recent_Application_Header = [
+  {
+    name: "Application No",
+    selector: (row: { ApplicationNo: any }) => row.ApplicationNo,
+  },
+  {
+    name: "CR No.",
+    selector: (row: { CRNo: any }) => row.CRNo,
+  },
+
+  {
+    name: "Product",
+    selector: (row: { Product: any }) => row.Product,
+  },
+  {
+    name: "Loan Tenure",
+    selector: (row: { LoanTenure: any }) => row.LoanTenure,
+  },
+  {
+    name: "Application Date",
+    selector: (row: { ApplicationDate: any }) => row.ApplicationDate,
+  },
+  {
+    name: "Status",
+    selector: (row: { Status: any }) => row.Status,
+  },
+  {
+    name: "Customer Mobile",
+    selector: (row: { CustomerMobile: any }) => row.CustomerMobile,
+  },
+  {
+    name: "Reason from Partner",
+    selector: (row: { ReasonFromPartner: any }) => row.ReasonFromPartner,
+  },
+  {
+    name: "Reason",
+    selector: (row: { Reason: any }) => row.Reason,
+  },
+  {
+    name: "Action",
+    selector: (row: { Action: any }) => row.Action,
+  },
+];

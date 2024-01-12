@@ -342,6 +342,18 @@ left: 0;
   border-bottom: 1px solid #E0E0E0;
   padding-bottom: 1rem;
 }
+.wrapper .container {
+  width: 100%;
+  max-width: 100%;
+}
+.card-blocks.right-side {
+  background-color: #F6F6F6;
+  border-radius: 16px;
+  padding-bottom: 1rem;
+  max-height: 1090px;
+  overflow-y: auto;
+  margin-top: 2rem;
+}
 .nf-cards .card-body {
   padding-left: 15px;
 }
