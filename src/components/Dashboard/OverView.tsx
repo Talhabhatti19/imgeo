@@ -37,7 +37,7 @@ const OverView = () => {
       value: "425,000,000",
     },
   ];
-
+  const BackgroundColors = ["red", "blue", "green", "yellow"];
   return (
     <div className="card-blocks">
       <div className="">

@@ -19,6 +19,7 @@ import RejectedLoans from "../pages/FinancingManagement/RejectedLoans";
 import InCompleteLoans from "../pages/FinancingManagement/InCompleteLoans";
 import CancelledLoans from "../pages/FinancingManagement/CanceledLoans";
 import ActivityLoans from "../pages/FinancingManagement/ActivityLoans";
+import DashboardSystem from "../pages/systemLogs/DashboardSystem";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
       {
         path: "activity-logs",
         element: <ActivityLoans />,
+      },
+      {
+        path: "/systemlogs",
+        element: <DashboardSystem />,
       },
     ],
   },
