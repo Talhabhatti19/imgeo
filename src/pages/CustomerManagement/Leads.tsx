@@ -19,6 +19,18 @@ const data = [
     Status: "active",
     Action: "--",
   },
+  {
+    Customer: "jhdbfs",
+    ProductName: "kajbdsf",
+    ApplicationNo: "2235",
+    CrNumber: "1234",
+    Email: "11@gmail.com",
+    Phone: "123456",
+    Date: "12.34.2044",
+    ParentStatus: "---",
+    Status: "active",
+    Action: "--",
+  },
 ];
 
 const Leads = () => {
@@ -26,7 +38,7 @@ const Leads = () => {
   console.log(checkReduxState, "checkReduxState");
   return (
     <>
-      <div className="">
+      <div className="cs-table">
         <div className="d-flex align-items-center">
           <h2 className="col-6 fs-6 fw-bold mt-5">Leads</h2>
           <div className="col-6 d-flex">from to</div>

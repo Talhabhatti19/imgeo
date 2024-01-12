@@ -401,11 +401,22 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
   margin: 0px 0px 0 0px;
   width: 23% !important;
 }
-
-
-
+.cs-table .sc-hLQSwg:first-child {
+  border-radius: 8px 0px 0 0px;
+}
+.cs-table .sc-hLQSwg:last-child {
+  border-radius: 0px 8px 0px 0px;
+}
 .card-blocks .col-md-3:last-child {
   margin: 10px 0 0 5px;
+}
+.cs-table .sc-beySPh {
+  min-height: 68vh;
+  background: #fff;
+  border: 1px solid #E8E8E8;
+  overflow-y: auto;
+  margin-bottom: 2rem;
+  border-radius: 16px;
 }
 
 @media (min-width:1366px) {
