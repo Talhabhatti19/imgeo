@@ -80,7 +80,11 @@ const DasbhboardSidebar = () => {
       ],
       img: Images.settingIcon,
     },
-    { label: "Home Page Management", img: Images.landingPageIcon },
+    {
+      label: "Home Page Management",
+      img: Images.landingPageIcon,
+      Link: "home-page-management",
+    },
     { label: "Landing Page Management", img: Images.landingPageIcon },
     {
       label: "System Logs",
