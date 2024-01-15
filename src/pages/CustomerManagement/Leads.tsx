@@ -5,6 +5,9 @@ import { Images } from "../../components/Config/Images";
 import DataTable from "react-data-table-component";
 import { Leads_Header } from "../../components/Config/TableHeaders";
 import TableView from "../../components/TableView/TableView";
+import { Calendar, DatePicker } from "antd";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Col, Row } from "react-bootstrap";
 
 const data = [
   {
@@ -36,12 +39,45 @@ const data = [
 const Leads = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
   console.log(checkReduxState, "checkReduxState");
+  let handleSubmit = (fields: any) => {
+    console.log("submit:", fields);
+  };
   return (
     <>
       <div className="cs-table">
-        <div className="d-flex align-items-center">
-          <h2 className="col-6 fs-6 fw-bold mt-5">Leads</h2>
-          <div className="col-6 d-flex">from to</div>
+        <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
+          <h2 className="col-lg-6 col-12 fs-6 fw-bold">Leads</h2>
+          <form
+            action="search-bar"
+            className="col-lg-6 col-12 d-flex justify-content-end pb-2"
+          >
+            <div className="d-flex justify-content-between ">
+              <div className="d-grid">
+                <label htmlFor="" className="label-theme">
+                  From
+                </label>
+                <DatePicker
+                  style={{
+                    width: "200px",
+                    height: "36px",
+                    marginRight: "10px",
+                  }}
+                />
+              </div>
+
+              <div className="d-grid">
+                <label htmlFor="" className="label-theme">
+                  To
+                </label>
+                <DatePicker
+                  style={{
+                    width: "200px",
+                    height: "36px",
+                  }}
+                />
+              </div>
+            </div>
+          </form>
         </div>
         <TableView header={Leads_Header} data={data} />
       </div>

@@ -20,8 +20,18 @@ const PurposeOfRevenue = () => {
   return (
     <>
       <div className="cs-table">
-        <div className="d-flex align-items-center">
-          <h2 className="col-6 fs-6 fw-bold mt-5">Purposes of Finance</h2>
+        <div className="col-lg-12 col-12 d-flex align-items-center pb-3">
+          <h2 className="col-lg-6 col-12 fs-6 fw-bold">Purpose of Finance</h2>
+          <div className="col-lg-6 col-12 d-flex justify-content-end align-items-center">
+            <div className="d-flex">
+              <input
+                type="search"
+                placeholder="Search by name"
+                className="search-icon form-control search-bar"
+              />
+            </div>
+            <div className="theme-btn">+ add New Record</div>
+          </div>
         </div>
         <TableView header={Purpose_Of_Revenue_Header} data={data} />
       </div>
