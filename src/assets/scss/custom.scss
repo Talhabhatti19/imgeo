@@ -348,8 +348,7 @@ left: 0;
 }
 .card-blocks.right-side {
   background-color: #F6F6F6;
-  border-radius: 16px;
-  padding-bottom: 1rem;
+  padding:0px;
   max-height: 1090px;
   overflow-y: auto;
   margin-top: 2rem;
@@ -364,13 +363,8 @@ left: 0;
   width: 100%;
   max-width: 100%;
 }
-.card-blocks.right-side {
-  background-color: #F6F6F6;
-  border-radius: 16px;
-  padding-bottom: 1rem;
-  max-height: 1090px;
-  overflow-y: auto;
-  margin-top: 2rem;
+.side-bar > .d-flex {
+  padding-left: 275px;
 }
 .dataTables_length,
 .dataTables_filter{
@@ -434,10 +428,36 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
   max-height: 666px;
   overflow-y: auto;
 }
-.side-bar aside.ps-sidebar-root {
-  max-width:300px;
-  min-width: unset;
-  position:fixed;
+
+
+::-webkit-scrollbar {
+  width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+  }
+  ::-webkit-scrollbar-thumb {
+  background: #888; 
+  }
+  ::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+  }
+  .flex.colOne {
+    z-index: 1000;
+    position: fixed;
+    left: 275px;
+    width: 275px;
+    height: 100%;
+    margin-left: -275px;
+    overflow-y: auto;
+    background: #f6f6f6;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+.flex.colOne .css-dip3t8 {
+  background-color: transparent;
 }
 @media (min-width:1366px) {
   .card-blocks .col-md-3:last-child {
