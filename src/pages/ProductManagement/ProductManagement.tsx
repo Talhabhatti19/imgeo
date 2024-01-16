@@ -85,14 +85,6 @@ const CustomerList = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-          {/* <Select>
-            <option value="" disabled>
-              Select
-            </option>
-            {actionOptions.map((option: any) => (
-              <option key={option.value}>{option.label}</option>
-            ))}
-          </Select> */}
         </div>
       ),
     },
