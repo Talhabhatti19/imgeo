@@ -50,9 +50,8 @@ const Leads = () => {
     updatedData[index].Status = updatedData[index].Status === "active" ? "inactive" : "active";
     setRowData(updatedData);
 
-    if(e===true){
-      setShowPopup(true)
-    
+    if(e===false || e===true){
+    setShowPopup(!showPopup);
     }
 
   };
@@ -125,7 +124,7 @@ const Leads = () => {
 
 
   const handleStatusClick = () => {
-    setShowPopup(true);
+    setShowPopup(!showPopup);
   };
 
   const closePopup = () => {
