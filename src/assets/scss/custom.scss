@@ -447,13 +447,18 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   min-width: unset;
   position: fixed;
 }
+.number-heading {
+  margin-top: 1rem;
+  font-size: 18px;
+  font-weight: bold;
+}
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
   }
 }
 .system-card {
-  padding: 1.5rem 1rem;
+  padding: 1rem 1.5rem;
   border-radius: 16px;
   margin-bottom: 1rem;
 }

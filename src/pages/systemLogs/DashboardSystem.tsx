@@ -1,49 +1,62 @@
 import React from "react";
-import { Images } from "../../components/Config/Images";
-import Cards from "../../components/Dashboard/Cards";
+
+import {
+  FaBeer,
+  FaList,
+  FaBug,
+  FaBullhorn,
+  FaHeartbeat,
+  FaTimesCircle,
+  FaExclamationTriangle,
+  FaExclamationCircle,
+  FaInfoCircle,
+  FaLifeRing,
+} from "react-icons/fa";
+import ReactECharts from "echarts-for-react";
+import * as echarts from "echarts/core";
 
 const DashboardSystem = () => {
   const systemCards = [
-    { icon: Images.Person, percentage: "100%", title: "All 33 entries" },
+    { icon: <FaList />, percentage: "100%", title: "All 35 entries" },
     {
-      icon: Images.Doc,
+      icon: <FaBug />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Debug 0 entries",
     },
     {
-      icon: Images.Cash,
+      icon: <FaBullhorn />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Emergency 0 entries",
     },
     {
-      icon: Images.Distribute,
+      icon: <FaHeartbeat />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Alert 0 entries",
     },
     {
-      icon: Images.Doc,
+      icon: <FaTimesCircle />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Critical 0 entries",
     },
     {
-      icon: Images.Cash,
+      icon: <FaExclamationTriangle />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Error 28 entries",
     },
     {
-      icon: Images.Distribute,
+      icon: <FaExclamationCircle />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Warning 0 entries",
     },
     {
-      icon: Images.Doc,
+      icon: <FaInfoCircle />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Notice 0 entries",
     },
     {
-      icon: Images.Cash,
+      icon: <FaLifeRing />,
       percentage: "100%",
-      title: "All 33 entries",
+      title: "Info 7 entries",
     },
   ];
   const BackgroundColors: any = [
@@ -57,10 +70,52 @@ const DashboardSystem = () => {
     "#1976D2",
     "#90CAF9",
   ];
+  const systemPieGraph = {
+    tooltip: {
+      trigger: "item",
+    },
+    legend: {
+      top: "95%",
+      left: "center",
+    },
+    series: [
+      {
+        name: "Access From",
+        type: "pie",
+        radius: ["42%", "70%"],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          position: "center",
+        },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 40,
+            fontWeight: "bold",
+          },
+        },
+        labelLine: {
+          show: false,
+        },
+        data: [
+          { value: 484, name: "Emergency" },
+          { value: 735, name: "alert" },
+          { value: 580, name: "critical" },
+          { value: 1084, name: "error" },
+          { value: 300, name: "warning" },
+          { value: 300, name: "notice" },
+          { value: 300, name: "info" },
+          { value: 300, name: "info" },
+        ],
+      },
+    ],
+  };
   return (
     <div className="text-white">
       <div className="col-md-12">
-        <div className="row">
+        <div className="row container-fluid">
+          <h3 className="text-dark mb-4">Dashboard</h3>
           {systemCards.map((item, index) => {
             return (
               <div className="col-md-2">
@@ -68,12 +123,10 @@ const DashboardSystem = () => {
                   className="system-card"
                   style={{ backgroundColor: BackgroundColors[index] }}
                 >
-                  <img src={item.icon} alt={item.percentage} />
+                  <div className="d-flex justify-content-end">{item.icon}</div>
                   <div className="fw-1">
-                    <div className="card-title" style={{ fontSize: "12px" }}>
-                      {item.percentage}
-                    </div>
-                    <p className="card-text" style={{ fontSize: "12px" }}>
+                    <div className="number-heading">{item.percentage}</div>
+                    <p className="mt-2" style={{ fontSize: "12px" }}>
                       {item.title}
                     </p>
                   </div>
@@ -81,6 +134,15 @@ const DashboardSystem = () => {
               </div>
             );
           })}
+          <div>
+            <>
+              <ReactECharts
+                echarts={echarts}
+                option={systemPieGraph}
+                style={{ height: "700px", width: "100%" }}
+              />
+            </>
+          </div>
         </div>
       </div>
     </div>

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import SideBarLogo from "../assets/images/TcLogo.png";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 import { useDispatch } from "react-redux";
 import { authSlice } from "../../redux/apis/apisSlics";
+import { FaBeer } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-
   dispatch(authSlice.actions.checkRedux("14"));
+  const [collapsed, setCollapsed] = React.useState(false);
 
   const sidebarItems = [
     { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
@@ -108,18 +108,7 @@ const DasbhboardSidebar = () => {
       img: Images.sheildCheckIcon,
     },
   ];
-  const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
-    {}
-  );
-
-  // const handleSubmenuClick = (label: string) => {
-  //   setOpenSubmenus((prevSubmenus) => ({
-  //     ...Object.fromEntries(
-  //       Object.keys(prevSubmenus).map((key) => [key, false])
-  //     ),
-  //     [label]: !prevSubmenus[label],
-  //   }));
-  // };
+  const isMobile = window.innerWidth <= 768;
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -127,10 +116,7 @@ const DasbhboardSidebar = () => {
           prefix={<img src={item.img} style={{ background: "none" }} />}
           key={item.label}
           label={item.label}
-          // open={openSubmenus[item.label] || false}
-          // onClick={() => handleSubmenuClick(item.label)}
         >
-          {/* {openSubmenus[item.label] && ( */}
           <>
             {item.menu.map((submenuItem: any, subIndex: any) => (
               <Link
@@ -155,43 +141,63 @@ const DasbhboardSidebar = () => {
   );
   return (
     <>
-      <Sidebar width="100%" className="col-12 sidebar-wrapper fw-bold">
-        <div className="d-flex justify-content-center p-1 pt-4">
-          <img src={Images.sidebarLogo} alt="" />
-        </div>
-        <Menu>
-          {sidebarItems.map((item, index) => (
-            <>
-              <React.Fragment key={index}>
-                {item.menu ? (
-                  renderSubmenu(item)
-                ) : (
-                  <>
-                    <div className="menu-items">
-                      <Link
-                        to={`${item.Link}`}
-                        style={{ color: "#000000", textDecoration: "none" }}
-                      >
-                        <MenuItem
-                          active={item.label === "Dashboard"}
-                          prefix={
-                            <img
-                              src={item.img}
-                              style={{ background: "none" }}
-                            />
-                          }
+      <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+        <Sidebar
+          collapsed={collapsed}
+          collapsedWidth="80px"
+          width="100%"
+          className="col-12 sidebar-wrapper fw-bold"
+        >
+          <div className="d-flex justify-content-center p-1 pt-4">
+            <img src={Images.sidebarLogo} alt="" />
+          </div>
+          {isMobile && (
+            <button
+              className="mobile-toggle"
+              onClick={() => setCollapsed(!collapsed)}
+              style={{
+                backgroundColor: "#333",
+                color: "#fff",
+                marginLeft: "auto",
+              }}
+            >
+              <FaBeer />
+            </button>
+          )}
+          <Menu>
+            {sidebarItems.map((item, index) => (
+              <>
+                <React.Fragment key={index}>
+                  {item.menu ? (
+                    renderSubmenu(item)
+                  ) : (
+                    <>
+                      <div className="menu-items">
+                        <Link
+                          to={`${item.Link}`}
+                          style={{ color: "#000000", textDecoration: "none" }}
                         >
-                          {item.label}
-                        </MenuItem>
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </React.Fragment>
-            </>
-          ))}
-        </Menu>
-      </Sidebar>
+                          <MenuItem
+                            active={item.label === "Dashboard"}
+                            prefix={
+                              <img
+                                src={item.img}
+                                style={{ background: "none" }}
+                              />
+                            }
+                          >
+                            {item.label}
+                          </MenuItem>
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </React.Fragment>
+              </>
+            ))}
+          </Menu>
+        </Sidebar>
+      </div>
     </>
   );
 };
