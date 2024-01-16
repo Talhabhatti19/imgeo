@@ -428,20 +428,6 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
   max-height: 666px;
   overflow-y: auto;
 }
-
-
-::-webkit-scrollbar {
-  width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-  }
-  ::-webkit-scrollbar-thumb {
-  background: #888; 
-  }
-  ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-  }
   .flex.colOne {
     z-index: 1000;
     position: fixed;
