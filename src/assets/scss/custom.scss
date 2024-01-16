@@ -57,10 +57,7 @@ img {
   margin-top: 5rem;
 }
 
-.col-12 {
-  flex: 0 0 auto !important;
-  width: 100% !important;
-}
+
 .header_layout {
   background-color: #f6f6f6;
   padding: 0.75rem;
@@ -424,11 +421,9 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
   margin-bottom: 2rem;
   border-radius: 16px;
 }
-.side-bar aside.ps-sidebar-root nav {
-  max-height: 666px;
-  overflow-y: auto;
-}
-  .flex.colOne {
+
+
+.flex.colOne {
     z-index: 1000;
     position: fixed;
     left: 275px;
@@ -445,8 +440,54 @@ body  .card-blocks .col-md-3:nth-of-type(7) > div {
 .flex.colOne .css-dip3t8 {
   background-color: transparent;
 }
+.label-theme{
+  font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+}
+.theme-btn{
+border-radius: 0.25rem;
+background: #004D72;
+    color: #fff;
+    font-size: 14px;
+    white-space: nowrap;
+    border-color: #004D72;
+    padding: 0.75rem;
+}
+.search-bar{
+  margin-right: 0.3rem;
+}
+.search-icon {
+  background-image: url("http://mynance.mytmdev.com/images/images/search-icon-input.svg");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 3%;
+  padding-left: 2rem;
+  border: 1px solid red;
+}
+.form-control{
+  display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in
+} 
 @media (min-width:1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
 }
+}
+@media (max-width:960px) {
+.search-bar{
+display: grid!important;
+  }
 }
