@@ -15,13 +15,18 @@ const TableView = ({ header, data }: any) => {
         paddingRight: "8px",
         backgroundColor: "#004D72",
         color: "white",
+        justifyContent: "center", // Center the content horizontally
+        alignItems: "center", // Center the content vertically (if needed)
       },
     },
     cells: {
       style: {
         paddingLeft: "8px", // override the cell padding for data cells
         paddingRight: "8px",
+        fontSize: "12px",
         borderTopLeftRadius: "10px",
+        justifyContent: "center", // Center the content horizontally
+        alignItems: "center", // Center the content vertically (if needed)
       },
     },
   };
