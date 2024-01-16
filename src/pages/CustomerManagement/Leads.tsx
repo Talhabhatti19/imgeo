@@ -6,7 +6,7 @@ import { Images } from "../../components/Config/Images";
 import DataTable from "react-data-table-component";
 import TableView from "../../components/TableView/TableView";
 import { Calendar, DatePicker } from "antd";
-import { Col, Row, Modal, Button } from "react-bootstrap";
+import { Col, Row, Modal, Button, Dropdown} from "react-bootstrap";
 
 
 
@@ -43,16 +43,20 @@ const Leads = () => {
       Action: "--",
     },
   ]);
- 
+  const actionSelect = [
+    { label: "Partners", img: Images.listIcon, Link: "partner" },
+    { label: "Settings", img: Images.settingIcon, Link: "setting" },
+    { label: "Documents", img: Images.settingIcon, Link: "document" },
+    { label: "Edit", img: Images.settingIcon, Link: "edit" },
+  ];
   const handleToggleChange = (index:any,e:any) => {
     console.log(index,e,"check")
     const updatedData = [...rowData];
     updatedData[index].Status = updatedData[index].Status === "active" ? "inactive" : "active";
     setRowData(updatedData);
 
-    if(e===true){
-      setShowPopup(true)
-    
+    if(e===false || e===true){
+    setShowPopup(!showPopup);
     }
 
   };
@@ -94,10 +98,15 @@ const Leads = () => {
       selector: (row: { Status: any }) => row.Status,
       cell:(row:any,index:any)=>(
         <div>
-                <Switch
-        onChange={(e: any) => handleToggleChange(index, e)}
-        checked={row.Status === "active"}
-      />
+                <Switch onChange={(e: any) => handleToggleChange(index, e)}
+              checked={row.Status === "active"} 
+              checkedIcon={false}
+              uncheckedIcon={false}
+              onColor="#004D72" // Adjust the color when the switch is on
+              offColor="#ccc"   // Adjust the color when the switch is off
+              height={20}       // Adjust the height of the switch
+              boxShadow="#fff"
+             />
         </div>
       
     )
@@ -105,6 +114,31 @@ const Leads = () => {
     {
       name: "Action",
       selector: (row: { Action: any }) => row.Action,
+      cell: (row: any) => (
+        <div>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Select
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {actionSelect.map((item, index) => (
+                <Dropdown.Item>
+                  <>
+                    <div className="d-flex">
+                      <div className="col-3">
+                        <img src={item.img} alt="" />
+                      </div>
+
+                      {item.label}
+                    </div>
+                  </>
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      ),
     },
   ];
   const actionOptions = [
@@ -125,7 +159,7 @@ const Leads = () => {
 
 
   const handleStatusClick = () => {
-    setShowPopup(true);
+    setShowPopup(!showPopup);
   };
 
   const closePopup = () => {
