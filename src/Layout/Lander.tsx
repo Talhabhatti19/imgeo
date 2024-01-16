@@ -8,10 +8,10 @@ const Lander = () => {
     <>
       <div className="side-bar">
         <div className="d-flex col-md-12">
-          <div className="flex" style={{ flex: "0 0 20%", maxWidth:"20%" }}>
+          <div className="flex colOne" >
             <DasbhboardSidebar />
           </div>
-          <div className="flex" style={{ flex: "0 0 80%", maxWidth:"80%" }}>
+          <div className="flex colTwo" style={{ width: "100%" }}>
             <DasbhboardHeader />
             <div className="p-3">
               <Outlet />

@@ -57,10 +57,6 @@ img {
   margin-top: 5rem;
 }
 
-.col-12 {
-  flex: 0 0 auto !important;
-  width: 100% !important;
-}
 .header_layout {
   background-color: #f6f6f6;
   padding: 0.75rem;
@@ -353,8 +349,7 @@ h3.welcome-heading {
 }
 .card-blocks.right-side {
   background-color: #f6f6f6;
-  border-radius: 16px;
-  padding-bottom: 1rem;
+  padding: 0px;
   max-height: 1090px;
   overflow-y: auto;
   margin-top: 2rem;
@@ -369,13 +364,8 @@ h3.welcome-heading {
   width: 100%;
   max-width: 100%;
 }
-.card-blocks.right-side {
-  background-color: #f6f6f6;
-  border-radius: 16px;
-  padding-bottom: 1rem;
-  max-height: 1090px;
-  overflow-y: auto;
-  margin-top: 2rem;
+.side-bar > .d-flex {
+  padding-left: 275px;
 }
 .dataTables_length,
 .dataTables_filter {
@@ -438,9 +428,20 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   margin-bottom: 2rem;
   border-radius: 16px;
 }
-.side-bar aside.ps-sidebar-root nav {
-  max-height: 666px;
+
+.flex.colOne {
+  z-index: 1000;
+  position: fixed;
+  left: 275px;
+  width: 275px;
+  height: 100%;
+  margin-left: -275px;
   overflow-y: auto;
+  background: #f6f6f6;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 .side-bar aside.ps-sidebar-root {
   max-width: 300px;
@@ -452,6 +453,51 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   font-size: 18px;
   font-weight: bold;
 }
+
+.flex.colOne .css-dip3t8 {
+  background-color: transparent;
+}
+.label-theme {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+}
+.theme-btn {
+  border-radius: 0.25rem;
+  background: #004d72;
+  color: #fff;
+  font-size: 14px;
+  white-space: nowrap;
+  border-color: #004d72;
+  padding: 0.75rem;
+}
+.search-bar {
+  margin-right: 0.3rem;
+}
+.search-icon {
+  background-image: url("http://mynance.mytmdev.com/images/images/search-icon-input.svg");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: 3%;
+  padding-left: 2rem;
+  border: 1px solid red;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
+}
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
@@ -461,4 +507,9 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   padding: 1rem 1.5rem;
   border-radius: 16px;
   margin-bottom: 1rem;
+}
+@media (max-width: 960px) {
+  .search-bar {
+    display: grid !important;
+  }
 }
