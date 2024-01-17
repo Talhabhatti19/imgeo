@@ -125,10 +125,15 @@ const DasbhboardSidebar = () => {
             {item.menu.map((submenuItem: any, subIndex: any) => (
               <Link
                 to={`${submenuItem.Link}`}
-                style={{ color: "#000000", textDecoration: "none" }}
+                style={{
+                  color: "#000000",
+                  textDecoration: "none",
+                  fontSize: "12px",
+                }}
               >
                 <MenuItem
                   key={subIndex}
+                  style={{ fontSize: "12px" }}
                   onClick={() => {
                     setToggled(false); // Close sidebar when an item is clicked
                   }}
@@ -145,12 +150,13 @@ const DasbhboardSidebar = () => {
   );
   return (
     <>
-      <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
+      <div>
         {/* Button to toggle sidebar on small screens */}
-        <div className="sb-button">
-          <button className="sb-button" onClick={() => setToggled(!toggled)}>
-            gklhgdjhlk
-          </button>
+        <div>
+          <button
+            className="sb-button"
+            onClick={() => setToggled(!toggled)}
+          ></button>
         </div>
         <Sidebar
           transitionDuration={1000}
@@ -160,7 +166,8 @@ const DasbhboardSidebar = () => {
           onBreakPoint={setBroken}
           collapsedWidth="80px"
           width="100%"
-          className="col-12 sidebar-wrapper fw-bold"
+          className="col-12 fw-bold menu-items"
+          style={{ fontSize: "12px" }}
         >
           <div className="d-flex justify-content-center p-1 pt-4">
             <img src={Images.sidebarLogo} alt="" />
@@ -182,10 +189,12 @@ const DasbhboardSidebar = () => {
                           <MenuItem
                             active={item.label === "Dashboard"}
                             onClick={() => {
-                              setToggled(false); // Close sidebar when an item is clicked
+                              setToggled(false);
                             }}
                             prefix={
                               <img
+                                width={16}
+                                height={16}
                                 src={item.img}
                                 style={{ background: "none" }}
                               />

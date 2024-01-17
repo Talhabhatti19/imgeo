@@ -24,6 +24,7 @@ import PartnerList from "../pages/PartnerManagement/PartnersList";
 import PartnerCommissions from "../pages/PartnerManagement/PartnerCommissions";
 import Employees from "../pages/Settings/Employees";
 import ManageRoles from "../pages/Settings/ManageRoles";
+import Login from "../components/Login/Login";
 
 export const router = createBrowserRouter([
   {
@@ -133,4 +134,8 @@ export const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/login",
+    element: <Login />,
+  }
 ]);
