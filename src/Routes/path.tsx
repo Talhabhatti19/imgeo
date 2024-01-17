@@ -25,6 +25,10 @@ import PartnerCommissions from "../pages/PartnerManagement/PartnerCommissions";
 import Employees from "../pages/Settings/Employees";
 import ManageRoles from "../pages/Settings/ManageRoles";
 import Login from "../components/Login/Login";
+import ComplianceDashboard from "../components/ComplianceDashboard/ComplianceDashboard";
+import DepartmentsPermission from "../pages/DepartmentManagement/DepartmentsPermission";
+import ManagePermission from "../pages/Settings/ManagePermission";
+import Logs from "../pages/Settings/Logs";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/compliance-dashboard",
+        element: <ComplianceDashboard />,
       },
       {
         path: "/leads",
@@ -55,6 +63,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-departments",
         element: <Departments />,
+      },
+      {
+        path: "/departments/permissions",
+        element: <DepartmentsPermission />,
       },
       {
         path: "/source-of-revenue",
@@ -125,6 +137,10 @@ export const router = createBrowserRouter([
         element: <PartnerCommissions />,
       },
       {
+        path: "permissions",
+        element: <ManagePermission />,
+      },
+      {
         path: "employees",
         element: <Employees />,
       },
@@ -135,6 +151,10 @@ export const router = createBrowserRouter([
       {
         path: "role",
         element: <ManageRoles />,
+      },
+      {
+        path: "systemlogs/logs",
+        element: <Logs />,
       },
     ],
   },
