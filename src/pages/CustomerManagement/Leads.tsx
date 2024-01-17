@@ -153,14 +153,7 @@ const Leads = () => {
     setRowData(updatedData);
     console.log(updatedData);
   }
-  let handleSubmit = (fields: any) => {
-    console.log("submit:", fields);
-  };
-
-
-  const handleStatusClick = () => {
-    setShowPopup(!showPopup);
-  };
+  
 
   const closePopup = () => {
     setShowPopup(false);
