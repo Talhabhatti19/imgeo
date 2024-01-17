@@ -112,8 +112,7 @@ h3.welcome-heading {
 }
 
 .bg-image-container {
-  background-image: url("../images/HomePageForm.jpeg"); /* Replace with the actual path to your background image */
-  background-position: bottom !important;
+  background-image: url("../images/HomePageForm.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
@@ -160,7 +159,7 @@ h3.welcome-heading {
   position: sticky;
   top: 0;
   right: 0;
-  z-index: 1000; /* Adjust the z-index as needed */
+  z-index: 1000;
 }
 .padder {
   margin: 7rem 0rem;
@@ -443,17 +442,6 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.side-bar aside.ps-sidebar-root {
-  max-width: 300px;
-  min-width: unset;
-  position: fixed;
-}
-.number-heading {
-  margin-top: 1rem;
-  font-size: 18px;
-  font-weight: bold;
-}
-
 .flex.colOne .css-dip3t8 {
   background-color: transparent;
 }
@@ -498,9 +486,18 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
 }
+.sb-button {
+  display: none;
+}
+
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
+  }
+}
+@media (max-width: 960px) {
+  .search-bar {
+    display: grid !important;
   }
 }
 .system-card {
@@ -508,8 +505,21 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 16px;
   margin-bottom: 1rem;
 }
-@media (max-width: 960px) {
+.css-9pj44u.ps-broken {
+  position: fixed;
+  width: 270px;
+  height: 100%;
+  top: 0px;
+  z-index: 100;
+  left: -100%;
+}
+@media (max-width: 768px) {
   .search-bar {
     display: grid !important;
+  }
+}
+@media (max-width: 768px) {
+  .sb-button {
+    display: show !important;
   }
 }
