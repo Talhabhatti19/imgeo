@@ -28,6 +28,10 @@ import Login from "../components/Login/Login";
 
 export const router = createBrowserRouter([
   {
+    path: "",
+    element: <Login />,
+  },
+  {
     path: "/",
     element: <Layout />,
     children: [
@@ -133,9 +137,5 @@ export const router = createBrowserRouter([
         element: <ManageRoles />,
       },
     ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
   },
 ]);
