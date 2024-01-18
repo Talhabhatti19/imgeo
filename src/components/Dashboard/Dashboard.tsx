@@ -260,7 +260,9 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <Graphs option={financeOverview} />
+            <div style={{ marginTop: "20px" }}>
+              <Graphs option={financeOverview} />
+            </div>
           </div>
         </div>
         <div className="col-4">
