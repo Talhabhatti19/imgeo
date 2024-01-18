@@ -10,10 +10,6 @@ const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
   dispatch(authSlice.actions.checkRedux("14"));
   const [toggled, setToggled] = React.useState(false);
-  const [collapsed, setCollapsed] = React.useState(false);
-  const [broken, setBroken] = React.useState(
-    window.matchMedia("(max-width: 500px)").matches
-  );
 
   const sidebarItems = [
     { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
@@ -153,7 +149,7 @@ const DasbhboardSidebar = () => {
       <div>
         <div>
           <button className="sb-button" onClick={() => setToggled(!toggled)}>
-            {/* {<FaToggleOn />} */}
+            {<FaToggleOn />}
           </button>
         </div>
         <Sidebar
@@ -161,7 +157,6 @@ const DasbhboardSidebar = () => {
           onBackdropClick={() => setToggled(false)}
           toggled={toggled}
           customBreakPoint="768px"
-          onBreakPoint={setBroken}
           collapsedWidth="80px"
           width="100%"
           className="col-12 fw-bold menu-items"

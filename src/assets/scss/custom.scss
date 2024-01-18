@@ -391,13 +391,21 @@ h3.welcome-heading {
 .nf-cards p {
   padding-top: 10px;
 }
+.full-width {
+  flex-grow: 1;
+}
 .wrapper .container {
   width: 100%;
   max-width: 100%;
 }
 .side-bar > .d-flex {
   padding-left: 275px;
+  width: 100%;
 }
+.sidebar-mobile {
+  padding: 0px !important;
+}
+
 .dataTables_length,
 .dataTables_filter {
   display: none;
@@ -518,7 +526,9 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
 }
-
+.sb-button {
+  background-color: #e4f0ec;
+}
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
     margin: 10px 0 0 2px;
