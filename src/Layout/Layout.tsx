@@ -1,29 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Outlet } from "react-router-dom";
 import DasbhboardHeader from "../components/DashboardHeader/Header";
 import DasbhboardSidebar from "../components/DashboardSideBar/DashboardSideBar";
 
 const Layout = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+  const [broken, setBroken] = React.useState(
+    window.matchMedia("(max-width: 200px)").matches
+  );
+  console.log(broken, "appss");
 
   return (
     <>
-      <div className={`flex ${isMobile ? "sidebar-mobile" : "side-bar"}`}>
+      <div className="side-bar">
         <div className="d-flex col-md-12">
-          <div className={`flex ${isMobile ? "" : "colOne"}`}>
+          <div className={"flex colOne"}>
             <DasbhboardSidebar />
           </div>
-          <div className={`flex ${isMobile ? "colTwo" : ""}`}>
+          <div className="flex colTwo" style={{ width: "100%" }}>
             <DasbhboardHeader />
             <div className="p-3">
               <Outlet />
