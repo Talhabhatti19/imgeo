@@ -622,6 +622,17 @@ h3.welcome-heading {
   -webkit-animation: gradient 10s ease infinite;
   border-radius: 12px 0px 0px 12px;
 }
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
+}
 h1.custom-heading {
   text-align: center;
 }

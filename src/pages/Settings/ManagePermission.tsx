@@ -12,32 +12,50 @@ const ManagePermission = () => {
     { label: "Documents" },
     { label: "Account" },
   ];
+  
   const checkList = [
     {
-      title: "Check",
-      label: [
-        { labelBold: "check" },
-        { labelBold: "check" },
-        {
-          labelBold: "check",
-        },
+      label: 'Dashboard Module',
+      children: [
+        { label: "Show Dashboard",},
+        { label: "Application Chart" },
+        { label: "Department Chart", },
+        { label: "Partner Application Chart" }
       ],
+      sublabel: "dash cards module",
+      subchild:[
+        { label: "Show Dashboard",},
+        { label: "Application Chart" },
+        { label: "Department Chart", },
+        { label: "Partner Application Chart" }
+      ],
+      secondsub: "Show Dashboard",
     },
     {
-      title: "Check",
-      label: [
-        { labelBold: "check" },
-        { labelBold: "check" },
-        { labelBold: "check" },
+      label: 'Dashboard Module',
+      children: [
+        { label: "Show Dashboard",},
+        { label: "Application Chart" },
+        { label: "Department Chart", },
+        { label: "Partner Application Chart" }
       ],
-      subLabel: [
-        {
-          title: "isdbf",
-          label: "kadfbn",
-        },
+      sublabel: "dash cards module",
+      subchild:[
+        { label: "Show Dashboard",},
+        { label: "Application Chart" },
+        { label: "Department Chart", },
+        { label: "Partner Application Chart" }
       ],
-    },
+      secondsub: "Show Dashboard",
+      secondsubchild:[
+        { label: "Show Dashboard",},
+        { label: "Application Chart" },
+        { label: "Department Chart", },
+        { label: "Partner Application Chart" }
+      ],
+    }
   ];
+
   return (
     <>
       <div className="p-3">
@@ -56,56 +74,96 @@ const ManagePermission = () => {
               ))}
             </Select>
           </div>
-          <div className="d-flex flex-wrap-reverse col-12">
-            {checkList.map((item, index) => (
-              <div className="col-12" key={index}>
-                <div className="d-flex pb-2">
-                  <input className="" type="checkbox" />
-                  <div className="d-flex" style={{ fontSize: "14px" }}>
-                    {item.title}
-                  </div>
-                </div>
-                {item.label && (
-                  <div className="d-flex">
-                    {item.label.map((item) => (
-                      <>
-                        <div className="col-sm-6 col-md-4 col-lg-3" key={index}>
-                          <div className="d-flex">
-                            <input className="col-1" type="checkbox" />
-                            <div
-                              className=" col-11 d-flex"
-                              style={{ fontSize: "14px" }}
-                            >
-                              {item.labelBold}
+          <div className="row">
+            {checkList.map((item) => (
+           <>
+                      <div className="col-md-4">
+                          <div className="d-flex pb-2" style={{alignItems:"start" , padding:"20px"}}>
+                            <input className="" type="checkbox" />
+                            <div className="" style={{ fontSize: "16px" , fontWeight: "700" ,  marginLeft: "10px" }}>
+                              {item.label}
                             </div>
                           </div>
-                        </div>
-                      </>
-                    ))}
-                  </div>
-                )}
-                <div className="">
-                  {item.subLabel && (
-                    <div className="">
-                      {item.subLabel.map((item) => (
-                        <>
-                          <div className="col-12" key={index}>
-                            <div className="d-flex">
-                              <input className="" type="checkbox" />
-                              <div
-                                className=" d-flex"
-                                style={{ fontSize: "14px" }}
-                              >
-                                {item.label}
+                      </div>
+                        {item.children &&  (
+                              <div className="row">
+                                  {item.children.map((subitem:any) => (
+                                      <div className="col-md-4">
+                                        <>
+                                          <div className="d-flex pb-2" style={{alignItems:"start" ,  padding:"20px"}}>
+                                            <input className="col-1" type="checkbox" />
+                                            <div className=" col-11 d-flex" style={{ fontSize: "14px" ,  marginLeft: "10px" }}>
+                                            {subitem.label}
+                                            
+                                            </div>
+                                          </div>
+                                        </>
+                                      </div>
+                                    ))}
                               </div>
-                            </div>
+                          )}
+                        {item.subchild && 
+                            <>
+                                  <div className="col-md-4">
+                                        <div className="d-flex pb-2" style={{alignItems:"start", padding:"20px" , marginLeft: "12px"}}>
+                                            <input className="" type="checkbox" />
+                                            <div className="" style={{ fontSize: "16px" , flexDirection: "column" , fontWeight: "700", marginLeft: "10px" }}>
+                                                    {item.sublabel}
+                                            </div>
+                                        </div>
+                                  </div>
+                                {item.subchild &&  (
+                                    <div className="row">
+                                          
+                                                {item.subchild.map((subitem:any) => (
+                                                    <><div className="col-md-4" style={{marginLeft: "15px"}}>
+                                                        <div className="d-flex pb-2" style={{alignItems:"start" , padding:"20px"}}>
+                                                          <input className="col-1" type="checkbox" />
+                                                          <div className=" col-11 d-flex" style={{ fontSize: "14px" }}>
+                                                          {subitem.label}
+                                                          </div>
+                                                        </div>
+                                                        </div>
+                                                    </>
+                                                  ))}
+                                          
+                                    </div>
+                                )}
+                            </> 
+                        }
+                        {item.secondsub && (
+                          <div className="row">
+                              <>
+                                  <div className="col-md-4" style={{marginLeft: "0px"}}>
+                                      <div className="d-flex pb-2" style={{alignItems:"start" , padding:"20px"}}>
+                                        <input className="col-1" type="checkbox" />
+                                        <div className="col-11 d-flex" style={{ fontSize: "16px" , fontWeight: "700" ,  marginLeft: "0px" }}>
+                                        {item.secondsub}
+                                        </div>
+                                      </div>
+                                  </div>
+                                  {item.secondsubchild &&  (
+                              <div className="row">
+                                  {item.secondsubchild.map((subitem:any) => (
+                                      <div className="col-md-4">
+                                        <>
+                                          <div className="d-flex pb-2" style={{alignItems:"start" ,  padding:"20px"}}>
+                                            <input className="col-1" type="checkbox" />
+                                            <div className=" col-11 d-flex" style={{ fontSize: "14px" ,  marginLeft: "10px" }}>
+                                            {subitem.label}
+                                            
+                                            </div>
+                                          </div>
+                                        </>
+                                      </div>
+                                    ))}
+                              </div>
+                          )}
+                              </>
                           </div>
-                        </>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+                        )
+                    }
+              </>
             ))}
           </div>
           <div className="d-flex justify-content-end mt-2">
