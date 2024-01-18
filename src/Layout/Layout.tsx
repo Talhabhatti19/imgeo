@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import DasbhboardHeader from "../components/DashboardHeader/Header";
 import DasbhboardSidebar from "../components/DashboardSideBar/DashboardSideBar";
 
-const Lander = () => {
+const Layout = () => {
   const [broken, setBroken] = React.useState(
     window.matchMedia("(max-width: 200px)").matches
   );
@@ -27,4 +27,4 @@ const Lander = () => {
     </>
   );
 };
-export default Lander;
+export default Layout;

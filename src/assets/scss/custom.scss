@@ -42,15 +42,13 @@ body {
   color: #f6f6f6;
 }
 .menu-items > li a:hover img {
-  filter: invert(1) brightness(1);
+  filter: invert(1) brightness(1) !important;
 }
-.menu-items > li a {
+.menu-items > li a:hover {
   text-decoration: none !important;
   color: black !important;
   font-size: 12px !important;
-  &:hover {
-    color: white !important;
-  }
+  color: white !important;
 }
 .wrapper {
   padding-left: 10px;
@@ -120,6 +118,30 @@ h3.welcome-heading {
   color: white;
   padding: 130px 0px;
 }
+.login-form-data {
+  position: fixed;
+  top: 3.5rem;
+  right: 1rem;
+  background-color: white;
+  color: black;
+  z-index: 1000;
+  max-width: 300px;
+  width: 100%;
+  height: 171px;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
+  box-shadow: 1px 1px 15px rgb(0 0 0 / 10%);
+}
+.profile-logo {
+  background: #ededed;
+  box-shadow: rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
+    rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
 .finance-table {
   display: none;
@@ -149,6 +171,13 @@ h3.welcome-heading {
   &.show {
     display: block;
   }
+}
+.admin-modal {
+  background: linear-gradient(-45deg, #004d72, #429be1, #004d72, #e73c7e);
+  background-size: 400% 400%;
+  animation: gradient 8s ease infinite;
+  -webkit-animation: gradient 8s ease infinite;
+  width: 100%;
 }
 .form-header {
   background-color: #004d72;
@@ -489,9 +518,6 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
 }
-.sb-button {
-  display: none;
-}
 
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
@@ -516,16 +542,47 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   z-index: 100;
   left: -100%;
 }
+.css-1654oxy > .ps-menu-button {
+  background-color: #004d72 !important;
+  color: white !important;
+  border-left: 8px solid #00945e !important;
+}
+.ps-menu-button:hover {
+  background-color: #004d72 !important;
+  color: white !important;
+  transition-duration: 1000ms;
+}
+.ps-menu-button:hover img {
+  filter: invert(1) brightness(1) !important;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.view-chart {
+  border-radius: 16px;
+  background: #f6f6f6;
+  padding: 2.5rem 2rem;
+}
+h3.welcome-heading {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 0;
+}
 @media (max-width: 768px) {
   .search-bar {
     display: grid !important;
   }
 }
-@media (max-width: 768px) {
-  .sb-button {
-    display: show !important;
-  }
-}
+
 .login-form .row .col-md-6:first-child {
   padding-right: 0px;
 }
