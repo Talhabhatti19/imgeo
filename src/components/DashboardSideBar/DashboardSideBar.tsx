@@ -135,7 +135,7 @@ const DasbhboardSidebar = () => {
                   key={subIndex}
                   style={{ fontSize: "12px" }}
                   onClick={() => {
-                    setToggled(false); // Close sidebar when an item is clicked
+                    setToggled(false);
                   }}
                 >
                   {submenuItem.subMenu}
@@ -151,12 +151,10 @@ const DasbhboardSidebar = () => {
   return (
     <>
       <div>
-        {/* Button to toggle sidebar on small screens */}
         <div>
-          <button
-            className="sb-button"
-            onClick={() => setToggled(!toggled)}
-          ></button>
+          <button className="sb-button" onClick={() => setToggled(!toggled)}>
+            {/* {<FaToggleOn />} */}
+          </button>
         </div>
         <Sidebar
           transitionDuration={1000}

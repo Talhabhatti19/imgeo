@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../Layout/Lander";
+import Layout from "../Layout/Layout";
 import Leads from "../pages/CustomerManagement/Leads";
 import CustomerList from "../pages/CustomerManagement/CustomerList";
 import ProductManagement from "../pages/ProductManagement/ProductManagement";
@@ -29,6 +29,8 @@ import ComplianceDashboard from "../components/ComplianceDashboard/ComplianceDas
 import DepartmentsPermission from "../pages/DepartmentManagement/DepartmentsPermission";
 import ManagePermission from "../pages/Settings/ManagePermission";
 import Logs from "../pages/Settings/Logs";
+import AllApis from "../pages/APIManagement/AllApis";
+import PartnerApis from "../pages/APIManagement/PartnerApis";
 
 export const router = createBrowserRouter([
   {
@@ -155,6 +157,14 @@ export const router = createBrowserRouter([
       {
         path: "systemlogs/logs",
         element: <Logs />,
+      },
+      {
+        path: "apis",
+        element: <AllApis />,
+      },
+      {
+        path: "apimanagement",
+        element: <PartnerApis />,
       },
     ],
   },

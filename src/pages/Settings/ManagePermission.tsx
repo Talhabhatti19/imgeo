@@ -12,7 +12,7 @@ const ManagePermission = () => {
     { label: "Documents" },
     { label: "Account" },
   ];
-
+  
   const checkList = [
     {
       label: 'Dashboard Module',

@@ -2,8 +2,73 @@ import React from "react";
 import { DatePicker, Select } from "antd";
 import Graphs from "../Dashboard/Graphs";
 import { Images } from "../Config/Images";
+import { EChartsOption } from "echarts-for-react";
 
 function ComplianceDashboard() {
+  const financeOverview: EChartsOption = {
+    xAxis: {
+      type: "category",
+      data: [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+      ],
+      axisTick: {
+        show: true, // Display tick marks
+        alignWithLabel: true, // Align tick marks with axis labels
+      },
+      axisLabel: {
+        interval: 0,
+        rotate: 0,
+      },
+    },
+    yAxis: {
+      type: "value",
+      axisLine: {
+        show: true, // Display the axis line
+        lineStyle: {
+          color: "grey", // Set the color of the axis line
+          width: 2, // Set the width of the axis line
+          type: "solid", // Set the type of the axis line
+        },
+      },
+    },
+    series: [
+      {
+        data: [0, 4000, 8000, 12000, 16000, 20000],
+        type: "bar",
+      },
+    ],
+  };
   const cardBlocks = [
     { icon: Images.Person, title: "Total Customers", value: "23,500" },
     {
@@ -70,7 +135,7 @@ function ComplianceDashboard() {
         <div className="col-6">
           <h2 className="col-12 fs-6 fw-bold mt-5">All Statistics</h2>
 
-          <Graphs />
+          <Graphs option={financeOverview} />
         </div>
         <div className="col-6">
           <div className="d-flex">
@@ -92,7 +157,7 @@ function ComplianceDashboard() {
               </div>
             </h2>
           </div>
-          <Graphs />
+          <Graphs option={financeOverview} />
         </div>
       </div>
     </div>

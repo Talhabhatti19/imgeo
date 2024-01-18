@@ -1,11 +1,18 @@
-import React from "react";
+import { use } from "echarts/core";
+import React, { useState } from "react";
 import { Images } from "../Config/Images";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
+import SuperAdmin from "./SuperAdmin";
 
 const DasbhboardHeader = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
-  console.log(checkReduxState, "checkReduxState");
+  const [showSuperAdmin, setShowSuperAdmin] = useState(false);
+
+  const onOpenModal = () => {
+    setShowSuperAdmin(true);
+  };
+
+  const onCloseModal = () => {
+    setShowSuperAdmin(false);
+  };
   return (
     <>
       <div className="header_layout">
@@ -25,6 +32,9 @@ const DasbhboardHeader = () => {
               </div>
 
               <div
+                onClick={() => {
+                  setShowSuperAdmin(!showSuperAdmin);
+                }}
                 className="ms-3 col-5 d-flex justify-content-start align-items-center bold"
                 style={{ fontSize: "13px" }}
               >
@@ -33,6 +43,13 @@ const DasbhboardHeader = () => {
             </div>
           </div>
         </div>
+        {showSuperAdmin && (
+          <>
+            <div className="d-flex">
+              <SuperAdmin />
+            </div>
+          </>
+        )}
       </div>
     </>
   );
