@@ -3,7 +3,7 @@ import React from "react";
 const Cards = (props: any) => {
   return (
     <div className="col-md-3">
-      <div className="card">
+      <div className="card" style={{ backgroundColor: props.backgroundColor }}>
         <img src={props.icon} alt={props.title} />
         <div className="card-body">
           <div className="card-title" style={{ fontSize: "12px" }}>

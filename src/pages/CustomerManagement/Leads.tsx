@@ -3,13 +3,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import Switch from "react-switch";
 import { Images } from "../../components/Config/Images";
-import DataTable from "react-data-table-component";
 import TableView from "../../components/TableView/TableView";
-import { Calendar, DatePicker } from "antd";
-import { Col, Row, Modal, Button, Dropdown} from "react-bootstrap";
-
-
-
+import { DatePicker } from "antd";
+import { Modal, Button, Dropdown } from "react-bootstrap";
 
 const Leads = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
@@ -49,18 +45,18 @@ const Leads = () => {
     { label: "Documents", img: Images.settingIcon, Link: "document" },
     { label: "Edit", img: Images.settingIcon, Link: "edit" },
   ];
-  const handleToggleChange = (index:any,e:any) => {
-    console.log(index,e,"check")
+  const handleToggleChange = (index: any, e: any) => {
+    console.log(index, e, "check");
     const updatedData = [...rowData];
-    updatedData[index].Status = updatedData[index].Status === "active" ? "inactive" : "active";
+    updatedData[index].Status =
+      updatedData[index].Status === "active" ? "inactive" : "active";
     setRowData(updatedData);
 
-    if(e===false || e===true){
-    setShowPopup(!showPopup);
+    if (e === false || e === true) {
+      setShowPopup(!showPopup);
     }
-
   };
-   const Leads_Header = [
+  const Leads_Header = [
     {
       name: "Customer Name",
       selector: (row: { Customer: any }) => row.Customer,
@@ -96,21 +92,21 @@ const Leads = () => {
     {
       name: "Status",
       selector: (row: { Status: any }) => row.Status,
-      cell:(row:any,index:any)=>(
+      cell: (row: any, index: any) => (
         <div>
-                <Switch onChange={(e: any) => handleToggleChange(index, e)}
-              checked={row.Status === "active"} 
-              checkedIcon={false}
-              uncheckedIcon={false}
-              onColor="#004D72" // Adjust the color when the switch is on
-              offColor="#ccc"   // Adjust the color when the switch is off
-              height={20}       // Adjust the height of the switch
-              boxShadow="#fff"
-             />
+          <Switch
+            onChange={(e: any) => handleToggleChange(index, e)}
+            checked={row.Status === "active"}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onColor="#004D72" // Adjust the color when the switch is on
+            offColor="#ccc" // Adjust the color when the switch is off
+            height={20} // Adjust the height of the switch
+            boxShadow="#fff"
+          />
         </div>
-      
-    )
-      },
+      ),
+    },
     {
       name: "Action",
       selector: (row: { Action: any }) => row.Action,
@@ -146,8 +142,7 @@ const Leads = () => {
     { value: "action2", label: "Action 2" },
   ];
 
-  const handleActionChange = (index:any, selectedAction:any) => {
-
+  const handleActionChange = (index: any, selectedAction: any) => {
     const updatedData = [...rowData];
     updatedData[index] = { ...updatedData[index], Action: selectedAction };
     setRowData(updatedData);
@@ -198,15 +193,17 @@ const Leads = () => {
         </div>
         <TableView
           header={Leads_Header}
-          data={rowData.map((item:any, index:any) => ({
+          data={rowData.map((item: any, index: any) => ({
             ...item,
-         
+
             Action: (
               <select
                 value={item.Action}
                 onChange={(e) => handleActionChange(index, e.target.value)}
               >
-                <option value="" disabled>Select Action</option>
+                <option value="" disabled>
+                  Select Action
+                </option>
                 {actionOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -217,7 +214,7 @@ const Leads = () => {
           }))}
         />
       </div>
-       <Modal show={showPopup} onHide={closePopup}>
+      <Modal show={showPopup} onHide={closePopup}>
         <Modal.Header closeButton>
           <Modal.Title>Popup Content</Modal.Title>
         </Modal.Header>

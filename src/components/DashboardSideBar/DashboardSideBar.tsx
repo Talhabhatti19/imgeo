@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import SideBarLogo from "../assets/images/TcLogo.png";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 import { useDispatch } from "react-redux";
 import { authSlice } from "../../redux/apis/apisSlics";
+import { FaToggleOn } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-
   dispatch(authSlice.actions.checkRedux("14"));
+  const [toggled, setToggled] = React.useState(false);
+  const [collapsed, setCollapsed] = React.useState(false);
+  const [broken, setBroken] = React.useState(
+    window.matchMedia("(max-width: 500px)").matches
+  );
 
   const sidebarItems = [
     { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
@@ -108,18 +112,7 @@ const DasbhboardSidebar = () => {
       img: Images.sheildCheckIcon,
     },
   ];
-  const [openSubmenus, setOpenSubmenus] = useState<{ [key: string]: boolean }>(
-    {}
-  );
 
-  // const handleSubmenuClick = (label: string) => {
-  //   setOpenSubmenus((prevSubmenus) => ({
-  //     ...Object.fromEntries(
-  //       Object.keys(prevSubmenus).map((key) => [key, false])
-  //     ),
-  //     [label]: !prevSubmenus[label],
-  //   }));
-  // };
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -127,20 +120,22 @@ const DasbhboardSidebar = () => {
           prefix={<img src={item.img} style={{ background: "none" }} />}
           key={item.label}
           label={item.label}
-          // open={openSubmenus[item.label] || false}
-          // onClick={() => handleSubmenuClick(item.label)}
         >
-          {/* {openSubmenus[item.label] && ( */}
           <>
             {item.menu.map((submenuItem: any, subIndex: any) => (
               <Link
                 to={`${submenuItem.Link}`}
-                style={{ color: "#000000", textDecoration: "none" }}
+                style={{
+                  color: "#000000",
+                  textDecoration: "none",
+                  fontSize: "12px",
+                }}
               >
                 <MenuItem
                   key={subIndex}
+                  style={{ fontSize: "12px" }}
                   onClick={() => {
-                    console.log(subIndex, "hello");
+                    setToggled(false); // Close sidebar when an item is clicked
                   }}
                 >
                   {submenuItem.subMenu}
@@ -155,43 +150,68 @@ const DasbhboardSidebar = () => {
   );
   return (
     <>
-      <Sidebar width="100%" className="col-12 sidebar-wrapper fw-bold">
-        <div className="d-flex justify-content-center p-1 pt-4">
-          <img src={Images.sidebarLogo} alt="" />
+      <div>
+        {/* Button to toggle sidebar on small screens */}
+        <div>
+          <button
+            className="sb-button"
+            onClick={() => setToggled(!toggled)}
+          ></button>
         </div>
-        <Menu>
-          {sidebarItems.map((item, index) => (
-            <>
-              <React.Fragment key={index}>
-                {item.menu ? (
-                  renderSubmenu(item)
-                ) : (
-                  <>
-                    <div className="menu-items">
-                      <Link
-                        to={`${item.Link}`}
-                        style={{ color: "#000000", textDecoration: "none" }}
-                      >
-                        <MenuItem
-                          active={item.label === "Dashboard"}
-                          prefix={
-                            <img
-                              src={item.img}
-                              style={{ background: "none" }}
-                            />
-                          }
+        <Sidebar
+          transitionDuration={1000}
+          onBackdropClick={() => setToggled(false)}
+          toggled={toggled}
+          customBreakPoint="768px"
+          onBreakPoint={setBroken}
+          collapsedWidth="80px"
+          width="100%"
+          className="col-12 fw-bold menu-items"
+          style={{ fontSize: "12px" }}
+        >
+          <div className="d-flex justify-content-center p-1 pt-4">
+            <img src={Images.sidebarLogo} alt="" />
+          </div>
+
+          <Menu>
+            {sidebarItems.map((item, index) => (
+              <>
+                <React.Fragment key={index}>
+                  {item.menu ? (
+                    renderSubmenu(item)
+                  ) : (
+                    <>
+                      <div className="menu-items">
+                        <Link
+                          to={`${item.Link}`}
+                          style={{ color: "#000000", textDecoration: "none" }}
                         >
-                          {item.label}
-                        </MenuItem>
-                      </Link>
-                    </div>
-                  </>
-                )}
-              </React.Fragment>
-            </>
-          ))}
-        </Menu>
-      </Sidebar>
+                          <MenuItem
+                            active={item.label === "Dashboard"}
+                            onClick={() => {
+                              setToggled(false);
+                            }}
+                            prefix={
+                              <img
+                                width={16}
+                                height={16}
+                                src={item.img}
+                                style={{ background: "none" }}
+                              />
+                            }
+                          >
+                            {item.label}
+                          </MenuItem>
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </React.Fragment>
+              </>
+            ))}
+          </Menu>
+        </Sidebar>
+      </div>
     </>
   );
 };

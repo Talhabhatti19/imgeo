@@ -19,13 +19,22 @@ import RejectedLoans from "../pages/FinancingManagement/RejectedLoans";
 import InCompleteLoans from "../pages/FinancingManagement/InCompleteLoans";
 import CancelledLoans from "../pages/FinancingManagement/CanceledLoans";
 import ActivityLoans from "../pages/FinancingManagement/ActivityLoans";
+import DashboardSystem from "../pages/systemLogs/DashboardSystem";
 import PartnerList from "../pages/PartnerManagement/PartnersList";
 import PartnerCommissions from "../pages/PartnerManagement/PartnerCommissions";
 import Employees from "../pages/Settings/Employees";
 import ManageRoles from "../pages/Settings/ManageRoles";
 import Login from "../components/Login/Login";
+import ComplianceDashboard from "../components/ComplianceDashboard/ComplianceDashboard";
+import DepartmentsPermission from "../pages/DepartmentManagement/DepartmentsPermission";
+import ManagePermission from "../pages/Settings/ManagePermission";
+import Logs from "../pages/Settings/Logs";
 
 export const router = createBrowserRouter([
+  {
+    path: "",
+    element: <Login />,
+  },
   {
     path: "/",
     element: <Layout />,
@@ -33,6 +42,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/compliance-dashboard",
+        element: <ComplianceDashboard />,
       },
       {
         path: "/leads",
@@ -50,6 +63,10 @@ export const router = createBrowserRouter([
       {
         path: "/all-departments",
         element: <Departments />,
+      },
+      {
+        path: "/departments/permissions",
+        element: <DepartmentsPermission />,
       },
       {
         path: "/source-of-revenue",
@@ -108,12 +125,20 @@ export const router = createBrowserRouter([
         element: <ActivityLoans />,
       },
       {
+        path: "/systemlogs",
+        element: <DashboardSystem />,
+      },
+      {
         path: "partners",
         element: <PartnerList />,
       },
       {
         path: "partner-commissions",
         element: <PartnerCommissions />,
+      },
+      {
+        path: "permissions",
+        element: <ManagePermission />,
       },
       {
         path: "employees",
@@ -127,10 +152,10 @@ export const router = createBrowserRouter([
         path: "role",
         element: <ManageRoles />,
       },
+      {
+        path: "systemlogs/logs",
+        element: <Logs />,
+      },
     ],
   },
-  {
-    path: "/login",
-    element: <Login />,
-  }
 ]);
