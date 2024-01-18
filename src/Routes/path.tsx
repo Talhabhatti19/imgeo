@@ -29,6 +29,8 @@ import ComplianceDashboard from "../components/ComplianceDashboard/ComplianceDas
 import DepartmentsPermission from "../pages/DepartmentManagement/DepartmentsPermission";
 import ManagePermission from "../pages/Settings/ManagePermission";
 import Logs from "../pages/Settings/Logs";
+import AllApis from "../pages/APIManagement/AllApis";
+import PartnerApis from "../pages/APIManagement/PartnerApis";
 
 export const router = createBrowserRouter([
   {
@@ -155,6 +157,14 @@ export const router = createBrowserRouter([
       {
         path: "systemlogs/logs",
         element: <Logs />,
+      },
+      {
+        path: "apis",
+        element: <AllApis />,
+      },
+      {
+        path: "apimanagement",
+        element: <PartnerApis />,
       },
     ],
   },

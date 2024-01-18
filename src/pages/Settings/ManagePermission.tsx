@@ -13,22 +13,30 @@ const ManagePermission = () => {
     { label: "Account" },
   ];
   const checkList = [
-    { label: "KYC", menuLabel: "check", subMenuLabel: "check" },
-    { label: "KYB" },
-    { label: "GET MANAGER " },
-    { label: "BAYAN" },
-    { label: "LOAN INFO" },
-    { label: "REVENUE DEYTAIL" },
-    { label: "SIMAH" },
-    { label: "CREDIT CHECK" },
-    { label: "E-PROMISORY" },
-    { label: "COMPLIANCE" },
-    { label: "APPROVAL" },
-    { label: "Account" },
-    { label: "Operations" },
-    { label: "Settings" },
-    { label: "Documents" },
-    { label: "Account" },
+    {
+      title: "Check",
+      label: [
+        { labelBold: "check" },
+        { labelBold: "check" },
+        {
+          labelBold: "check",
+        },
+      ],
+    },
+    {
+      title: "Check",
+      label: [
+        { labelBold: "check" },
+        { labelBold: "check" },
+        { labelBold: "check" },
+      ],
+      subLabel: [
+        {
+          title: "isdbf",
+          label: "kadfbn",
+        },
+      ],
+    },
   ];
   return (
     <>
@@ -50,12 +58,52 @@ const ManagePermission = () => {
           </div>
           <div className="d-flex flex-wrap-reverse col-12">
             {checkList.map((item, index) => (
-              <div className="col-sm-6 col-md-4 col-lg-3">
+              <div className="col-12" key={index}>
                 <div className="d-flex pb-2">
-                  <input className="col-1" type="checkbox" />
-                  <div className=" col-11 d-flex" style={{ fontSize: "14px" }}>
-                    {item.label}
+                  <input className="" type="checkbox" />
+                  <div className="d-flex" style={{ fontSize: "14px" }}>
+                    {item.title}
                   </div>
+                </div>
+                {item.label && (
+                  <div className="d-flex">
+                    {item.label.map((item) => (
+                      <>
+                        <div className="col-sm-6 col-md-4 col-lg-3" key={index}>
+                          <div className="d-flex">
+                            <input className="col-1" type="checkbox" />
+                            <div
+                              className=" col-11 d-flex"
+                              style={{ fontSize: "14px" }}
+                            >
+                              {item.labelBold}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                )}
+                <div className="">
+                  {item.subLabel && (
+                    <div className="">
+                      {item.subLabel.map((item) => (
+                        <>
+                          <div className="col-12" key={index}>
+                            <div className="d-flex">
+                              <input className="" type="checkbox" />
+                              <div
+                                className=" d-flex"
+                                style={{ fontSize: "14px" }}
+                              >
+                                {item.label}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
