@@ -147,14 +147,8 @@ const Leads = () => {
     updatedData[index] = { ...updatedData[index], Action: selectedAction };
     setRowData(updatedData);
     console.log(updatedData);
-  };
-  let handleSubmit = (fields: any) => {
-    console.log("submit:", fields);
-  };
-
-  const handleStatusClick = () => {
-    setShowPopup(!showPopup);
-  };
+  }
+  
 
   const closePopup = () => {
     setShowPopup(false);
