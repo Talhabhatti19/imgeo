@@ -3,27 +3,11 @@ import ReactECharts from "echarts-for-react";
 import * as echarts from "echarts/core";
 import { EChartsOption } from "echarts";
 
-const Graphs = () => {
-  useEffect(() => {
-    // You can use echarts here for any additional configuration
-  }, []);
+interface GraphsProps {
+  option: EChartsOption;
+}
 
-  const option: EChartsOption = {
-    xAxis: {
-      type: "category",
-      data: ["Category 1", "Category 2", "Category 3"],
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: [20, 40, 60],
-        type: "bar",
-      },
-    ],
-  };
-
+const Graphs: React.FC<GraphsProps> = ({ option }) => {
   return (
     <ReactECharts
       echarts={echarts}

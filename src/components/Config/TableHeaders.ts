@@ -1,4 +1,3 @@
-
 export const Customer_List_Header = [
   {
     name: "Customer Name",
@@ -545,37 +544,29 @@ export const Recent_Application_Header = [
     selector: (row: { ApplicationNo: any }) => row.ApplicationNo,
   },
   {
-    name: "CR No.",
-    selector: (row: { CRNo: any }) => row.CRNo,
+    name: "Customer Name.",
+    selector: (row: { cusotmerName: any }) => row.cusotmerName,
   },
 
   {
-    name: "Product",
-    selector: (row: { Product: any }) => row.Product,
+    name: "Phone",
+    selector: (row: { phoneNo: any }) => row.phoneNo,
   },
   {
-    name: "Loan Tenure",
-    selector: (row: { LoanTenure: any }) => row.LoanTenure,
+    name: "Date",
+    selector: (row: { date: any }) => row.date,
   },
   {
-    name: "Application Date",
-    selector: (row: { ApplicationDate: any }) => row.ApplicationDate,
+    name: "Amount",
+    selector: (row: { amount: any }) => row.amount,
+  },
+  {
+    name: "Parent Status",
+    selector: (row: { parentStatus: any }) => row.parentStatus,
   },
   {
     name: "Status",
-    selector: (row: { Status: any }) => row.Status,
-  },
-  {
-    name: "Customer Mobile",
-    selector: (row: { CustomerMobile: any }) => row.CustomerMobile,
-  },
-  {
-    name: "Reason from Partner",
-    selector: (row: { ReasonFromPartner: any }) => row.ReasonFromPartner,
-  },
-  {
-    name: "Reason",
-    selector: (row: { Reason: any }) => row.Reason,
+    selector: (row: { status: any }) => row.status,
   },
   {
     name: "Action",

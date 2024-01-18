@@ -30,13 +30,15 @@ const TableView = ({ header, data }: any) => {
       },
     },
   };
-  const EmptyDataPlaceholder = () => {
-    return (
-      <div style={{ textAlign: "center", padding: "20px", color: "red" }}>
-        No data available
-      </div>
-    );
-  };
+  const hasMeaningfulData = data.some((item: any) =>
+    Object.values(item).some((value) => value !== "")
+  );
+
+  const noDataComponent = hasMeaningfulData ? null : (
+    <div style={{ textAlign: "center", padding: "20px", color: "red" }}>
+      No data available
+    </div>
+  );
   return (
     <>
       {" "}
@@ -45,7 +47,7 @@ const TableView = ({ header, data }: any) => {
         columns={header}
         data={data}
         customStyles={customStyles}
-        noDataComponent={<EmptyDataPlaceholder />}
+        noDataComponent={noDataComponent}
       />
     </>
   );
