@@ -43,10 +43,10 @@ const RejectedLoans = () => {
     <>
       <div className="cs-table">
         <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
-          <h2 className="col-xl-4 col-12 fs-6 fw-bold">
+          <h2 className="col-xl-3 col-12 fs-6 fw-bold">
             Rejected Financing Applications
           </h2>
-          <div className="col-xl-8 col-12 d-flex justify-content-end align-items-center">
+          <div className="col-xl-9 col-12 d-flex justify-content-end align-items-center">
             <div className="d-grid pb-2 search-bar">
               <label htmlFor="" className="label-theme">
                 Status
