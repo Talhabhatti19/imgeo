@@ -149,7 +149,7 @@ const DasbhboardSidebar = () => {
       <div>
         <div>
           <button className="sb-button" onClick={() => setToggled(!toggled)}>
-            {/* {<FaToggleOn />} */}
+            {<FaToggleOn />}
           </button>
         </div>
         <Sidebar
