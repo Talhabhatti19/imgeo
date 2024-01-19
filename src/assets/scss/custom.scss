@@ -529,7 +529,97 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in;
 }
-.sb-button {
+.card-heading {
+  font-size: 13px;
+  cursor: context-menu;
+  background: #004d72;
+  color: #fff;
+  padding: 0.5rem;
+  text-align: center;
+}
+.card-heading.card-heading {
+  background: #004D72;
+}
+.flex-boards .card.kanban-col:first-child .card-heading {
+  border-radius: 16px 0px 0px 0px;
+}
+.flex-boards .card.kanban-col:last-child .card-heading {
+  border-radius: 0px 16px 0px 0px;
+}
+.kanban-holder .card:first-child {
+  border-radius: 16px 0px 0px 0px;
+  border-left: 1px solid #E8E8E8;
+}
+.kanban-holder .card {
+  border: 1px solid #E8E8E8 !important;
+}
+.kanban-holder .card:last-child {
+  border-radius: 0px 16px 0px 0px;
+  border-left: 1px solid #E8E8E8;
+}
+.kanban-centered .kanban-entry .kanban-entry-inner .kanban-label {
+  background: #F6F6F6;
+  border-radius: 6px;
+  box-shadow: unset !important;
+}
+.kanban-holder .k-heading {
+  font-size: 16px !important;
+  color: #000;
+  font-weight: 600;
+}
+.kanban-centered .kanban-entry .kanban-entry-inner .kanban-label p {
+  color: #000 !important;
+  font-size: 14px !important;
+}
+.kanban-holder .card-body {
+  background-color: #fff;
+}
+.card.kanban-col {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  word-wrap: break-word;
+  /* background-color: #fff; */
+  background-clip: border-box;
+  border: 1px dashed rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+.kanban-entry-inner .kanban-label {
+  background-color: #F6F6F6 !important;
+}
+.kanban-label div {
+  padding-bottom: 5px;
+}
+.flex-boards {
+  display: flex !important;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+}   
+
+.flex-boards::-webkit-scrollbar {
+  height: 5px;
+  border-radius: 10px;
+}
+.flex-boards .card.kanban-col:first-child .card-heading {
+  border-radius: 16px 0px 0px 0px;
+}
+.flex-boards::-webkit-scrollbar-thumb {
+  background: rgb(187, 183, 183);
+  border-radius: 10px;
+}
+.kanban-holder .card-body {
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+.k-text  {
+  display: flex;
+    align-items: center;
+    justify-content: space-between;
+}.sb-button {
   background-color: #e4f0ec;
 }
 @media (min-width: 1366px) {
