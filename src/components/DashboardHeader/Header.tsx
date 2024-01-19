@@ -6,21 +6,14 @@ import SuperAdmin from "./SuperAdmin";
 const DasbhboardHeader = () => {
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
 
-  const onOpenModal = () => {
-    setShowSuperAdmin(true);
-  };
-
-  const onCloseModal = () => {
-    setShowSuperAdmin(false);
-  };
   return (
     <>
       <div className="header_layout">
         <div className="d-flex align-items-center">
-          <h2 className="col-6 navbar-brand">Welcome !</h2>
+          <h2 className="col-sm-6 navbar-brand">Welcome !</h2>
           <div className="col-6 d-flex">
             <div className="col-6"></div>
-            <div className="d-flex col-6">
+            <div className="d-flex col-sm-6">
               <div className="col-7 d-flex justify-content-end align-items-center">
                 <img
                   className="profile-logo"

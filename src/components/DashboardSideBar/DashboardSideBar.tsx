@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 import { useDispatch } from "react-redux";
 import { authSlice } from "../../redux/apis/apisSlics";
-import { FaToggleOn } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
   dispatch(authSlice.actions.checkRedux("14"));
   const [toggled, setToggled] = React.useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const sidebarItems = [
     { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
     {
@@ -147,11 +157,11 @@ const DasbhboardSidebar = () => {
   return (
     <>
       <div>
-        <div>
-          <button className="sb-button" onClick={() => setToggled(!toggled)}>
-            {<FaToggleOn />}
+        {isMobile && (
+          <button className="bar-btn" onClick={() => setToggled(!toggled)}>
+            {<FaBars />}
           </button>
-        </div>
+        )}
         <Sidebar
           transitionDuration={1000}
           onBackdropClick={() => setToggled(false)}
