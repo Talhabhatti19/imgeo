@@ -31,6 +31,7 @@ import ManagePermission from "../pages/Settings/ManagePermission";
 import Logs from "../pages/Settings/Logs";
 import AllApis from "../pages/APIManagement/AllApis";
 import PartnerApis from "../pages/APIManagement/PartnerApis";
+import ApplicationBoard from "../pages/ApplicationBoard/ApplicationBoard";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "/compliance-dashboard",
         element: <ComplianceDashboard />,
+      },
+      {
+        path: "application/board",
+        element: <ApplicationBoard/>,
       },
       {
         path: "/leads",
@@ -166,6 +171,7 @@ export const router = createBrowserRouter([
         path: "apimanagement",
         element: <PartnerApis />,
       },
+     
     ],
   },
 ]);
