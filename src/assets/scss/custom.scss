@@ -391,13 +391,18 @@ h3.welcome-heading {
 .nf-cards p {
   padding-top: 10px;
 }
+
 .wrapper .container {
   width: 100%;
   max-width: 100%;
 }
 .side-bar > .d-flex {
-  padding-left: 275px;
+  width: 100%;
 }
+.sidebar-mobile {
+  padding: 0px !important;
+}
+
 .dataTables_length,
 .dataTables_filter {
   display: none;
@@ -459,14 +464,20 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   margin-bottom: 2rem;
   border-radius: 16px;
 }
-
+.flex.colTwo {
+  width: 100%;
+  padding-left: 275px;
+}
+.bar-btn {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+}
 .flex.colOne {
   z-index: 1000;
   position: fixed;
-  left: 275px;
   width: 275px;
   height: 100%;
-  margin-left: -275px;
   overflow-y: auto;
   background: #f6f6f6;
   -webkit-transition: all 0.3s ease;
@@ -586,7 +597,7 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   display: flex !important;
   overflow-x: auto !important;
   overflow-y: hidden;
-}
+}   
 
 .flex-boards::-webkit-scrollbar {
   height: 5px;
@@ -608,6 +619,8 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
   display: flex;
     align-items: center;
     justify-content: space-between;
+}.sb-button {
+  background-color: #e4f0ec;
 }
 @media (min-width: 1366px) {
   .card-blocks .col-md-3:last-child {
@@ -704,13 +717,13 @@ h3.welcome-heading {
 }
 @keyframes gradient {
   0% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
   50% {
-      background-position: 100% 50%;
+    background-position: 100% 50%;
   }
   100% {
-      background-position: 0% 50%;
+    background-position: 0% 50%;
   }
 }
 h1.custom-heading {
