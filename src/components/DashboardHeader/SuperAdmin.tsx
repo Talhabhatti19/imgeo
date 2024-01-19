@@ -11,7 +11,7 @@ const AdminModal = () => {
           </div>
           <div>
             <h4 className="mb-0 text-white fs-16">Super Admin</h4>
-            <p className="mb-0 text-white fs-12">superadmin@tanmeya.com</p>
+            <p className="mb-0 text-white fs-12">superadmin@tanmeyaa.com</p>
           </div>
         </div>
         <div className="d-flex justify-content-start align-items-center ms-2 border-bottom">
