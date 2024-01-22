@@ -32,6 +32,8 @@ import Logs from "../pages/Settings/Logs";
 import AllApis from "../pages/APIManagement/AllApis";
 import PartnerApis from "../pages/APIManagement/PartnerApis";
 import LandingPageManage from "../components/LandinPageManagement/LandingPageManagement";
+import ApplicationBoard from "../pages/ApplicationBoard/ApplicationBoard";
+import LeadDetail from "../pages/CustomerManagement/LeadDetail";
 
 export const router = createBrowserRouter([
   {
@@ -51,10 +53,17 @@ export const router = createBrowserRouter([
         element: <ComplianceDashboard />,
       },
       {
+        path: "application/board",
+        element: <ApplicationBoard />,
+      },
+      {
         path: "/leads",
         element: <Leads />,
       },
-
+      {
+        path: "/leads/detail",
+        element: <LeadDetail />,
+      },
       {
         path: "/customer-list",
         element: <CustomerList />,
