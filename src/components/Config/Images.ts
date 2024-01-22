@@ -24,9 +24,16 @@ import Person from "../../assets/images/icon-1.svg";
 import Doc from "../../assets/images/icon-2.svg";
 import Cash from "../../assets/images/icon-3.svg";
 import Distribute from "../../assets/images/icon-4.svg";
-
+import template1 from "../../assets/images/template2.png";
+import template2 from "../../assets/images/template3.png";
+import template3 from "../../assets/images/template4.png";
+import template4 from "../../assets/images/template5.png";
 export const Images = {
   callIcon,
+  template1,
+  template2,
+  template3,
+  template4,
   innerBaner,
   formImage,
   documentationIcon,

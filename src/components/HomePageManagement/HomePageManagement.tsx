@@ -1,5 +1,4 @@
 import React from "react";
-import { Images } from "../Config/Images";
 
 const HomePageManage = () => {
   return (

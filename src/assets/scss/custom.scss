@@ -877,3 +877,64 @@ h1.custom-heading {
 .show-eye.close {
   display: block;
 }
+.col-lg-3 {
+  position: relative;
+  overflow: hidden;
+}
+
+.col-lg-3 img {
+  width: 100%;
+  height: 600px;
+  transition: filter 0.3s ease;
+}
+
+/* Apply a black and white filter to the image on hover */
+.col-lg-3:hover img {
+  filter: grayscale(100%);
+}
+
+.use-template-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Show the button on hover */
+.p-relative:hover .use-template-btn {
+  opacity: 1;
+}
+.btn-hover {
+  background: #004d72;
+  color: red;
+  font-size: 14px;
+  white-space: nowrap;
+  border-color: #004d72;
+  position: relative;
+  z-index: 1;
+}
+.middle {
+  background: rgba(30, 30, 30, 0.6);
+  display: none;
+  border-radius: 8px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  opacity: 1;
+}
+.flex-100 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: -3px;
+}

@@ -68,7 +68,7 @@ function Dashboard() {
     series: [
       {
         data: [0, 4000, 8000, 12000, 16000, 20000],
-        type: "bar",
+        type: "line",
       },
     ],
   };
