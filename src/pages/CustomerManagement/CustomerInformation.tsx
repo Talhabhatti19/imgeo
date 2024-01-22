@@ -8,9 +8,8 @@ import { DatePicker } from "antd";
 import { Tab, Tabs } from "react-bootstrap";
 import Leads from "./Leads";
 import ManagePermission from "../Settings/ManagePermission";
-import CustomerInformation from "./CustomerInformation";
 
-const LeadOverView = () => {
+const CustomerInformation = () => {
   const actionOptions = [
     {
       mainHeading: "English ",
@@ -67,11 +66,7 @@ const LeadOverView = () => {
       key: "BusinessInformation",
       folder: "",
     },
-    {
-      title: "Customer Information",
-      key: "CustomerInformation",
-      folder: <CustomerInformation />,
-    },
+    { title: "Customer Information", key: "CustomerInformation", folder: "" },
     { title: "Loan Information", key: "LoanInformation", folder: "" },
   ];
   const midpoint = Math.ceil(actionOptions.length / 2);
@@ -85,20 +80,6 @@ const LeadOverView = () => {
           <div className="card mb-4">
             <div className="card-body">
               <div className="row p-3">
-                <Tabs
-                  id="controlled-tab-example"
-                  className="mt-30 position-relative"
-                  activeKey={selectTab}
-                  onSelect={(tab: any) => {
-                    setSelectedTab(tab);
-                  }}
-                >
-                  {tapOptions.map((item: any) => (
-                    <Tab eventKey={item.key} title={item.title}>
-                      {selectTab === item.key && item.folder}
-                    </Tab>
-                  ))}
-                </Tabs>
                 <div className="col-12 myTab">
                   <div className="card mb-4">
                     <div className="card-body">
@@ -168,4 +149,4 @@ const LeadOverView = () => {
     </>
   );
 };
-export default LeadOverView;
+export default CustomerInformation;
