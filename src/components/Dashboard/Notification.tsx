@@ -2,7 +2,6 @@ import React from "react";
 const NotificationBar = () => {
   return (
     <div className="card-blocks right-side">
-      <div className="container">
         <div className="row">
           <div className="nf-row">
             <h3 className="text-20">Notifications</h3>
@@ -35,7 +34,6 @@ const NotificationBar = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

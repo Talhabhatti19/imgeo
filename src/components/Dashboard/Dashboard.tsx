@@ -228,8 +228,8 @@ function Dashboard() {
           </div>
         </form>
       </div>
-      <div className="col-12 d-flex">
-        <div className="col-8">
+      <div className="row">
+        <div className="col-md-8">
           <OverView />
           <div className="view-chart">
             <div className="chart-header d-flex justify-content-between align-items-center">
@@ -265,7 +265,7 @@ function Dashboard() {
             </div>
           </div>
         </div>
-        <div className="col-4">
+        <div className="col-md-4">
           <NotificationBar />
         </div>
       </div>
