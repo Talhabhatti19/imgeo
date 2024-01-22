@@ -896,6 +896,7 @@ h1.custom-heading {
 @media (max-width: 800px) {
   form {
     height: auto;
+
   }
 
   .container {
@@ -966,4 +967,58 @@ h1.custom-heading {
 
 .show-eye.close {
   display: block;
+}
+.flex-mode {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.7rem;
+    align-items: center;
+    padding: 0.8rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+.flex-heading, .flex-text {
+  font-size: 14px;
+  line-height: 17px;
+  color: #1e1e1e;
+  margin-bottom: 0;
+}
+.flex-text {
+  font-weight: 600;
+  text-align: right;
+}
+.leadoverview-header{
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 18px;
+    font-weight: 600;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  background-color:#004D72!important;
+  color: #fff;
+  padding: 10px;
+  border-color:#004D72!important 
+}
+
+.nav-tabs .nav-link {
+    margin-bottom: -1px;
+    border: 1px solid transparent;
+    border-top-left-radius: 0rem!important;
+     border-top-right-radius: 0rem!important; 
+     background: #ededed!important;
+    color: #000;
+    min-width: 156px;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 72px !important;
+    border-radius: 0px;
+    font-size: 12px;
+    transition: all .4s ease;
 }

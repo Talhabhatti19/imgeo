@@ -32,6 +32,7 @@ import Logs from "../pages/Settings/Logs";
 import AllApis from "../pages/APIManagement/AllApis";
 import PartnerApis from "../pages/APIManagement/PartnerApis";
 import ApplicationBoard from "../pages/ApplicationBoard/ApplicationBoard";
+import LeadDetail from "../pages/CustomerManagement/LeadDetail";
 
 export const router = createBrowserRouter([
   {
@@ -52,13 +53,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "application/board",
-        element: <ApplicationBoard/>,
+        element: <ApplicationBoard />,
       },
       {
         path: "/leads",
         element: <Leads />,
       },
-
+      {
+        path: "/leads/detail",
+        element: <LeadDetail />,
+      },
       {
         path: "/customer-list",
         element: <CustomerList />,
@@ -171,7 +175,6 @@ export const router = createBrowserRouter([
         path: "apimanagement",
         element: <PartnerApis />,
       },
-     
     ],
   },
 ]);
