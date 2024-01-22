@@ -226,7 +226,7 @@ h3.welcome-heading {
   border: 0;
   border-radius: 16px;
   background-color: #f6f6f6;
-  padding: 20px 16px;
+  padding: 15px 10px;
 }
 .card-blocks .row .col-md-3:first-child .card {
   color: #00945e;
@@ -382,8 +382,8 @@ h3.welcome-heading {
   background-color: #f6f6f6;
   padding: 0px;
   max-height: 1090px;
-  overflow-y: auto;
   margin-top: 2rem;
+  border-radius: 16px 16px 0px 0px;
 }
 .nf-cards .card-body {
   padding-left: 15px;
@@ -436,9 +436,14 @@ body .card-blocks .col-md-3:nth-of-type(5) > div {
 body .card-blocks .col-md-3:nth-of-type(7) > div {
   border-radius: 0px 12px 12px 0px !important;
   margin-top: 10px;
-  padding: 20px 14px !important;
+  padding: 15px 14px !important;
 }
-
+.card-blocks {
+  margin-bottom: 30px;
+}
+.card-blocks .card-title {
+  height: 26px;
+}
 .card-blocks .col-md-3:nth-of-type(5) {
   margin: 0px 0 0 12px;
 }
@@ -540,8 +545,13 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
 .card-heading.card-heading {
   background: #004D72;
 }
-.flex-boards .card.kanban-col:first-child .card-heading {
-  border-radius: 16px 0px 0px 0px;
+.flex-boards .card.kanban-col .card-heading {
+  height: 40px;
+  line-height: 25px;
+  font-size: 16px;
+}
+.ps-active img {
+  filter: invert(1) brightness(1) !important;
 }
 .flex-boards .card.kanban-col:last-child .card-heading {
   border-radius: 0px 16px 0px 0px;
@@ -648,7 +658,6 @@ body .card-blocks .col-md-3:nth-of-type(7) > div {
 .css-1654oxy > .ps-menu-button {
   background-color: #004d72 !important;
   color: white !important;
-  border-left: 8px solid #00945e !important;
 }
 .ps-menu-button:hover {
   background-color: #004d72 !important;
