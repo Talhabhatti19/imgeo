@@ -24,6 +24,12 @@ import Person from "../../assets/images/icon-1.svg";
 import Doc from "../../assets/images/icon-2.svg";
 import Cash from "../../assets/images/icon-3.svg";
 import Distribute from "../../assets/images/icon-4.svg";
+import antDesign from "../../assets/images/ant-design.png";
+import BlackIcon from "../../assets/images/la_file-invoi.png";
+import FileIcon from "../../assets/images/la_file.png";
+import LaFile from "../../assets/images/la_file-in.png";
+import OrangeIcon from "../../assets/images/la_file-i.png";
+import LineIcon from "../../assets/images/la_file-.png";
 
 export const Images = {
   callIcon,
@@ -52,4 +58,10 @@ export const Images = {
   Doc,
   Cash,
   Distribute,
+  antDesign,
+  BlackIcon,
+  FileIcon,
+  LaFile,
+  OrangeIcon,
+  LineIcon
 };

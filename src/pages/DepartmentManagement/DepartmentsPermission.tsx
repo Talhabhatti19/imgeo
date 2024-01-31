@@ -1,5 +1,5 @@
 import React from "react";
-import { DatePicker, Select } from "antd";
+import { Select } from "antd";
 
 const DepartmentsPermission = () => {
   const actionSelect = [

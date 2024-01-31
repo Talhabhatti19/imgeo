@@ -1,12 +1,6 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import Switch from "react-switch";
-import { Images } from "../../components/Config/Images";
-import TableView from "../../components/TableView/TableView";
-import { DatePicker } from "antd";
-import { Button, Dropdown, Modal, Tab, Tabs } from "react-bootstrap";
-import Leads from "./Leads";
+
+import { useState } from "react";
+import { Tab, Tabs } from "react-bootstrap";
 import ManagePermission from "../Settings/ManagePermission";
 import LeadOverView from "./LeadOverView";
 
@@ -79,7 +73,7 @@ const LeadDetail = () => {
         <div>
           <Tabs
             id="controlled-tab-example"
-            className="mt-30 position-relative"
+            className="mt-30 position-relative tabs-overflow"
             activeKey={selectTab}
             onSelect={(tab: any) => {
               setSelectedTab(tab);

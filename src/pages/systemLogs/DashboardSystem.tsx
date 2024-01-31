@@ -1,7 +1,4 @@
-import React from "react";
-
 import {
-  FaBeer,
   FaList,
   FaBug,
   FaBullhorn,

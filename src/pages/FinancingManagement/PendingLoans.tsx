@@ -1,15 +1,10 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
+
 import { Images } from "../../components/Config/Images";
-import DataTable from "react-data-table-component";
-import {
-  All_Application_Header,
-  Pending_Loans_Header,
-} from "../../components/Config/TableHeaders";
 import TableView from "../../components/TableView/TableView";
 import { DatePicker, Select } from "antd";
-
+import { useLocation, useNavigate } from "react-router-dom";
+import { Dropdown } from "react-bootstrap";
 const data = [
   {
     ApplicationNo: "kajbdsf",
@@ -30,8 +25,123 @@ const data = [
 ];
 
 const PendingLoans = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
-  console.log(checkReduxState, "checkReduxState");
+  const location = useLocation();
+  const navigate = useNavigate();
+  let inventoryId = String(location.pathname.split("/")[2]) ?? null;
+  console.log(inventoryId, "inventoryId");
+  const urlWithoutPrefix = inventoryId.replace("pending", "");
+  console.log(urlWithoutPrefix, "urlWithoutPrefix");
+  const actionSelect = [
+    { label: "View", img: Images.listIcon, Link: "detail" },
+    {
+      label: "Documents",
+      img: Images.settingIcon,
+      Link: "application-document",
+    },
+    { label: "Activity Logs", img: Images.settingIcon, Link: "activity-log" },
+    { label: "Resend Login Email", img: Images.settingIcon, Link: "edit" },
+  ];
+  const handleURL = (link: any) => {
+    if (link === "View") {
+      navigate(`/applications/all/detail`);
+    }
+    if (link === "Documents") {
+      navigate(`/applications/all/application-document`);
+    }
+    if (link === "Activity Logs") {
+      navigate(`/applications/all/activity-log`);
+    }
+  };
+
+  const Pending_Loans_Header = [
+    {
+      name: "Application No",
+      selector: (row: { ApplicationNo: any }) => row.ApplicationNo,
+    },
+    {
+      name: "Kastle Contract No",
+      selector: (row: { KastleContractNo: any }) => row.KastleContractNo,
+    },
+    {
+      name: "Kastle Application No",
+      selector: (row: { KastleApplicationNo: any }) => row.KastleApplicationNo,
+    },
+    {
+      name: "Kastle Status",
+      selector: (row: { KastleStatus: any }) => row.KastleStatus,
+    },
+    {
+      name: "Contract Status",
+      selector: (row: { ContractStatus: any }) => row.ContractStatus,
+    },
+    {
+      name: "Customer Name",
+      selector: (row: { CustomerName: any }) => row.CustomerName,
+    },
+    {
+      name: "CR No.",
+      selector: (row: { CRNo: any }) => row.CRNo,
+    },
+
+    {
+      name: "Product",
+      selector: (row: { Product: any }) => row.Product,
+    },
+    {
+      name: "Loan Tenure",
+      selector: (row: { LoanTenure: any }) => row.LoanTenure,
+    },
+    {
+      name: "Loan Amount",
+      selector: (row: { LoanAmount: any }) => row.LoanAmount,
+    },
+    {
+      name: "Application Date",
+      selector: (row: { ApplicationDate: any }) => row.ApplicationDate,
+    },
+    {
+      name: "Status",
+      selector: (row: { Status: any }) => row.Status,
+    },
+    {
+      name: "Reason",
+      selector: (row: { Reason: any }) => row.Reason,
+    },
+    {
+      name: "Action",
+      selector: (row: { Action: any }) => row.Action,
+      cell: (row: any) => (
+        <div>
+          <Dropdown>
+            <Dropdown.Toggle variant="success" id="dropdown-basic">
+              Select
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              {actionSelect.map((item, index) => (
+                <Dropdown.Item>
+                  <>
+                    <div
+                      className="d-flex"
+                      onClick={() => {
+                        handleURL(item.label);
+                      }}
+                    >
+                      <div className="col-2">
+                        <img src={item.img} alt="" />
+                      </div>
+
+                      <div className="col-10">{item.label}</div>
+                    </div>
+                  </>
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+      ),
+    },
+  ];
   return (
     <>
       <div className="cs-table">

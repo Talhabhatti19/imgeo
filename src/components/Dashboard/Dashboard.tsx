@@ -1,13 +1,15 @@
-import React from "react";
 import Graphs from "./Graphs";
 import OverView from "./OverView";
 import RecentApplication from "./RecentApplication";
-import NotificationBar from "./Notification";
 import { DatePicker } from "antd";
 import { EChartsOption } from "echarts";
-import * as echarts from "echarts/core";
+
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/rootReducer";
 
 function Dashboard() {
+  const themeBuilder = useSelector((state: RootState) => state.block.theme);
+
   const financeOverview: EChartsOption = {
     xAxis: {
       type: "category",
@@ -68,7 +70,7 @@ function Dashboard() {
     series: [
       {
         data: [0, 4000, 8000, 12000, 16000, 20000],
-        type: "bar",
+        type: "line",
       },
     ],
   };
@@ -193,104 +195,119 @@ function Dashboard() {
   };
 
   return (
-    <div>
-      <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
-        <h2 className="col-lg-6 col-12 fs-6 fw-bold">Overview</h2>
-        <form
-          action="search-bar"
-          className="col-lg-6 col-12 d-flex justify-content-end pb-2"
-        >
-          <div className="d-flex justify-content-between ">
-            <div className="d-grid">
-              <label htmlFor="" className="label-theme">
-                From
-              </label>
-              <DatePicker
-                style={{
-                  width: "200px",
-                  height: "36px",
-                  marginRight: "10px",
-                }}
-              />
-            </div>
+    <>
+      <div>
+        <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
+          <h2
+            className="col-lg-6 col-12 fs-6 fw-bold "
+            style={{ color: themeBuilder?.color?.headingTextColor }}
+          >
+            Overview
+          </h2>
+          <form
+            action="search-bar"
+            className="col-lg-6 col-12 d-flex justify-content-end pb-2"
+          >
+            <div className="d-flex justify-content-between ">
+              <div className="d-grid">
+                <label htmlFor="" className="label-theme">
+                  From
+                </label>
+                <DatePicker
+                  style={{
+                    width: "200px",
+                    height: "36px",
+                    marginRight: "10px",
+                  }}
+                />
+              </div>
 
-            <div className="d-grid">
-              <label htmlFor="" className="label-theme">
-                To
-              </label>
-              <DatePicker
-                style={{
-                  width: "200px",
-                  height: "36px",
-                }}
-              />
-            </div>
-          </div>
-        </form>
-      </div>
-      <div className="row">
-        <div className="col-md-8">
-          <OverView />
-          <div className="view-chart">
-            <div className="chart-header d-flex justify-content-between align-items-center">
-              <h3 className="welcome-heading">Finance Overview</h3>
-              <div className="d-flex align-items-center">
-                <div className="d-grid">
-                  <label htmlFor="" className="label-theme">
-                    From
-                  </label>
-                  <DatePicker
-                    style={{
-                      width: "200px",
-                      height: "36px",
-                      marginRight: "10px",
-                    }}
-                  />
-                </div>
-                <div className="d-grid">
-                  <label htmlFor="" className="label-theme">
-                    To
-                  </label>
-                  <DatePicker
-                    style={{
-                      width: "200px",
-                      height: "36px",
-                    }}
-                  />
-                </div>
+              <div className="d-grid">
+                <label htmlFor="" className="label-theme">
+                  To
+                </label>
+                <DatePicker
+                  style={{
+                    width: "200px",
+                    height: "36px",
+                  }}
+                />
               </div>
             </div>
-            <div style={{ marginTop: "20px" }}>
-              <Graphs option={financeOverview} />
+          </form>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <OverView />
+            <div className="view-chart">
+              <div className="chart-header d-flex justify-content-between align-items-center">
+                <h3
+                  className="welcome-heading"
+                  style={{ color: themeBuilder?.color?.headingTextColor }}
+                >
+                  Finance Overview
+                </h3>
+                <div className="d-flex align-items-center">
+                  <div className="d-grid">
+                    <label htmlFor="" className="label-theme">
+                      From
+                    </label>
+                    <DatePicker
+                      style={{
+                        width: "200px",
+                        height: "36px",
+                        marginRight: "10px",
+                      }}
+                    />
+                  </div>
+                  <div className="d-grid">
+                    <label htmlFor="" className="label-theme">
+                      To
+                    </label>
+                    <DatePicker
+                      style={{
+                        width: "200px",
+                        height: "36px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div style={{ marginTop: "20px" }}>
+                <Graphs option={financeOverview} />
+              </div>
             </div>
           </div>
         </div>
-        <div className="col-md-4">
-          <NotificationBar />
-        </div>
-      </div>
-      <div className="col-12 d-flex mt-2">
-        <div className="col-6">
-          <h2 className="col-12 fs-6 fw-bold mt-5">
-            Department Wise Applications
-          </h2>
-          <div className="view-chart">
-            <Graphs option={barChart} />
+        <div className="col-12 d-flex mt-2">
+          <div className="col-6">
+            <h2
+              className="col-12 fs-6 fw-bold mt-5"
+              style={{ color: themeBuilder?.color?.headingTextColor }}
+            >
+              Department Wise Applications
+            </h2>
+            <div className="view-chart">
+              <Graphs option={barChart} />
+            </div>
+          </div>
+          <div className="ms-2 col-6">
+            <h2
+              className="col-12 fs-6 fw-bold mt-5"
+              style={{ color: themeBuilder?.color?.headingTextColor }}
+            >
+              Compliance Credit Approval Average
+            </h2>
+            <div className="view-chart">
+              <Graphs option={approvaGraph} />
+            </div>
           </div>
         </div>
-        <div className="ms-2 col-6">
-          <h2 className="col-12 fs-6 fw-bold mt-5">
-            Compliance Credit Approval Average
-          </h2>
-          <div className="view-chart">
-            <Graphs option={approvaGraph} />
-          </div>
+        <div className="col-12">
+          <RecentApplication />
         </div>
       </div>
-      <div className="col-12">
-        <RecentApplication />
-      </div>
-    </div>
+    </>
   );
 }
 

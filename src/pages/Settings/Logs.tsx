@@ -1,7 +1,3 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-
 import TableView from "../../components/TableView/TableView";
 import { Images } from "../../components/Config/Images";
 

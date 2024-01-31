@@ -1,8 +1,3 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import { Images } from "../../components/Config/Images";
-import DataTable from "react-data-table-component";
 import { Customer_List_Header } from "../../components/Config/TableHeaders";
 import TableView from "../../components/TableView/TableView";
 import { DatePicker } from "antd";
@@ -23,8 +18,6 @@ const data = [
 ];
 
 const CustomerList = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
-  console.log(checkReduxState, "checkReduxState");
   return (
     <>
       <div className="cs-table">
