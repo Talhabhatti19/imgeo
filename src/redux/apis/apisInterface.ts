@@ -5,4 +5,5 @@ export interface ApisState {
   message: string;
   theme: any;
   dashboardStructure: any;
+  compilanceDashboard: any;
 }

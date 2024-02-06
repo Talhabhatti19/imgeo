@@ -8,7 +8,7 @@ import { RootState } from "../../redux/rootReducer";
 const TableView = ({ header, data, apiHeader }: any) => {
   const [table, setTable] = useState<any>();
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  console.log(header, apiHeader, "header");
+
   useEffect(() => {}, []);
   const customStyles = {
     rows: {
@@ -25,7 +25,6 @@ const TableView = ({ header, data, apiHeader }: any) => {
         alignItems: "center",
         background: themeBuilder?.table?.backgroundColor,
         color: themeBuilder?.table?.headingColor,
-        backgroundColor: "#39244F",
       },
     },
     cells: {
@@ -127,7 +126,6 @@ const TableView = ({ header, data, apiHeader }: any) => {
           };
         }
         if (column.type == "color") {
-          console.log(column.selector, "...column");
           return {
             ...column,
             cell: (row: any) => (
@@ -197,7 +195,7 @@ const TableView = ({ header, data, apiHeader }: any) => {
         }
         return column;
       });
-    console.log(parsedColumns, "......");
+
     setTable(parsedColumns);
   }, [apiHeader]);
   return (

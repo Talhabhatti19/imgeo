@@ -24,40 +24,7 @@ const Login = () => {
       formField
     );
     if (response) {
-      console.log(response?.data, "response");
       navigate("/dashboard");
-      // window.location.pathname = "/dashboard";
-      // localStorage.clear();
-      // let user = response.data.data;
-      // localStorage.setItem("userID", user.id);
-      // localStorage.setItem("email", user.email);
-      // if (user.requiresPasswordChange || user.firstLogin) {
-      //   // localStorage.setItem("isFirstLogin", true);
-      //   window.location.pathname = "new-password";
-      // } else {
-      //   // localStorage.setItem("access", btoa(JSON.stringify(dummyRoutes)))
-      //   localStorage.setItem(
-      //     "access",
-      //     btoa(JSON.stringify(user.role?.capabilites))
-      //   );
-      //   localStorage.setItem("token", user.authToken);
-      //   localStorage.setItem("role", user.role?.title);
-      //   localStorage.setItem(
-      //     "profileImage",
-      //     user.profileImageUrl
-      //       ? user.profileImageUrl
-      //       : process.env.PUBLIC_URL + `/images/user.png`
-      //   );
-      //   localStorage.setItem("fullName", user.fullName);
-      //   if (user.role?.capabilites.indexOf("/dashboard") > -1) {
-      //     // window.location.pathname = "/dashboard";
-      //   } else {
-      //     window.location.pathname = `${user.role?.capabilites[0]}`;
-      //   }
-      // }
-      /* if (formField.rememberMe) {
-          localStorage.setItem("rememberMe", true);
-        } */
     }
   };
   const validationSchema = Yup.object().shape({

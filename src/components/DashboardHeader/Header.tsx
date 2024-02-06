@@ -9,7 +9,7 @@ import SuperAdmin from "./SuperAdmin";
 
 const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  console.log(themeBuilder, "themeBuilder");
+
   const dispatch = useDispatch();
   dispatch(authSlice.actions.setTheme({ theme }));
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);

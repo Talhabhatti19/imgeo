@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { createGlobalStyle } from "styled-components";
 import TableView from "../../components/TableView/TableView";
 import { RootState } from "../../redux/rootReducer";
 import { Recent_Application_Header } from "../Config/TableHeaders";
@@ -19,11 +20,16 @@ const data = [
 
 const RecentApplication = (props: any) => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  console.log(props?.data?.header, "propsssssss");
+
   const tableData = Array.isArray(props?.data?.data) ? props.data.data : [];
   const tableHeader = Array.isArray(props?.data?.header)
     ? props.data.header
     : [];
+  const GlobalStyle = createGlobalStyle`
+  .gfNXAQ{
+    background-color:${themeBuilder?.table?.backgroundColor}!important;
+  }
+  `;
   return (
     <>
       <div className="cs-table">
@@ -41,6 +47,7 @@ const RecentApplication = (props: any) => {
           apiHeader={tableHeader}
         />
       </div>
+      <GlobalStyle />
     </>
   );
 };

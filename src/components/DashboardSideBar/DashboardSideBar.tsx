@@ -12,7 +12,6 @@ import { authSlice } from "../../redux/apis/apisSlice";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-
   dispatch(authSlice.actions.setTheme({ theme }));
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [toggled, setToggled] = useState(false);
@@ -25,7 +24,6 @@ const DasbhboardSidebar = () => {
   const [sidebarLinks, setSidebarLinks] = useState([]);
   const [table, setTable] = useState<any>();
 
-  console.log(sidebarLinks, "side");
   let sidebarmenu = async () => {
     try {
       const userID = "12245";
@@ -33,7 +31,6 @@ const DasbhboardSidebar = () => {
         `http://192.168.6.123:3003/admin-user/dashboard/${userID}`
       );
       if (res) {
-        console.log(res.data.data.structure.sidebar, "123-===");
         const parsedColumns =
           res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
             ?.dashboard.table.header &&
@@ -45,7 +42,6 @@ const DasbhboardSidebar = () => {
                   const renderFunction = new Function(
                     `return ${column.selector}`
                   )();
-                  console.log(renderFunction, "renderFunction");
                   column.selector = renderFunction;
                 } catch (error) {
                   console.error("Error parsing render function:", error);
@@ -54,12 +50,19 @@ const DasbhboardSidebar = () => {
               return column;
             }
           );
-        console.log(parsedColumns, "......");
+
         setTable(parsedColumns);
         let data =
           res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
             ?.dashboard;
+        let compilanceData =
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[1]
+            ?.comlianceDashboard;
+
         dispatch(authSlice.actions.setDashboardStructure({ data }));
+        dispatch(authSlice.actions.setCompilanceDashboard({ compilanceData }));
+        console.log(compilanceData, "compilanceData");
+
         setSidebarLinksApi(
           res.data.data.structure.sidebar.sidebarWithdashboard
         );
@@ -67,11 +70,8 @@ const DasbhboardSidebar = () => {
         setSidebarLinksApiCompliance(
           res.data.data.structure.sidebar.sidebarwithcompliance
         );
-        console.log(sidebarLinksApi, "api");
       }
-    } catch (e: any) {
-      console.log(e, "eee");
-    }
+    } catch (e: any) {}
   };
   useEffect(() => {
     sidebarmenu();
