@@ -4,4 +4,5 @@ export interface ApisState {
   isLoading: boolean;
   message: string;
   theme: any;
+  dashboardStructure: any;
 }
