@@ -34,6 +34,10 @@ import LineIcon from "../../assets/images/la_file-.png";
 
 export const Images = {
   callIcon,
+  template1,
+  template2,
+  template3,
+  template4,
   innerBaner,
   formImage,
   documentationIcon,

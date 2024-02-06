@@ -31,6 +31,7 @@ import ManagePermission from "../pages/Settings/ManagePermission";
 import Logs from "../pages/Settings/Logs";
 import AllApis from "../pages/APIManagement/AllApis";
 import PartnerApis from "../pages/APIManagement/PartnerApis";
+import LandingPageManage from "../components/LandinPageManagement/LandingPageManagement";
 import ApplicationBoard from "../pages/ApplicationBoard/ApplicationBoard";
 import LeadDetail from "../pages/CustomerManagement/LeadDetail";
 import NotFound from "../components/NotFound/NotFound";
@@ -109,9 +110,14 @@ export const router = createBrowserRouter([
         element: <TypesReasons />,
       },
       {
+        path: "/landingpages",
+        element: <LandingPageManage />,
+      },
+      {
         path: "/home-page-management",
         element: <HomePageManage />,
       },
+
       {
         path: "home-page/setting",
         element: <ManagementForm />,
