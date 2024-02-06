@@ -6,8 +6,6 @@ import AuthService from "../../services/AuthService";
 import * as Yup from "yup";
 import { authSlice } from "../../redux/apis/apisSlice";
 import { useDispatch } from "react-redux";
-import { setSideBarUtils } from "../../utils/const.utils";
-
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const dispatch = useDispatch();
