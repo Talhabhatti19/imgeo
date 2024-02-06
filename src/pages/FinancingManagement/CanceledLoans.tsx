@@ -2,11 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { Images } from "../../components/Config/Images";
-import DataTable from "react-data-table-component";
-import {
-  All_Application_Header,
-  Cancelled_Header,
-} from "../../components/Config/TableHeaders";
+
+import { Cancelled_Header } from "../../components/Config/TableHeaders";
 import TableView from "../../components/TableView/TableView";
 import { Dropdown } from "react-bootstrap";
 import { DatePicker, Select } from "antd";

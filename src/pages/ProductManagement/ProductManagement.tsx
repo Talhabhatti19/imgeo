@@ -3,6 +3,7 @@ import { RootState } from "../../redux/rootReducer";
 import TableView from "../../components/TableView/TableView";
 import { Dropdown } from "react-bootstrap";
 import { Images } from "../../components/Config/Images";
+import { Link } from "react-router-dom";
 
 const CustomerList = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
@@ -22,7 +23,7 @@ const CustomerList = () => {
   ];
   const actionSelect = [
     { label: "Partners", img: Images.listIcon, Link: "partner" },
-    { label: "Settings", img: Images.settingIcon, Link: "setting" },
+    { label: "Settings", img: Images.settingIcon, Link: "setting/2" },
     { label: "Documents", img: Images.settingIcon, Link: "document" },
     { label: "Edit", img: Images.settingIcon, Link: "edit" },
   ];
@@ -73,13 +74,18 @@ const CustomerList = () => {
               {actionSelect.map((item, index) => (
                 <Dropdown.Item>
                   <>
-                    <div className="d-flex">
-                      <div className="col-3">
-                        <img src={item.img} alt="" />
-                      </div>
+                    <Link
+                      style={{ textDecoration: "none", color: "black" }}
+                      to={item.Link}
+                    >
+                      <div className="d-flex">
+                        <div className="col-3">
+                          <img src={item.img} alt="" />
+                        </div>
 
-                      {item.label}
-                    </div>
+                        {item.label}
+                      </div>
+                    </Link>
                   </>
                 </Dropdown.Item>
               ))}

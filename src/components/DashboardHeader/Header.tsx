@@ -1,16 +1,33 @@
-import { use } from "echarts/core";
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createGlobalStyle } from "styled-components";
+import { authSlice } from "../../redux/apis/apisSlice";
+import { RootState } from "../../redux/rootReducer";
 import { Images } from "../Config/Images";
+import { theme } from "../Config/Theme";
 import SuperAdmin from "./SuperAdmin";
 
 const DasbhboardHeader = () => {
+  const themeBuilder = useSelector((state: RootState) => state.block.theme);
+  console.log(themeBuilder, "themeBuilder");
+  const dispatch = useDispatch();
+  dispatch(authSlice.actions.setTheme({ theme }));
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
-
+  const GlobalStyle = createGlobalStyle`
+  .header_layout{
+    background: ${themeBuilder?.sideBarmenuBackgroundColor} !important;
+  }
+  `;
   return (
     <>
       <div className="header_layout">
         <div className="d-flex align-items-center">
-          <h2 className="col-sm-6 navbar-brand">Welcome !</h2>
+          <h2
+            className="col-sm-6 navbar-brand"
+            style={{ color: themeBuilder?.color?.headingTextColor }}
+          >
+            Welcome !
+          </h2>
           <div className="col-6 d-flex">
             <div className="col-6"></div>
             <div className="d-flex col-sm-6">
@@ -31,7 +48,8 @@ const DasbhboardHeader = () => {
                 className="ms-3 col-5 d-flex justify-content-start align-items-center bold"
                 style={{ fontSize: "13px" }}
               >
-                Super Admin{" "}
+                Super Admin
+                <button className="dropdown-toogle"></button>
               </div>
             </div>
           </div>
@@ -44,6 +62,7 @@ const DasbhboardHeader = () => {
           </>
         )}
       </div>
+      <GlobalStyle />
     </>
   );
 };

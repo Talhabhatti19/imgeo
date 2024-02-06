@@ -1,18 +1,6 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import Switch from "react-switch";
-import { Images } from "../../components/Config/Images";
 import TableView from "../../components/TableView/TableView";
-import { DatePicker } from "antd";
-import { Modal, Button, Dropdown } from "react-bootstrap";
 
 const AllApis = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
-  const [showPopup, setShowPopup] = useState(false);
-
-  console.log(checkReduxState, "checkReduxState");
-
   const data = [
     {
       Name: "Application Commission",
@@ -27,12 +15,7 @@ const AllApis = () => {
       Status: "--",
     },
   ];
-  const actionSelect = [
-    { label: "Name", img: Images.listIcon, Link: "partner" },
-    { label: "Settings", img: Images.settingIcon, Link: "setting" },
-    { label: "Documents", img: Images.settingIcon, Link: "document" },
-    { label: "Edit", img: Images.settingIcon, Link: "edit" },
-  ];
+
   const Header = [
     {
       name: "Name",
@@ -51,10 +34,7 @@ const AllApis = () => {
       selector: (row: { Status: any }) => row.Status,
     },
   ];
-  const actionOptions = [
-    { value: "action1", label: "Action 1" },
-    { value: "action2", label: "Action 2" },
-  ];
+
   return (
     <>
       <div className="cs-table">

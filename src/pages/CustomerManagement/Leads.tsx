@@ -7,6 +7,9 @@ import TableView from "../../components/TableView/TableView";
 import { DatePicker } from "antd";
 import { Modal, Button, Dropdown } from "react-bootstrap";
 
+import { theme } from "../../components/Config/Theme";
+import { Link } from "react-router-dom";
+
 const Leads = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
   const [showPopup, setShowPopup] = useState(false);
@@ -40,10 +43,7 @@ const Leads = () => {
     },
   ]);
   const actionSelect = [
-    { label: "Partners", img: Images.listIcon, Link: "partner" },
-    { label: "Settings", img: Images.settingIcon, Link: "setting" },
-    { label: "Documents", img: Images.settingIcon, Link: "document" },
-    { label: "Edit", img: Images.settingIcon, Link: "edit" },
+    { label: "Detail", img: Images.listIcon, Link: "detail" },
   ];
   const handleToggleChange = (index: any, e: any) => {
     console.log(index, e, "check");
@@ -121,13 +121,15 @@ const Leads = () => {
               {actionSelect.map((item, index) => (
                 <Dropdown.Item>
                   <>
-                    <div className="d-flex">
-                      <div className="col-3">
-                        <img src={item.img} alt="" />
-                      </div>
+                    <Link to={`${item.Link}`} className="a-link">
+                      <div className="d-flex">
+                        <div className="col-3">
+                          <img src={item.img} alt="" />
+                        </div>
 
-                      {item.label}
-                    </div>
+                        {item.label}
+                      </div>
+                    </Link>
                   </>
                 </Dropdown.Item>
               ))}
@@ -147,8 +149,7 @@ const Leads = () => {
     updatedData[index] = { ...updatedData[index], Action: selectedAction };
     setRowData(updatedData);
     console.log(updatedData);
-  }
-  
+  };
 
   const closePopup = () => {
     setShowPopup(false);
@@ -158,7 +159,12 @@ const Leads = () => {
     <>
       <div className="cs-table">
         <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
-          <h2 className="col-lg-6 col-12 fs-6 fw-bold">Leads</h2>
+          <h2
+            className="col-lg-6 col-12 fs-6 fw-bold"
+            style={{ color: theme?.color?.headingTextColor }}
+          >
+            Leads
+          </h2>
           <form
             action="search-bar"
             className="col-lg-6 col-12 d-flex justify-content-end pb-2"

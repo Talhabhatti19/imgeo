@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Images } from "../Config/Images";
 import { FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 const AdminModal = () => {
   return (
     <>
@@ -25,8 +27,9 @@ const AdminModal = () => {
           <div className="p-3">
             <FaSignOutAlt />
           </div>
-
-          <p className="mb-0 ms-3  fs-12">Log Out</p>
+          <Link to={""} style={{ textDecoration: "none", color: "black" }}>
+            <p className="mb-0 ms-3  fs-12">Log Out</p>
+          </Link>
         </div>
       </div>
     </>

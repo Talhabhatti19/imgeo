@@ -11,6 +11,7 @@ import landingPageIcon from "../../assets/images/landingPageIcon.svg";
 import logsIcon from "../../assets/images/logsIcon.svg";
 import sheildCheckIcon from "../../assets/images/shieldCheckIcon.svg";
 import sidebarLogo from "../../assets/images/TcLogo.png";
+import tanmeyaLogo from "../../assets/images/tanmeyaLogo.png";
 import profileUser from "../../assets/images/myNanceUser.png";
 import callIcon from "../../assets/images/phoneIcon.png";
 import HomePageForm from "../../assets/images/HomePageForm.jpeg";
@@ -24,10 +25,13 @@ import Person from "../../assets/images/icon-1.svg";
 import Doc from "../../assets/images/icon-2.svg";
 import Cash from "../../assets/images/icon-3.svg";
 import Distribute from "../../assets/images/icon-4.svg";
-import template1 from "../../assets/images/template2.png";
-import template2 from "../../assets/images/template3.png";
-import template3 from "../../assets/images/template4.png";
-import template4 from "../../assets/images/template5.png";
+import antDesign from "../../assets/images/ant-design.png";
+import BlackIcon from "../../assets/images/la_file-invoi.png";
+import FileIcon from "../../assets/images/la_file.png";
+import LaFile from "../../assets/images/la_file-in.png";
+import OrangeIcon from "../../assets/images/la_file-i.png";
+import LineIcon from "../../assets/images/la_file-.png";
+
 export const Images = {
   callIcon,
   template1,
@@ -59,4 +63,11 @@ export const Images = {
   Doc,
   Cash,
   Distribute,
+  antDesign,
+  BlackIcon,
+  FileIcon,
+  LaFile,
+  OrangeIcon,
+  LineIcon,
+  tanmeyaLogo,
 };

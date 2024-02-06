@@ -1,13 +1,78 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Images } from "../Config/Images";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import AuthService from "../../services/AuthService";
+import * as Yup from "yup";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
 
+  const [change, setChange] = useState<any>();
+  const [swapPassword, setSwapPassword] = useState(false);
   const handleToggleView = () => {
     setIsForgotPassword((prev) => !prev);
   };
+  const headers = {
+    location: "",
+    timezone: "",
+  };
+  let login = (formField: any) => {
+    console.log(formField, "formField");
+    AuthService.post("admin/login", formField, { headers })
+      .then((response: any) => {
+        if (response && response.data.statusCode === 200) {
+          localStorage.clear();
+          let user = response.data.data;
+          localStorage.setItem("userID", user.id);
+          localStorage.setItem("email", user.email);
+          if (user.requiresPasswordChange || user.firstLogin) {
+            // localStorage.setItem("isFirstLogin", true);
+            window.location.pathname = "new-password";
+          } else {
+            // localStorage.setItem("access", btoa(JSON.stringify(dummyRoutes)))
+            localStorage.setItem(
+              "access",
+              btoa(JSON.stringify(user.role?.capabilites))
+            );
+            localStorage.setItem("token", user.authToken);
+            localStorage.setItem("role", user.role?.title);
+            localStorage.setItem(
+              "profileImage",
+              user.profileImageUrl
+                ? user.profileImageUrl
+                : process.env.PUBLIC_URL + `/images/user.png`
+            );
+            localStorage.setItem("fullName", user.fullName);
+            if (user.role?.capabilites.indexOf("/dashboard") > -1) {
+              window.location.pathname = "/dashboard";
+            } else {
+              window.location.pathname = `${user.role?.capabilites[0]}`;
+            }
+          }
+          /* if (formField.rememberMe) {
+          localStorage.setItem("rememberMe", true);
+        } */
+        }
+      })
+      .catch((error: any) => {
+        if (error.response && error.response.data) {
+          // toast.error(error.response.data.message);
+        }
+      });
+  };
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email("Please enter email in proper format e.g. johndoes@hotmail.com")
+      .required("Please enter your registered email"),
+    password: Yup.string().required("Please enter your password"),
+    /* .min(8, "Password must be at least 8 characters")
+      .max(15, "Password not more than 15 characters")
+      .matches(
+        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        "Min 8 and Max 15 character with at least (one capital, one special symbol and one number"
+      ) */
+  });
   return (
     <>
       <div className="login-form">
@@ -40,74 +105,74 @@ const Login = () => {
                   isForgotPassword ? "forgot-container" : "sign-in-container"
                 }`}
               >
-                <form method="POST" action="login" aria-label="Login">
-                  <input
-                    type="hidden"
-                    name="_token"
-                    value="NhbZPGtOIDlD3MtmhB2gCEFDMGOfCJzj203dqFqh"
-                  />
-                  <div className="w-100 form-contain">
-                    <h1 className="custom-heading">
-                      {isForgotPassword ? "Forgot Password" : "Sign in"}
-                    </h1>
-                    {/* Email Input */}
-                    <div className="mb-2">
-                      <input
-                        required
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        id="email"
-                        placeholder="Email"
-                        value=""
-                        autoFocus
-                      />
-                    </div>
-                    {/* Password Input */}
-                    <div className="mb-2">
-                      <div className="position-relative">
-                        <input
-                          required
-                          type="password"
-                          name="password"
-                          className="form-control show-pass"
-                          placeholder="Password"
-                          id="password"
-                        />
-                        <img
-                          src="http://mynance.mytmdev.com/images/images/eye-solid.svg"
-                          className="show-eye show eye-show"
-                          alt=""
-                        />
-                        <img
-                          src="http://mynance.mytmdev.com/images/images/eye-slash-solid.svg"
-                          className="show-eye close eye-close"
-                          alt=""
-                        />
-                      </div>
-                    </div>
-                    <button
-                      className="btn btn-theme btn-lg w-100 mt-2"
-                      type="submit"
-                    >
-                      <Link to="/dashboard" style={{ color: "white" }}>
-                        Login
-                      </Link>
-                    </button>
-                    {/* Forgot Password Link */}
-                    <div className="text-end mt-3">
-                      <span
-                        id="forgot-password"
-                        onClick={handleToggleView}
-                        className="pointer"
-                      >
-                        {isForgotPassword
-                          ? "Sign In Instead?"
-                          : "Forgot Password?"}
-                      </span>
-                    </div>
-                  </div>
-                </form>
+                <Formik
+                  initialValues={{ email: "", password: "" }}
+                  validationSchema={validationSchema}
+                  onSubmit={login}
+                >
+                  {() => {
+                    return (
+                      <Form>
+                        <div className="form-group form-label-group">
+                          <Field
+                            className="form-control"
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            id="email"
+                            autoComplete="off"
+                          />
+                          <label htmlFor="email">Email</label>
+                          <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="invalid-feedback text-danger"
+                          />
+                        </div>
+                        <div className="form-group new_password form-label-group">
+                          <Field
+                            type={swapPassword ? "text" : "password"}
+                            name="password"
+                            id="password"
+                            className="form-control"
+                            placeholder="Password"
+                            onFocus={() => setChange(false)}
+                            onBlur={(e: any) =>
+                              e.target.value == ""
+                                ? setChange(true)
+                                : setChange(false)
+                            }
+                          />
+                          <label htmlFor="password">Password</label>
+                          <ErrorMessage
+                            name="password"
+                            component="div"
+                            className="invalid-feedback text-danger"
+                          />
+                        </div>
+                        <button
+                          className="btn btn-theme btn-lg w-100 mt-2"
+                          type="submit"
+                        >
+                          <Link to="/dashboard" style={{ color: "white" }}>
+                            Login
+                          </Link>
+                        </button>
+                        <div className="text-end mt-3">
+                          <span
+                            id="forgot-password"
+                            onClick={handleToggleView}
+                            className="pointer"
+                          >
+                            {isForgotPassword
+                              ? "Sign In Instead?"
+                              : "Forgot Password?"}
+                          </span>
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </Formik>
               </div>
             </div>
           </div>
