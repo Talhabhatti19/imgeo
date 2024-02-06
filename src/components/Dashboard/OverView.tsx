@@ -5,9 +5,9 @@ import { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 
-const OverView = () => {
+const OverView = (props: any) => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
+  console.log(props.cards, "props");
   const cardBlocks = [
     { icon: Images.antDesign, title: "Total Customers", value: "23,500" },
     {
@@ -17,13 +17,13 @@ const OverView = () => {
     },
     {
       icon: Images.FileIcon,
-      title: "Total Approved Applications",
-      value: "425,000,000",
+      title: "Total Approved ",
+      value: "425,000,",
     },
     {
       icon: Images.LaFile,
-      title: "Total Disbursed Amount",
-      value: "425,000,000",
+      title: "Total Disbursed ",
+      value: "425,000",
     },
     { icon: Images.OrangeIcon, title: "Total Customers", value: "23,500" },
     {
@@ -33,13 +33,13 @@ const OverView = () => {
     },
     {
       icon: Images.BlackIcon,
-      title: "Total Approved Applications",
-      value: "425,000,000",
+      title: "Total Approved ",
+      value: "425,000",
     },
     {
       icon: Images.LineIcon,
-      title: "Total Disbursed Amount",
-      value: "425,000,000",
+      title: "Total Disbursed",
+      value: "425,000",
     },
   ];
   const GlobalStyle = createGlobalStyle`
@@ -53,15 +53,16 @@ const OverView = () => {
     <>
       <div className="card-blocks">
         <div className="row">
-          {cardBlocks.map((card, index) => (
-            <Cards
-              className="cards-color"
-              key={index}
-              icon={card.icon}
-              title={card.title}
-              value={card.value}
-            />
-          ))}
+          {props?.cards &&
+            props?.cards.map((card: any, index: any) => (
+              <Cards
+                className=""
+                key={index}
+                icon={card.icon}
+                title={card.title}
+                value={card.value}
+              />
+            ))}
         </div>
       </div>
       <GlobalStyle />

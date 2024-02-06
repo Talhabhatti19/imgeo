@@ -2,22 +2,79 @@ import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { authSlice } from "../../redux/apis/apisSlice";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { theme } from "../Config/Theme";
 import { RootState } from "../../redux/rootReducer";
 import { createGlobalStyle } from "styled-components";
+import AuthService from "../../services/AuthService";
+import { authSlice } from "../../redux/apis/apisSlice";
 
 const DasbhboardSidebar = () => {
-  const disptach = useDispatch();
-  disptach(authSlice.actions.setTheme({ theme }));
+  const dispatch = useDispatch();
+
+  dispatch(authSlice.actions.setTheme({ theme }));
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  console.log(themeBuilder, "themeBuilder");
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeBar, setActiveBar] = useState();
+  const [sidebarLinksApi, setSidebarLinksApi] = useState([]);
+  const [sidebarLinksApiCompliance, setSidebarLinksApiCompliance] = useState(
+    []
+  );
+  const [sidebarLinks, setSidebarLinks] = useState([]);
+  const [table, setTable] = useState<any>();
+
+  console.log(sidebarLinks, "side");
+  let sidebarmenu = async () => {
+    try {
+      const userID = "12245";
+      let res = await AuthService.get(
+        `http://192.168.6.123:3003/admin-user/dashboard/${userID}`
+      );
+      if (res) {
+        console.log(res.data.data.structure.sidebar, "123-===");
+        const parsedColumns =
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
+            ?.dashboard.table.header &&
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]?.dashboard?.table?.header.map(
+            (column: any) => {
+              if (typeof column.selector === "string") {
+                try {
+                  // Use Function constructor instead of eval for better security
+                  const renderFunction = new Function(
+                    `return ${column.selector}`
+                  )();
+                  console.log(renderFunction, "renderFunction");
+                  column.selector = renderFunction;
+                } catch (error) {
+                  console.error("Error parsing render function:", error);
+                }
+              }
+              return column;
+            }
+          );
+        console.log(parsedColumns, "......");
+        setTable(parsedColumns);
+        let data =
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
+            ?.dashboard;
+        dispatch(authSlice.actions.setDashboardStructure({ data }));
+        setSidebarLinksApi(
+          res.data.data.structure.sidebar.sidebarWithdashboard
+        );
+        setSidebarLinks(res.data.data.structure.sidebar.sidebarWithdashboard);
+        setSidebarLinksApiCompliance(
+          res.data.data.structure.sidebar.sidebarwithcompliance
+        );
+        console.log(sidebarLinksApi, "api");
+      }
+    } catch (e: any) {
+      console.log(e, "eee");
+    }
+  };
   useEffect(() => {
+    sidebarmenu();
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
@@ -25,267 +82,15 @@ const DasbhboardSidebar = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [isMobile]);
-
-  const [sidebarLinks, setSidebarLinks] = useState([
-    { label: "Dashboard", img: Images.dashboardIcon, Link: "dashboard" },
-    {
-      label: "Compliance Dashboard",
-      img: Images.dashboardIcon,
-      Link: "compliance-dashboard",
-    },
-    {
-      label: "Application Board",
-      img: Images.applicationBoard,
-      Link: "application/board",
-    },
-    {
-      label: "Customer Management",
-      menu: [
-        { subMenu: "Leads", Link: "leads" },
-        { subMenu: "CustomerList", Link: "customer-list" },
-      ],
-      img: Images.customerManagement,
-    },
-    { label: "Product Management", img: Images.bankIcon, Link: "products" },
-    {
-      label: "Department Management",
-      img: Images.departmentManagement,
-      menu: [
-        { subMenu: "Departments", Link: "all-departments" },
-        { subMenu: "Departments permission", Link: "departments/permissions" },
-      ],
-    },
-    {
-      label: "LOV",
-      menu: [
-        { subMenu: "Source of Revenue", Link: "source-of-revenue" },
-        { subMenu: "Purpose Of Financing", Link: "purpose-of-finance" },
-        { subMenu: "Checks Types", Link: "check-type" },
-        { subMenu: "Types Reasons", Link: "type-reason" },
-      ],
-      img: Images.listIcon,
-    },
-    {
-      label: "Financing Management",
-      menu: [
-        { subMenu: "All Applications", Link: "applications/all" },
-        { subMenu: "Pending Loans", Link: "applications/pending" },
-        { subMenu: "In Progress Loans", Link: "applications/in-progress" },
-        { subMenu: "Approved Loans", Link: "applications/approved" },
-        { subMenu: "Rejected Loans", Link: "applications/rejected" },
-        { subMenu: "Incomplete Loans", Link: "incomplete" },
-        { subMenu: "Cancelled Loans", Link: "applications/cancelled" },
-        { subMenu: "Activity Logs", Link: "activity-logs" },
-      ],
-      img: Images.loanIcon,
-    },
-    {
-      label: "Partner Management",
-      menu: [
-        { subMenu: "Partners List", Link: "partners" },
-        { subMenu: "Partners Commission", Link: "partner-commissions" },
-      ],
-      img: Images.partnerManagement,
-    },
-    {
-      label: "Settings",
-      menu: [
-        { subMenu: "Employees", Link: "employees" },
-        { subMenu: "Manage Roles", Link: "role" },
-        { subMenu: "Manage permission", Link: "permissions" },
-      ],
-      img: Images.settingIcon,
-    },
-    {
-      label: "Home Page Management",
-      img: Images.landingPageIcon,
-      Link: "home-page-management",
-    },
-    {
-      label: "Landing Page Management",
-      img: Images.landingPageIcon,
-      Link: "landingpages",
-    },
-    {
-      label: "System Logs",
-      menu: [
-        { subMenu: "Dashboard", Link: "systemlogs" },
-        { subMenu: "Logs", Link: "systemlogs/logs" },
-      ],
-      img: Images.logsIcon,
-    },
-    {
-      label: "API Management",
-      menu: [
-        { subMenu: "All APIs", Link: "apis" },
-        { subMenu: "Partner APIs", Link: "apimanagement" },
-      ],
-      img: Images.sheildCheckIcon,
-    },
-  ]);
-
+  }, []);
   const onSmash = (item: any) => {
     setActiveBar(item);
 
     // Update the links when Contact is clicked
     {
       item == "Compliance Dashboard"
-        ? setSidebarLinks([
-            {
-              label: "Dashboard",
-              img: Images.dashboardIcon,
-              Link: "dashboard",
-            },
-            {
-              label: "Compliance Dashboard",
-              img: Images.dashboardIcon,
-              Link: "compliance-dashboard",
-            },
-            {
-              label: "Application Board",
-              img: Images.applicationBoard,
-              Link: "application/board",
-            },
-            {
-              label: "Customer Management",
-              img: Images.applicationBoard,
-              menu: [
-                { subMenu: "Leads", Link: "leads" },
-                { subMenu: "CustomerList", Link: "customer-list" },
-              ],
-            },
-            {
-              label: "Setting",
-              img: Images.applicationBoard,
-              menu: [
-                { subMenu: "Users", Link: "DeviceReport" },
-                { subMenu: "Authentication Logs", Link: "BrowsersReport" },
-                { subMenu: "Countries", Link: "DeviceReport" },
-              ],
-            },
-            {
-              label: "Device Management Reports",
-              menu: [
-                { subMenu: "Device Report", Link: "DeviceReport" },
-                { subMenu: "Browsers Report", Link: "BrowsersReport" },
-                { subMenu: "Location Report", Link: "DeviceReport" },
-                { subMenu: "Countries Report", Link: "BrowsersReport" },
-              ],
-              img: Images.customerManagement,
-            },
-          ])
-        : setSidebarLinks([
-            {
-              label: "Dashboard",
-              img: Images.dashboardIcon,
-              Link: "dashboard",
-            },
-            {
-              label: "Compliance Dashboard",
-              img: Images.dashboardIcon,
-              Link: "compliance-dashboard",
-            },
-            {
-              label: "Application Board",
-              img: Images.applicationBoard,
-              Link: "application/board",
-            },
-            {
-              label: "Customer Management",
-              menu: [
-                { subMenu: "Leads", Link: "leads" },
-                { subMenu: "CustomerList", Link: "customer-list" },
-              ],
-              img: Images.customerManagement,
-            },
-            {
-              label: "Product Management",
-              img: Images.bankIcon,
-              Link: "products",
-            },
-            {
-              label: "Department Management",
-              img: Images.departmentManagement,
-              menu: [
-                { subMenu: "Departments", Link: "all-departments" },
-                {
-                  subMenu: "Departments permission",
-                  Link: "departments/permissions",
-                },
-              ],
-            },
-            {
-              label: "LOV",
-              menu: [
-                { subMenu: "Source of Revenue", Link: "source-of-revenue" },
-                { subMenu: "Purpose Of Financing", Link: "purpose-of-finance" },
-                { subMenu: "Checks Types", Link: "check-type" },
-                { subMenu: "Types Reasons", Link: "type-reason" },
-              ],
-              img: Images.listIcon,
-            },
-            {
-              label: "Financing Management",
-              menu: [
-                { subMenu: "All Applications", Link: "applications/all" },
-                { subMenu: "Pending Loans", Link: "applications/pending" },
-                {
-                  subMenu: "In Progress Loans",
-                  Link: "applications/in-progress",
-                },
-                { subMenu: "Approved Loans", Link: "applications/approved" },
-                { subMenu: "Rejected Loans", Link: "applications/rejected" },
-                { subMenu: "Incomplete Loans", Link: "incomplete" },
-                { subMenu: "Cancelled Loans", Link: "applications/cancelled" },
-                { subMenu: "Activity Logs", Link: "activity-logs" },
-              ],
-              img: Images.loanIcon,
-            },
-            {
-              label: "Partner Management",
-              menu: [
-                { subMenu: "Partners List", Link: "partners" },
-                { subMenu: "Partners Commission", Link: "partner-commissions" },
-              ],
-              img: Images.partnerManagement,
-            },
-            {
-              label: "Settings",
-              menu: [
-                { subMenu: "Employees", Link: "employees" },
-                { subMenu: "Manage Roles", Link: "role" },
-                { subMenu: "Manage permission", Link: "permissions" },
-              ],
-              img: Images.settingIcon,
-            },
-            {
-              label: "Home Page Management",
-              img: Images.landingPageIcon,
-              Link: "home-page-management",
-            },
-            {
-              label: "Landing Page Management",
-              img: Images.landingPageIcon,
-              Link: "landingpages",
-            },
-            {
-              label: "System Logs",
-              menu: [
-                { subMenu: "Dashboard", Link: "systemlogs" },
-                { subMenu: "Logs", Link: "systemlogs/logs" },
-              ],
-              img: Images.logsIcon,
-            },
-            {
-              label: "API Management",
-              menu: [
-                { subMenu: "All APIs", Link: "apis" },
-                { subMenu: "Partner APIs", Link: "apimanagement" },
-              ],
-              img: Images.sheildCheckIcon,
-            },
-          ]);
+        ? setSidebarLinksApi(sidebarLinksApiCompliance)
+        : setSidebarLinksApi(sidebarLinks);
     }
   };
   const GlobalStyle = createGlobalStyle`
@@ -322,7 +127,11 @@ const DasbhboardSidebar = () => {
               >
                 <MenuItem
                   key={subIndex}
-                  style={{ fontSize: "12px" }}
+                  style={{
+                    fontSize: "12px",
+                    background: themeBuilder?.sideBarmenuBackgroundColor,
+                    color: themeBuilder?.sidebarTextColor,
+                  }}
                   onClick={() => {
                     setToggled(false);
                   }}
@@ -353,19 +162,21 @@ const DasbhboardSidebar = () => {
           customBreakPoint="768px"
           collapsedWidth="80px"
           width="100%"
+          // color={Theme.TextColor}
+          // backgroundColor={Theme.BackgroundColor}
           className="col-12 fw-bold menu-items"
-          style={{ fontSize: "14px", color: "#fff" }}
+          style={{ fontSize: "14px", color: themeBuilder?.sidebarTextColor }}
         >
           <div className="d-flex justify-content-center p-1 pt-4">
             <img
-              src={Images.sidebarLogo}
+              src={Images.tanmeyaLogo}
               alt="logo"
               style={{ marginBottom: "20px" }}
             />
           </div>
 
           <Menu>
-            {sidebarLinks.map((item, index) => (
+            {sidebarLinksApi.map((item: any, index: any) => (
               <>
                 <React.Fragment key={index}>
                   {item.menu ? (
@@ -375,7 +186,10 @@ const DasbhboardSidebar = () => {
                       <div className="menu-items">
                         <Link
                           to={`${item.Link}`}
-                          style={{ color: "#fff", textDecoration: "none" }}
+                          style={{
+                            color: themeBuilder?.sidebarTextColor,
+                            textDecoration: "none",
+                          }}
                         >
                           <MenuItem
                             active={item.label === activeBar}

@@ -35,6 +35,10 @@ import FileIcon from "../../assets/images/la_file.png";
 import LaFile from "../../assets/images/la_file-in.png";
 import OrangeIcon from "../../assets/images/la_file-i.png";
 import LineIcon from "../../assets/images/la_file-.png";
+import template1 from "../../assets/images/template2.png";
+import template2 from "../../assets/images/template3.png";
+import template3 from "../../assets/images/template4.png";
+import template4 from "../../assets/images/template5.png";
 
 export const Images = {
   callIcon,

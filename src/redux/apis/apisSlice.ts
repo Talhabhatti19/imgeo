@@ -8,6 +8,7 @@ const initialState: ApisState = {
   isLoading: false,
   message: "",
   theme: {},
+  dashboardStructure: {},
 };
 
 export const authSlice = createSlice({
@@ -20,6 +21,9 @@ export const authSlice = createSlice({
     setTheme: (state, action) => {
       state.theme = action.payload.theme;
     },
+    setDashboardStructure: (state, action) => {
+      state.dashboardStructure = action.payload.data;
+    },
     catchError: (state: any, action: PayloadAction<any>) => {
       state.isError = true;
       state.isLoading = false;
@@ -28,6 +32,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { catchError, initiateRequest, setTheme } = authSlice.actions;
+export const { catchError, initiateRequest, setTheme, setDashboardStructure } =
+  authSlice.actions;
 
 export default authSlice.reducer;

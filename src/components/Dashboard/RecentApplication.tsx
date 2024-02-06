@@ -6,20 +6,24 @@ import { Recent_Application_Header } from "../Config/TableHeaders";
 
 const data = [
   {
-    ApplicationNo: "",
-    cusotmerName: "",
-    phoneNo: "",
-    date: "",
-    amount: "",
-    parentStatus: "",
-    status: "",
-    Action: "",
+    ApplicationNo: "ytf",
+    customerName: "ejuir",
+    phoneNo: "1234",
+    date: "1234",
+    amount: "1234",
+    parentStatus: "56478",
+    status: "4677",
+    Action: "2356",
   },
 ];
 
-const RecentApplication = () => {
+const RecentApplication = (props: any) => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
+  console.log(props?.data?.header, "propsssssss");
+  const tableData = Array.isArray(props?.data?.data) ? props.data.data : [];
+  const tableHeader = Array.isArray(props?.data?.header)
+    ? props.data.header
+    : [];
   return (
     <>
       <div className="cs-table">
@@ -28,10 +32,14 @@ const RecentApplication = () => {
             className="col-6 fs-6 fw-bold mt-5 "
             style={{ color: themeBuilder?.color?.headingTextColor }}
           >
-            Recent Applications
+            {props?.data?.title}
           </h2>
         </div>
-        <TableView header={Recent_Application_Header} data={data} />
+        <TableView
+          // header={Recent_Application_Header}
+          data={tableData}
+          apiHeader={tableHeader}
+        />
       </div>
     </>
   );

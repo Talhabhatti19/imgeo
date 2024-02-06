@@ -304,7 +304,7 @@ h3.welcome-heading {
   height: 64px;
 }
 .card-blocks .row .col-md-3 .card .card-body {
-  padding: 0px 0 0px;
+  padding: 40px 0 0px;
 }
 
 .card-blocks .row .col-md-3 .card {
@@ -315,6 +315,7 @@ h3.welcome-heading {
   margin-top: 10px;
   min-height: 90px;
 }
+
 
 .sidebar_list a {
   width: 100% !important;
@@ -465,6 +466,7 @@ h3.welcome-heading {
   margin-top: 2rem;
   border-radius: 16px 16px 0px 0px;
 }
+
 .nf-cards .card-body {
   padding-left: 15px;
 }
@@ -1220,3 +1222,7 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
 .radios-buttons label input:checked + span:before {
   box-shadow: inset 0 0 0 0.4375em #00005c;
 }
+.button-margin{
+  margin-right: 8px;
+}
+
