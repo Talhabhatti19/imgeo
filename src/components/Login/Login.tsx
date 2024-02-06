@@ -1,65 +1,66 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Images } from "../Config/Images";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import AuthService from "../../services/AuthService";
 import * as Yup from "yup";
+import { authSlice } from "../../redux/apis/apisSlice";
+import { useDispatch } from "react-redux";
+import { setSideBarUtils } from "../../utils/const.utils";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [change, setChange] = useState<any>();
   const [swapPassword, setSwapPassword] = useState(false);
+  const [loginState, setLoginState] = useState(false);
   const handleToggleView = () => {
     setIsForgotPassword((prev) => !prev);
   };
-  const headers = {
-    location: "",
-    timezone: "",
-  };
-  let login = (formField: any) => {
+
+  let login = async (formField: any) => {
     console.log(formField, "formField");
-    AuthService.post("admin/login", formField, { headers })
-      .then((response: any) => {
-        if (response && response.data.statusCode === 200) {
-          localStorage.clear();
-          let user = response.data.data;
-          localStorage.setItem("userID", user.id);
-          localStorage.setItem("email", user.email);
-          if (user.requiresPasswordChange || user.firstLogin) {
-            // localStorage.setItem("isFirstLogin", true);
-            window.location.pathname = "new-password";
-          } else {
-            // localStorage.setItem("access", btoa(JSON.stringify(dummyRoutes)))
-            localStorage.setItem(
-              "access",
-              btoa(JSON.stringify(user.role?.capabilites))
-            );
-            localStorage.setItem("token", user.authToken);
-            localStorage.setItem("role", user.role?.title);
-            localStorage.setItem(
-              "profileImage",
-              user.profileImageUrl
-                ? user.profileImageUrl
-                : process.env.PUBLIC_URL + `/images/user.png`
-            );
-            localStorage.setItem("fullName", user.fullName);
-            if (user.role?.capabilites.indexOf("/dashboard") > -1) {
-              window.location.pathname = "/dashboard";
-            } else {
-              window.location.pathname = `${user.role?.capabilites[0]}`;
-            }
-          }
-          /* if (formField.rememberMe) {
+    let response = await AuthService.post(
+      "http://192.168.6.123:3003/admin-user/login",
+      formField
+    );
+    if (response) {
+      console.log(response?.data, "response");
+      navigate("/dashboard");
+      // window.location.pathname = "/dashboard";
+      // localStorage.clear();
+      // let user = response.data.data;
+      // localStorage.setItem("userID", user.id);
+      // localStorage.setItem("email", user.email);
+      // if (user.requiresPasswordChange || user.firstLogin) {
+      //   // localStorage.setItem("isFirstLogin", true);
+      //   window.location.pathname = "new-password";
+      // } else {
+      //   // localStorage.setItem("access", btoa(JSON.stringify(dummyRoutes)))
+      //   localStorage.setItem(
+      //     "access",
+      //     btoa(JSON.stringify(user.role?.capabilites))
+      //   );
+      //   localStorage.setItem("token", user.authToken);
+      //   localStorage.setItem("role", user.role?.title);
+      //   localStorage.setItem(
+      //     "profileImage",
+      //     user.profileImageUrl
+      //       ? user.profileImageUrl
+      //       : process.env.PUBLIC_URL + `/images/user.png`
+      //   );
+      //   localStorage.setItem("fullName", user.fullName);
+      //   if (user.role?.capabilites.indexOf("/dashboard") > -1) {
+      //     // window.location.pathname = "/dashboard";
+      //   } else {
+      //     window.location.pathname = `${user.role?.capabilites[0]}`;
+      //   }
+      // }
+      /* if (formField.rememberMe) {
           localStorage.setItem("rememberMe", true);
         } */
-        }
-      })
-      .catch((error: any) => {
-        if (error.response && error.response.data) {
-          // toast.error(error.response.data.message);
-        }
-      });
+    }
   };
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -154,9 +155,7 @@ const Login = () => {
                           className="btn btn-theme btn-lg w-100 mt-2"
                           type="submit"
                         >
-                          <Link to="/dashboard" style={{ color: "white" }}>
-                            Login
-                          </Link>
+                          Login
                         </button>
                         <div className="text-end mt-3">
                           <span
