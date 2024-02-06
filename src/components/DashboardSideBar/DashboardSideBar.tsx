@@ -322,7 +322,11 @@ const DasbhboardSidebar = () => {
               >
                 <MenuItem
                   key={subIndex}
-                  style={{ fontSize: "12px" }}
+                  style={{
+                    fontSize: "12px",
+                    background: themeBuilder?.sideBarmenuBackgroundColor,
+                    color: themeBuilder?.sidebarTextColor,
+                  }}
                   onClick={() => {
                     setToggled(false);
                   }}
@@ -354,11 +358,11 @@ const DasbhboardSidebar = () => {
           collapsedWidth="80px"
           width="100%"
           className="col-12 fw-bold menu-items"
-          style={{ fontSize: "14px", color: "#fff" }}
+          style={{ fontSize: "14px", color: themeBuilder?.sidebarTextColor }}
         >
           <div className="d-flex justify-content-center p-1 pt-4">
             <img
-              src={Images.sidebarLogo}
+              src={Images.tanmeyaLogo}
               alt="logo"
               style={{ marginBottom: "20px" }}
             />
@@ -375,7 +379,10 @@ const DasbhboardSidebar = () => {
                       <div className="menu-items">
                         <Link
                           to={`${item.Link}`}
-                          style={{ color: "#fff", textDecoration: "none" }}
+                          style={{
+                            color: themeBuilder?.sidebarTextColor,
+                            textDecoration: "none",
+                          }}
                         >
                           <MenuItem
                             active={item.label === activeBar}
