@@ -1,18 +1,9 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import Switch from "react-switch";
+import React from "react";
 import { Images } from "../../components/Config/Images";
 import TableView from "../../components/TableView/TableView";
-import { DatePicker } from "antd";
-import { Modal, Button, Dropdown } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 
 const PartnerApis = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
-  const [showPopup, setShowPopup] = useState(false);
-
-  console.log(checkReduxState, "checkReduxState");
-
   const data = [
     {
       Name: "Application Commission",
@@ -51,10 +42,7 @@ const PartnerApis = () => {
       selector: (row: { Status: any }) => row.Status,
     },
   ];
-  const actionOptions = [
-    { value: "action1", label: "Action 1" },
-    { value: "action2", label: "Action 2" },
-  ];
+
   return (
     <>
       <div className="cs-table">

@@ -1,24 +1,22 @@
-import React from "react";
 import { RouterProvider } from "react-router-dom";
 import { store, persistor } from "./redux/store";
-import { Provider, useDispatch } from "react-redux";
-// import { ToastContainer } from "react-toastify";
+import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { router } from "./Routes/path";
+import { ThemeProvider } from "styled-components";
+import { theme } from "antd";
+import { useEffect, useState } from "react";
 
 const App = () => {
   return (
-    <div>
-     <Provider store={store}>
-        {/* <ToastContainer /> */}
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
         <PersistGate persistor={persistor}>
           <RouterProvider router={router} />
         </PersistGate>
-       </Provider>
-      </div>
+      </ThemeProvider>
+    </Provider>
   );
 };
 
 export default App;
-
-

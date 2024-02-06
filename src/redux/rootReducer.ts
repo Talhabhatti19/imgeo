@@ -2,14 +2,14 @@ import { combineReducers } from "redux";
 import persistReducer from "redux-persist/es/persistReducer";
 import storageSession from "redux-persist/lib/storage/session";
 // import localStorage from "redux-persist/es/storage";
-import blockReducer from "./apis/apisSlics";
+import blockReducer from "./apis/apisSlice";
 
 const persistBlock = {
   key: "auth",
   storage: storageSession,
-  whitelist: ["isError", "isSuccess", "isLoading", "message","check"],
+  whitelist: ["isError", "isSuccess", "isLoading", "message", "theme"],
 };
-const rootReducer :any= combineReducers({
+const rootReducer: any = combineReducers({
   block: persistReducer(persistBlock, blockReducer),
 });
 

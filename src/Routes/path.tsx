@@ -34,6 +34,18 @@ import PartnerApis from "../pages/APIManagement/PartnerApis";
 import LandingPageManage from "../components/LandinPageManagement/LandingPageManagement";
 import ApplicationBoard from "../pages/ApplicationBoard/ApplicationBoard";
 import LeadDetail from "../pages/CustomerManagement/LeadDetail";
+import NotFound from "../components/NotFound/NotFound";
+import Setting from "../pages/ProductManagement/Setting";
+import ViewApplication from "../components/AllApplication/ViewApplication";
+import ApplicationDocument from "../components/AllApplication/ApplicationDocument";
+import ApplicationDocumentActivity from "../components/AllApplication/ApplicationDocumentActivity";
+import Users from "../components/ComplianceDashboard/Settings/Users";
+import AuthenticationLogs from "../components/ComplianceDashboard/Settings/AuthenticationLogs";
+import Countries from "../components/ComplianceDashboard/Settings/Countries";
+import DeviceReport from "../components/ComplianceDashboard/DeviceManagement/DeviceReport";
+import BrowserReport from "../components/ComplianceDashboard/DeviceManagement/BrowserReport";
+import LocationReport from "../components/ComplianceDashboard/DeviceManagement/LocationReport";
+import CountriesReport from "../components/ComplianceDashboard/DeviceManagement/CountriesReport"
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +60,7 @@ export const router = createBrowserRouter([
         path: "/dashboard",
         element: <Dashboard />,
       },
+      { path: "*", element: <NotFound /> },
       {
         path: "/compliance-dashboard",
         element: <ComplianceDashboard />,
@@ -61,7 +74,7 @@ export const router = createBrowserRouter([
         element: <Leads />,
       },
       {
-        path: "/leads/detail",
+        path: "leads/detail",
         element: <LeadDetail />,
       },
       {
@@ -180,6 +193,50 @@ export const router = createBrowserRouter([
       {
         path: "apimanagement",
         element: <PartnerApis />,
+      },
+      {
+        path: "products/setting/2",
+        element: <Setting />,
+      },
+      {
+        path: "applications/all/detail",
+        element: <ViewApplication />,
+      },
+      {
+        path: "applications/all/application-document",
+        element: <ApplicationDocument />,
+      },
+      {
+        path: "applications/all/activity-log",
+        element: <ApplicationDocumentActivity />,
+      },
+      {
+        path: "user",
+        element: <Users />,
+      },
+      {
+        path: "authentication-logs",
+        element: <AuthenticationLogs />,
+      },
+      {
+        path: "countries",
+        element: <Countries />,
+      },
+      {
+        path: "devices-report",
+        element: <DeviceReport />,
+      },
+      {
+        path: "browswer-report",
+        element: <BrowserReport />,
+      },
+      {
+        path: "location-report",
+        element: <LocationReport />,
+      },
+      {
+        path: "countries-report",
+        element: <CountriesReport />,
       },
     ],
   },

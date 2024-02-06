@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Images } from "../Config/Images";
 import "react-responsive-modal/styles.css";
 
@@ -57,14 +57,10 @@ const ManagementForm = () => {
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
-                <a className="dropdown-item" href="#">
-                  English
-                </a>
+                <a className="dropdown-item">English</a>
               </li>
               <li>
-                <a className="dropdown-item" href="#">
-                  عربي
-                </a>
+                <a className="dropdown-item">عربي</a>
               </li>
             </ul>
           </div>
