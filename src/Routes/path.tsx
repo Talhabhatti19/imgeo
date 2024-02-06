@@ -45,7 +45,8 @@ import Countries from "../components/ComplianceDashboard/Settings/Countries";
 import DeviceReport from "../components/ComplianceDashboard/DeviceManagement/DeviceReport";
 import BrowserReport from "../components/ComplianceDashboard/DeviceManagement/BrowserReport";
 import LocationReport from "../components/ComplianceDashboard/DeviceManagement/LocationReport";
-import CountriesReport from "../components/ComplianceDashboard/DeviceManagement/CountriesReport"
+import CountriesReport from "../components/ComplianceDashboard/DeviceManagement/CountriesReport";
+import NotificationTable from "../pages/Notification/Notification";
 
 export const router = createBrowserRouter([
   {
@@ -237,6 +238,10 @@ export const router = createBrowserRouter([
       {
         path: "countries-report",
         element: <CountriesReport />,
+      },
+      {
+        path: "notification",
+        element: <NotificationTable />,
       },
     ],
   },
