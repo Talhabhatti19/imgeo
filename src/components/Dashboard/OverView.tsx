@@ -2,7 +2,6 @@ import React from "react";
 import Cards from "./Cards";
 import { Images } from "../Config/Images";
 import { createGlobalStyle } from "styled-components";
-import { theme } from "../Config/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 

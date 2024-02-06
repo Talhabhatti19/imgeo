@@ -1,9 +1,9 @@
 export const theme = {
   appBackgroundColor: "",
-  sideBarmenuBackgroundColor: "",
-  sidebarTextColor: "",
+  sideBarmenuBackgroundColor: "#F6F6F6",
+  sidebarTextColor: "black",
   headerColor: {
-    backgroundColor: "",
+    backgroundColor: "#F6F6F6",
   },
   color: {
     headingTextColor: "",
@@ -13,8 +13,8 @@ export const theme = {
     cardsTextColor: "",
   },
   table: {
-    backgroundColor: "",
-    headingColor: "",
-    bodyTextColor: "",
+    backgroundColor: "#004D72",
+    headingColor: "white",
+    bodyTextColor: "black",
   },
 };

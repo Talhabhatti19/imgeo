@@ -1,20 +1,22 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createGlobalStyle } from "styled-components";
+import { authSlice } from "../../redux/apis/apisSlice";
 import { RootState } from "../../redux/rootReducer";
 import { Images } from "../Config/Images";
+import { theme } from "../Config/Theme";
 import SuperAdmin from "./SuperAdmin";
 
 const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
+  console.log(themeBuilder, "themeBuilder");
+  const dispatch = useDispatch();
+  dispatch(authSlice.actions.setTheme({ theme }));
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
   const GlobalStyle = createGlobalStyle`
   .header_layout{
-    background: ${themeBuilder?.headerColor} !important;
-    color:${themeBuilder?.sidebarTextColor}!important;
+    background: ${themeBuilder?.sideBarmenuBackgroundColor} !important;
   }
-  
   `;
   return (
     <>

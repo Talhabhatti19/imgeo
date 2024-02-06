@@ -5,6 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { router } from "./Routes/path";
 import { ThemeProvider } from "styled-components";
 import { theme } from "antd";
+import { useEffect, useState } from "react";
 
 const App = () => {
   return (

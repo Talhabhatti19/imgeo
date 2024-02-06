@@ -11,6 +11,7 @@ import landingPageIcon from "../../assets/images/landingPageIcon.svg";
 import logsIcon from "../../assets/images/logsIcon.svg";
 import sheildCheckIcon from "../../assets/images/shieldCheckIcon.svg";
 import sidebarLogo from "../../assets/images/TcLogo.png";
+import tanmeyaLogo from "../../assets/images/tanmeyaLogo.png";
 import profileUser from "../../assets/images/myNanceUser.png";
 import callIcon from "../../assets/images/phoneIcon.png";
 import HomePageForm from "../../assets/images/HomePageForm.jpeg";
@@ -63,5 +64,6 @@ export const Images = {
   FileIcon,
   LaFile,
   OrangeIcon,
-  LineIcon
+  LineIcon,
+  tanmeyaLogo,
 };

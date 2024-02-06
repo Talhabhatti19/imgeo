@@ -17,6 +17,8 @@ const TableView = ({ header, data }: any) => {
         paddingRight: "8px",
         justifyContent: "center",
         alignItems: "center",
+        background: themeBuilder?.table?.backgroundColor,
+        color: themeBuilder?.table?.headingColor,
       },
     },
     cells: {

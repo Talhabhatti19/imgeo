@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
-
 import DasbhboardHeader from "../components/DashboardHeader/Header";
-import DasbhboardSidebar from "../components/DashboardSideBar/DashboardSideBar";
+import DasbhboardSideBar from "../components/DashboardSideBar/DashboardSideBar";
+
 import Loader from "../components/Loader/Loader";
 import { RootState } from "../redux/rootReducer";
 
@@ -38,7 +38,7 @@ const Layout = () => {
                 backgroundColor: themeBuilder?.sideBarmenuBackgroundColor,
               }}
             >
-              <DasbhboardSidebar />
+              <DasbhboardSideBar />
             </div>
             <div className={`flex ${isMobile ? "" : "colTwo"}`}>
               <DasbhboardHeader />

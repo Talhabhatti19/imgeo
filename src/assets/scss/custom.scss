@@ -43,7 +43,7 @@ body {
 }
 
 .wave {
-  color: #39244f;
+  color: #004d72;
   font-weight: 700;
   font-family: "Inter-extra-bold", "Inter", sans-serif !important;
   font-size: 50px;
@@ -531,7 +531,6 @@ div#DataTables_Table_0_paginate {
   width: 275px;
   height: 100%;
   overflow-y: auto;
-  background: #39244f;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
@@ -1104,23 +1103,23 @@ h1.custom-heading {
   border-top-right-radius: 16px;
   border-top-left-radius: 16px;
 }
-.a-link{
-  color: rgba(0, 0, 0, 0.87)!important;
-  text-decoration: none!important;
+.a-link {
+  color: rgba(0, 0, 0, 0.87) !important;
+  text-decoration: none !important;
 }
 .tabs-overflow.mt-3.nav.nav-tabs::-webkit-scrollbar {
-  height:5px;
- }
+  height: 5px;
+}
 
 .tabs-overflow.mt-3.nav.nav-tabs::-webkit-scrollbar-track {
-   background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 .tabs-overflow.mt-3.nav.nav-tabs::-webkit-scrollbar-thumb {
-   background: #888;
+  background: #888;
 }
 ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
-   padding-bottom: 2px;
+  padding-bottom: 2px;
 }
 .disclaimerInfo .flex-radio {
   display: flex;
@@ -1148,4 +1147,3 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
 .radios-buttons label input:checked + span:before {
   box-shadow: inset 0 0 0 0.4375em #00005c;
 }
-

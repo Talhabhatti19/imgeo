@@ -7,6 +7,7 @@ import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { theme } from "../Config/Theme";
 import { RootState } from "../../redux/rootReducer";
+import { createGlobalStyle } from "styled-components";
 
 const DasbhboardSidebar = () => {
   const disptach = useDispatch();
@@ -287,7 +288,18 @@ const DasbhboardSidebar = () => {
           ]);
     }
   };
-
+  const GlobalStyle = createGlobalStyle`
+  .menu-items{
+    background:${themeBuilder?.sideBarmenuBackgroundColor}!important;
+    color:${themeBuilder?.sidebarTextColor}!important;
+  }
+  .css-1654oxy > .ps-menu-button{
+    background:${themeBuilder?.table?.backgroundColor}!important;
+  }
+  .ps-menu-button:hover {
+    background:${themeBuilder?.table?.backgroundColor}!important;
+  }
+  `;
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -392,6 +404,7 @@ const DasbhboardSidebar = () => {
           </Menu>
         </Sidebar>
       </div>
+      <GlobalStyle />
     </>
   );
 };
