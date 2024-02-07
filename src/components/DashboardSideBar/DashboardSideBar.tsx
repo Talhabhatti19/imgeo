@@ -8,12 +8,13 @@ import { theme } from "../Config/Theme";
 import { RootState } from "../../redux/rootReducer";
 import { createGlobalStyle } from "styled-components";
 import AuthService from "../../services/AuthService";
-import { authSlice } from "../../redux/apis/apisSlice";
+import { authSlice, initiateRequest } from "../../redux/apis/apisSlice";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
   dispatch(authSlice.actions.setTheme({ theme }));
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
+
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeBar, setActiveBar] = useState();
@@ -58,11 +59,12 @@ const DasbhboardSidebar = () => {
         let compilanceData =
           res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[1]
             ?.comlianceDashboard;
-
+        let actionBoard =
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[3]
+            ?.application?.board[0]?.headTitles;
         dispatch(authSlice.actions.setDashboardStructure({ data }));
         dispatch(authSlice.actions.setCompilanceDashboard({ compilanceData }));
-        console.log(compilanceData, "compilanceData");
-
+        dispatch(authSlice.actions.setActionBoard({ actionBoard }));
         setSidebarLinksApi(
           res.data.data.structure.sidebar.sidebarWithdashboard
         );

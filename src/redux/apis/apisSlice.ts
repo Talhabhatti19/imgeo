@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ApisState } from "./apisInterface";
+import staticMethods from "antd/es/message";
 
 const initialState: ApisState = {
   isError: false,
@@ -10,6 +11,7 @@ const initialState: ApisState = {
   theme: {},
   dashboardStructure: {},
   compilanceDashboard: {},
+  actionBoard: [],
 };
 
 export const authSlice = createSlice({
@@ -27,6 +29,9 @@ export const authSlice = createSlice({
     },
     setCompilanceDashboard: (state, action) => {
       state.compilanceDashboard = action.payload.compilanceData;
+    },
+    setActionBoard: (state, action) => {
+      state.actionBoard = action.payload.actionBoard;
     },
     catchError: (state: any, action: PayloadAction<any>) => {
       state.isError = true;

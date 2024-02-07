@@ -6,4 +6,5 @@ export interface ApisState {
   theme: any;
   dashboardStructure: any;
   compilanceDashboard: any;
+  actionBoard: any;
 }
