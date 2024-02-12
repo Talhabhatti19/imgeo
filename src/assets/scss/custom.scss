@@ -1216,4 +1216,7 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
 .button-margin{
   margin-right: 8px;
 }
-
+.card-flex{
+  display: flex!important;
+  flex-direction: column!important;
+}

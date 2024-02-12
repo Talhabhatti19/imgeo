@@ -3,11 +3,13 @@ import Graphs from "./Graphs";
 import OverView from "./OverView";
 import RecentApplication from "./RecentApplication";
 import NotificationBar from "./Notification";
-import { DatePicker } from "antd";
+import { DatePicker, Select } from "antd";
 import { EChartsOption } from "echarts";
 import * as echarts from "echarts/core";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
+import { Dropdown } from "react-bootstrap";
+import { Images } from "../Config/Images";
 
 function Dashboard() {
   const dashboardStructure = useSelector(
@@ -256,43 +258,132 @@ function Dashboard() {
   //       <RecentApplication data={item} />
   //     </div>
   //   ));
+  const actionSelect = [
+    { label: "View", img: Images.listIcon, Link: "detail" },
+    {
+      label: "Documents",
+      img: Images.settingIcon,
+      Link: "application-document",
+    },
+    { label: "Activity Logs", img: Images.settingIcon, Link: "activity-log" },
+    { label: "Resend Login Email", img: Images.settingIcon, Link: "edit" },
+  ];
   return (
     <div>
-      <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
-        <h2 className="col-lg-6 col-12 fs-6 fw-bold">
-          {dashboardStructure?.title}
-        </h2>
-        <form
-          action="search-bar"
-          className="col-lg-6 col-12 d-flex justify-content-end pb-2"
-        >
-          <div className="d-flex justify-content-between ">
-            <div className="d-grid">
+      <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
+        {dashboardStructure?.title && (
+          <h2 className="col-xl-4 col-12 fs-6 fw-bold">
+            {dashboardStructure?.title}
+          </h2>
+        )}
+        <div className="col-xl-8 col-12 d-flex justify-content-end align-items-center">
+          {dashboardStructure?.parentStatus && (
+            <div className="d-grid pb-2 search-bar">
               <label htmlFor="" className="label-theme">
-                From
+                Parent Status
               </label>
-              <DatePicker
-                style={{
-                  width: "200px",
-                  height: "36px",
-                  marginRight: "10px",
-                }}
-              />
-            </div>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Select
+                </Dropdown.Toggle>
 
-            <div className="d-grid">
-              <label htmlFor="" className="label-theme">
-                To
-              </label>
-              <DatePicker
-                style={{
-                  width: "200px",
-                  height: "36px",
-                }}
-              />
+                <Dropdown.Menu>
+                  {dashboardStructure?.parentStatus &&
+                    dashboardStructure?.parentStatus.map((item: any) => (
+                      <Dropdown.Item>
+                        <>
+                          <div className="d-flex">
+                            <div className="col-3">
+                              <input type="radio" />
+                            </div>
+
+                            {item.label}
+                          </div>
+                        </>
+                      </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
-          </div>
-        </form>
+          )}
+          {dashboardStructure?.status && (
+            <div className="d-grid pb-2 search-bar">
+              <label htmlFor="" className="label-theme">
+                Status
+              </label>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Select
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {dashboardStructure?.status &&
+                    dashboardStructure?.status.map((item: any) => (
+                      <Dropdown.Item>
+                        <>
+                          <div className="d-flex">
+                            <div className="col-3"></div>
+
+                            {item.label}
+                          </div>
+                        </>
+                      </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          )}
+          {dashboardStructure?.partner && (
+            <div className="d-grid pb-2 search-bar">
+              <label htmlFor="" className="label-theme">
+                Partner
+              </label>
+              <Select style={{ width: "130px" }}>
+                {dashboardStructure?.partner &&
+                  dashboardStructure?.partner.map((item: any) => (
+                    <option value="1">{item.label}</option>
+                  ))}
+              </Select>
+            </div>
+          )}
+          {dashboardStructure?.filter && (
+            <form
+              action=""
+              className=" d-flex justify-content-end pb-2 search-bar"
+            >
+              <div className="d-flex justify-content-between ">
+                <div className="d-grid">
+                  <label htmlFor="" className="label-theme">
+                    From
+                  </label>
+                  <DatePicker
+                    style={{
+                      width: "200px",
+                      height: "36px",
+                      marginRight: "10px",
+                    }}
+                  />
+                </div>
+
+                <div className="d-grid">
+                  <label htmlFor="" className="label-theme">
+                    To
+                  </label>
+                  <DatePicker
+                    style={{
+                      width: "200px",
+                      height: "36px",
+                    }}
+                  />
+                </div>
+              </div>
+            </form>
+          )}
+          {dashboardStructure?.button &&
+            dashboardStructure?.button.map((item: any) => (
+              <div className="theme-btn mt-1 button-margin">{item.title}</div>
+            ))}
+        </div>
       </div>
       <div className="row">
         <div className="col-md-8">
