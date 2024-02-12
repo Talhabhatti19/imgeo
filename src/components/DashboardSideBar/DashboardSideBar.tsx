@@ -31,57 +31,46 @@ const DasbhboardSidebar = () => {
       let res = await AuthService.get(
         `http://192.168.6.123:3003/admin-user/dashboard/${userID}`
       );
-      if (res) {
-        const parsedColumns =
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
-            ?.dashboard.table.header &&
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]?.dashboard?.table?.header.map(
-            (column: any) => {
-              if (typeof column.selector === "string") {
-                try {
-                  // Use Function constructor instead of eval for better security
-                  const renderFunction = new Function(
-                    `return ${column.selector}`
-                  )();
-                  column.selector = renderFunction;
-                } catch (error) {
-                  console.error("Error parsing render function:", error);
-                }
-              }
-              return column;
-            }
-          );
 
-        setTable(parsedColumns);
-        let data =
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[0]
-            ?.dashboard;
-        let compilanceData =
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[1]
-            ?.comlianceDashboard;
-        let actionBoard =
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[3]
-            ?.application?.board[0]?.headTitles;
-        dispatch(authSlice.actions.setDashboardStructure({ data }));
-        dispatch(authSlice.actions.setCompilanceDashboard({ compilanceData }));
-        dispatch(authSlice.actions.setActionBoard({ actionBoard }));
-        let notificationStructure =
-          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[2]
-            ?.notification;
-        dispatch(authSlice.actions.setDashboardStructure({ data }));
+      if (res?.data?.data?.structure?.sidebar?.sidebarWithdashboard) {
+        const sidebarData =
+          res.data.data.structure.sidebar.sidebarWithdashboard;
+
+        const dashboard = sidebarData[0]?.dashboard || {};
+        const complianceDashboard = sidebarData[1]?.comlianceDashboard || {};
+        const notification = sidebarData[2]?.notification || {};
+        const applicationBoard = sidebarData[3]?.application?.board || [];
+
+        setTable(dashboard.table?.header || []);
+
+        dispatch(authSlice.actions.setDashboardStructure({ data: dashboard }));
         dispatch(
-          authSlice.actions.setNotificationStructure({ notificationStructure })
+          authSlice.actions.setCompilanceDashboard({
+            compilanceData: complianceDashboard,
+          })
         );
-        setSidebarLinksApi(
-          res.data.data.structure.sidebar.sidebarWithdashboard
+        dispatch(
+          authSlice.actions.setActionBoard({
+            actionBoard: applicationBoard[0]?.headTitles || [],
+          })
         );
-        setSidebarLinks(res.data.data.structure.sidebar.sidebarWithdashboard);
+        dispatch(
+          authSlice.actions.setNotificationStructure({
+            notificationStructure: notification,
+          })
+        );
+
+        setSidebarLinksApi(sidebarData);
+        setSidebarLinks(sidebarData);
         setSidebarLinksApiCompliance(
-          res.data.data.structure.sidebar.sidebarwithcompliance
+          sidebarData[2]?.sidebarwithcompliance || []
         );
       }
-    } catch (e: any) {}
+    } catch (e: any) {
+      // Handle errors if needed
+    }
   };
+
   useEffect(() => {
     sidebarmenu();
     const handleResize = () => {
@@ -92,6 +81,16 @@ const DasbhboardSidebar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  // useEffect(() => {
+  //   sidebarmenu();
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth <= 768);
+  //   };
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
   const onSmash = (item: any) => {
     setActiveBar(item);
 
@@ -171,8 +170,6 @@ const DasbhboardSidebar = () => {
           customBreakPoint="768px"
           collapsedWidth="80px"
           width="100%"
-          // color={Theme.TextColor}
-          // backgroundColor={Theme.BackgroundColor}
           className="col-12 fw-bold menu-items"
           style={{ fontSize: "14px", color: themeBuilder?.sidebarTextColor }}
         >
@@ -210,7 +207,7 @@ const DasbhboardSidebar = () => {
                               <img
                                 width={16}
                                 height={16}
-                                src={item.img}
+                                src={item.img ? item.img : Images.BlackIcon}
                                 style={{ background: "none" }}
                               />
                             }
