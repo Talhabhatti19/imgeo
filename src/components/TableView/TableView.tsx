@@ -188,6 +188,19 @@ const TableView = ({ header, data, apiHeader }: any) => {
                       {column.deleteTitle}
                     </div>
                   )}
+                  {column.defaultTitle && (
+                    <div
+                      style={{
+                        padding: "0.22rem 1rem",
+                        borderRadius: "12px",
+                        backgroundColor: themeBuilder?.table?.backgroundColor,
+                        color: "white",
+                        cursor: row.Status === "Active" ? "pointer" : "default",
+                      }}
+                    >
+                      {column.defaultTitle}
+                    </div>
+                  )}
                 </div>
               </>
             ),

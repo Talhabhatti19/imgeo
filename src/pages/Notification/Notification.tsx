@@ -8,6 +8,7 @@ import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import OverView from "../../components/Dashboard/OverView";
 import Graphs from "../../components/Dashboard/Graphs";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const data = [
   {
@@ -184,121 +185,14 @@ const NotificationTable = () => {
   return (
     <>
       <div className="cs-table">
-        <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
-          {notificationStructure?.title && (
-            <h2 className="col-xl-4 col-12 fs-6 fw-bold">
-              {notificationStructure?.title}
-            </h2>
-          )}
-          <div className="col-xl-8 col-12 d-flex justify-content-end align-items-center">
-            {notificationStructure?.parentStatus && (
-              <div className="d-grid pb-2 search-bar">
-                <label htmlFor="" className="label-theme">
-                  Parent Status
-                </label>
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {notificationStructure?.parentStatus &&
-                      notificationStructure?.parentStatus.map((item: any) => (
-                        <Dropdown.Item>
-                          <>
-                            <div className="d-flex">
-                              <div className="col-3">
-                                <input type="radio" />
-                              </div>
-
-                              {item.label}
-                            </div>
-                          </>
-                        </Dropdown.Item>
-                      ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
-            {notificationStructure?.status && (
-              <div className="d-grid pb-2 search-bar">
-                <label htmlFor="" className="label-theme">
-                  Status
-                </label>
-                <Dropdown>
-                  <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Select
-                  </Dropdown.Toggle>
-
-                  <Dropdown.Menu>
-                    {notificationStructure?.status &&
-                      notificationStructure?.status.map((item: any) => (
-                        <Dropdown.Item>
-                          <>
-                            <div className="d-flex">
-                              <div className="col-3"></div>
-
-                              {item.label}
-                            </div>
-                          </>
-                        </Dropdown.Item>
-                      ))}
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            )}
-            {notificationStructure?.partner && (
-              <div className="d-grid pb-2 search-bar">
-                <label htmlFor="" className="label-theme">
-                  Partner
-                </label>
-                <Select style={{ width: "130px" }}>
-                  {notificationStructure?.partner &&
-                    notificationStructure?.partner.map((item: any) => (
-                      <option value="1">{item.label}</option>
-                    ))}
-                </Select>
-              </div>
-            )}
-            {notificationStructure?.filter && (
-              <form
-                action=""
-                className=" d-flex justify-content-end pb-2 search-bar"
-              >
-                <div className="d-flex justify-content-between ">
-                  <div className="d-grid">
-                    <label htmlFor="" className="label-theme">
-                      From
-                    </label>
-                    <DatePicker
-                      style={{
-                        width: "200px",
-                        height: "36px",
-                        marginRight: "10px",
-                      }}
-                    />
-                  </div>
-
-                  <div className="d-grid">
-                    <label htmlFor="" className="label-theme">
-                      To
-                    </label>
-                    <DatePicker
-                      style={{
-                        width: "200px",
-                        height: "36px",
-                      }}
-                    />
-                  </div>
-                </div>
-              </form>
-            )}
-            {notificationStructure?.button &&
-              notificationStructure?.button.map((item: any) => (
-                <div className="theme-btn mt-1 button-margin">{item.title}</div>
-              ))}
-          </div>
-        </div>
+        <DynamicHeaderStructure
+          title={notificationStructure?.title}
+          parentStatus={notificationStructure?.parentStatus}
+          status={notificationStructure?.status}
+          partner={notificationStructure?.partner}
+          filter={notificationStructure?.filter}
+          button={notificationStructure?.button}
+        />
         <div className="row">
           <div className="col-md-12">
             <OverView cards={notificationStructure.cards} />
