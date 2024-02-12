@@ -24,7 +24,7 @@ const OverView = (props: any) => {
               <Cards
                 className=""
                 key={index}
-                icon={card.icon}
+                icon={card.icon ? card.icon : Images.Distribute}
                 title={card.title}
                 value={card.value}
               />

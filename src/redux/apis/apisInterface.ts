@@ -7,4 +7,5 @@ export interface ApisState {
   dashboardStructure: any;
   compilanceDashboard: any;
   actionBoard: any;
+  notificationStructure: any;
 }

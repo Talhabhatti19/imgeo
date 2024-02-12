@@ -65,6 +65,13 @@ const DasbhboardSidebar = () => {
         dispatch(authSlice.actions.setDashboardStructure({ data }));
         dispatch(authSlice.actions.setCompilanceDashboard({ compilanceData }));
         dispatch(authSlice.actions.setActionBoard({ actionBoard }));
+        let notificationStructure =
+          res?.data?.data?.structure?.sidebar?.sidebarWithdashboard[2]
+            ?.notification;
+        dispatch(authSlice.actions.setDashboardStructure({ data }));
+        dispatch(
+          authSlice.actions.setNotificationStructure({ notificationStructure })
+        );
         setSidebarLinksApi(
           res.data.data.structure.sidebar.sidebarWithdashboard
         );
