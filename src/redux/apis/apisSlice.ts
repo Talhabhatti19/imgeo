@@ -9,6 +9,7 @@ const initialState: ApisState = {
   message: "",
   theme: {},
   dashboardStructure: {},
+  notificationStructure: {},
 };
 
 export const authSlice = createSlice({
@@ -23,6 +24,9 @@ export const authSlice = createSlice({
     },
     setDashboardStructure: (state, action) => {
       state.dashboardStructure = action.payload.data;
+    },
+    setNotificationStructure: (state, action) => {
+      state.notificationStructure = action.payload.notificationStructure;
     },
     catchError: (state: any, action: PayloadAction<any>) => {
       state.isError = true;
