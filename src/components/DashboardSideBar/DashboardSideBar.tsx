@@ -13,7 +13,7 @@ import Loader from "../Loader/Loader";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-  dispatch(authSlice.actions.setTheme({ theme }));
+
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -60,6 +60,12 @@ const DasbhboardSidebar = () => {
           authSlice.actions.setNotificationStructure({
             notificationStructure: notification,
           })
+        );
+
+        setSidebarLinksApi(sidebarData);
+        setSidebarLinks(sidebarData);
+        setSidebarLinksApiCompliance(
+          sidebarData[2]?.sidebarwithcompliance || []
         );
 
         setSidebarLinksApi(sidebarData);

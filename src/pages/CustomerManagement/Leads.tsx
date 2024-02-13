@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 
 const Leads = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
+  const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showPopup, setShowPopup] = useState(false);
 
   console.log(checkReduxState, "checkReduxState");
@@ -161,7 +162,7 @@ const Leads = () => {
         <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
           <h2
             className="col-lg-6 col-12 fs-6 fw-bold"
-            style={{ color: theme?.color?.headingTextColor }}
+            style={{ color: themeBuilder?.color?.headingTextColor }}
           >
             Leads
           </h2>

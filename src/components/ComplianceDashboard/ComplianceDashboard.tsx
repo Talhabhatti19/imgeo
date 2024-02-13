@@ -4,6 +4,7 @@ import { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import RecentApplication from "../Dashboard/RecentApplication";
+import { Images } from "../Config/Images";
 
 function ComplianceDashboard() {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -90,7 +91,10 @@ function ComplianceDashboard() {
                 compilanceData?.cards.map((card: any, index: any) => (
                   <div className="col-md-3" key={index}>
                     <div className="card">
-                      <img src={card.icon} alt={card.title} />
+                      <img
+                        src={card.icon ? card.icon : Images.Cash}
+                        alt={card.title}
+                      />
                       <div className="card-body">
                         <div
                           className="card-title"

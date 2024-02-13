@@ -11,7 +11,6 @@ const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
 
   const dispatch = useDispatch();
-  dispatch(authSlice.actions.setTheme({ theme }));
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
   const GlobalStyle = createGlobalStyle`
   .header_layout{
