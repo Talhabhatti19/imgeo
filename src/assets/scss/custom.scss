@@ -36,6 +36,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 100%;
+  backdrop-filter: blur(12px) !important;
   min-height: 100vh !important;
   height: auto !important;
   background-color: rgba(255, 255, 255, 0.8);
@@ -1227,4 +1228,27 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
 .card-flex {
   display: flex !important;
   flex-direction: column !important;
+}
+.retry-button {
+  padding: 10px 20px;
+  background-color: rgb(32, 134, 174);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+.not-found-error {
+  display: inline-block;
+  font-weight: 700;
+  border-radius: 10rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: #388dbc;
+  background: linear-gradient(-45deg, #004d72, #429be1, #004d72, #e73c7e);
+  background-size: 400% 400%;
+  color: #ffffff;
+  transition: transform 0.6s ease-in-out;
+  animation: gradient 10s ease infinite;
 }

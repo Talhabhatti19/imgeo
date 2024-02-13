@@ -1,18 +1,16 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Images } from "../Config/Images";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import AuthService from "../../services/AuthService";
 import * as Yup from "yup";
-import { authSlice } from "../../redux/apis/apisSlice";
-import { useDispatch } from "react-redux";
+
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [change, setChange] = useState<any>();
   const [swapPassword, setSwapPassword] = useState(false);
-  const [loginState, setLoginState] = useState(false);
+
   const handleToggleView = () => {
     setIsForgotPassword((prev) => !prev);
   };

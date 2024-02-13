@@ -8,13 +8,13 @@ import { theme } from "../Config/Theme";
 import { RootState } from "../../redux/rootReducer";
 import { createGlobalStyle } from "styled-components";
 import AuthService from "../../services/AuthService";
-import { authSlice, initiateRequest } from "../../redux/apis/apisSlice";
+import { authSlice } from "../../redux/apis/apisSlice";
+import Loader from "../Loader/Loader";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
   dispatch(authSlice.actions.setTheme({ theme }));
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
   const [toggled, setToggled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [activeBar, setActiveBar] = useState();
@@ -23,10 +23,12 @@ const DasbhboardSidebar = () => {
     []
   );
   const [sidebarLinks, setSidebarLinks] = useState([]);
-  const [table, setTable] = useState<any>();
-
+  const [table, setTable] = useState();
+  const [fullscreenError, setFullscreenError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
   let sidebarmenu = async () => {
     try {
+      setLoading(true);
       const userID = "12245";
       let res = await AuthService.get(
         `http://192.168.6.123:3003/admin-user/dashboard/${userID}`
@@ -35,14 +37,14 @@ const DasbhboardSidebar = () => {
       if (res?.data?.data?.structure?.sidebar?.sidebarWithdashboard) {
         const sidebarData =
           res.data.data.structure.sidebar.sidebarWithdashboard;
-
+        const SidebarCompilnaceData =
+          res.data.data.structure.sidebar.sidebarwithcompliance;
         const dashboard = sidebarData[0]?.dashboard || {};
         const complianceDashboard = sidebarData[1]?.comlianceDashboard || {};
+        console.log(complianceDashboard, "complianceDashboard");
         const notification = sidebarData[2]?.notification || {};
         const applicationBoard = sidebarData[3]?.application?.board || [];
-
         setTable(dashboard.table?.header || []);
-
         dispatch(authSlice.actions.setDashboardStructure({ data: dashboard }));
         dispatch(
           authSlice.actions.setCompilanceDashboard({
@@ -62,12 +64,12 @@ const DasbhboardSidebar = () => {
 
         setSidebarLinksApi(sidebarData);
         setSidebarLinks(sidebarData);
-        setSidebarLinksApiCompliance(
-          sidebarData[2]?.sidebarwithcompliance || []
-        );
+        setSidebarLinksApiCompliance(SidebarCompilnaceData || []);
       }
     } catch (e: any) {
-      // Handle errors if needed
+      setFullscreenError("Connection Failed !");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,16 +83,10 @@ const DasbhboardSidebar = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  // useEffect(() => {
-  //   sidebarmenu();
-  //   const handleResize = () => {
-  //     setIsMobile(window.innerWidth <= 768);
-  //   };
-  //   window.addEventListener("resize", handleResize);
-  //   return () => {
-  //     window.removeEventListener("resize", handleResize);
-  //   };
-  // }, []);
+  const handleRetry = () => {
+    setFullscreenError(null);
+    sidebarmenu();
+  };
   const onSmash = (item: any) => {
     setActiveBar(item);
 
@@ -158,6 +154,7 @@ const DasbhboardSidebar = () => {
   return (
     <>
       <div>
+        {loading && <Loader />}
         {isMobile && (
           <button className="bar-btn" onClick={() => setToggled(!toggled)}>
             {<FaBars />}
@@ -224,6 +221,34 @@ const DasbhboardSidebar = () => {
           </Menu>
         </Sidebar>
       </div>
+      {fullscreenError && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backdropFilter: "blur(12px)",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "white",
+            fontSize: "61px",
+          }}
+        >
+          <div className="not-found-error">
+            <img src={Images.errorEmoji} alt="" />
+          </div>
+          {fullscreenError}
+          <button className="retry-button mt-3" onClick={handleRetry}>
+            Reload
+          </button>
+        </div>
+      )}
+
       <GlobalStyle />
     </>
   );

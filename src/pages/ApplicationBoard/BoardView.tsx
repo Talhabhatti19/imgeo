@@ -6,12 +6,7 @@ import { RootState } from "../../redux/rootReducer";
 
 const BoardView = (header: any, data: any) => {
   console.log(header.data, "header");
-
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  const actionBoard = useSelector(
-    (state: RootState) => state.block.actionBoard
-  );
-
   const GlobalStyle = createGlobalStyle`
     .card-heading.card-heading {
     background: ${themeBuilder?.table?.backgroundColor} !important;

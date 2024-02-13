@@ -1,4 +1,3 @@
-import { Table } from "antd";
 import { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import { Dropdown } from "react-bootstrap";
@@ -202,7 +201,7 @@ const TableView = ({ header, data, apiHeader }: any) => {
     <>
       <DataTable
         pagination
-        columns={table ? table : header}
+        columns={header}
         data={data}
         customStyles={customStyles}
         noDataComponent={noDataComponent}

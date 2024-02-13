@@ -1,6 +1,4 @@
 import React from "react";
-import { Select } from "antd";
-import { createGlobalStyle } from "styled-components";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import BoardView from "./BoardView";
@@ -9,16 +7,6 @@ const ApplicationBoard = () => {
   const actionBoard = useSelector(
     (state: RootState) => state.block.actionBoard
   );
-  const actionSelect = [
-    { label: "Operations" },
-    { label: "Settings" },
-    { label: "Documents" },
-    { label: "Account" },
-    { label: "Operations" },
-    { label: "Settings" },
-    { label: "Documents" },
-    { label: "Account" },
-  ];
 
   const subdata = [
     {

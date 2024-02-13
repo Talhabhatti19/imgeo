@@ -1,6 +1,6 @@
-import { RouterProvider, useNavigate } from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import { store, persistor } from "./redux/store";
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { router } from "./Routes/path";
 import { ThemeProvider } from "styled-components";

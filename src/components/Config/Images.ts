@@ -35,8 +35,10 @@ import FileIcon from "../../assets/images/la_file.png";
 import LaFile from "../../assets/images/la_file-in.png";
 import OrangeIcon from "../../assets/images/la_file-i.png";
 import LineIcon from "../../assets/images/la_file-.png";
+import errorEmoji from "../../assets/images/errorEmoji.png";
 
 export const Images = {
+  errorEmoji,
   callIcon,
   template1,
   template2,
