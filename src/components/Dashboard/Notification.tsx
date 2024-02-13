@@ -1,5 +1,4 @@
 import React from "react";
-import { Root } from "react-dom/client";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 const NotificationBar = () => {
@@ -11,7 +10,12 @@ const NotificationBar = () => {
           className="nf-row"
           style={{ background: themeBuilder?.table?.backgroundColor }}
         >
-          <h3 className="text-20">Notifications</h3>
+          <h3
+            className="text-20"
+            style={{ color: themeBuilder?.color?.headingTextColor }}
+          >
+            Notifications
+          </h3>
           <span>
             <svg
               xmlns="http://www.w3.org/2000/svg"

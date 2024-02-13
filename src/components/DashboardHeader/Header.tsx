@@ -1,16 +1,13 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { FaAngleDown } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { createGlobalStyle } from "styled-components";
-import { authSlice } from "../../redux/apis/apisSlice";
 import { RootState } from "../../redux/rootReducer";
 import { Images } from "../Config/Images";
-import { theme } from "../Config/Theme";
 import SuperAdmin from "./SuperAdmin";
 
 const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
-  const dispatch = useDispatch();
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
   const GlobalStyle = createGlobalStyle`
   .header_layout{
@@ -34,7 +31,6 @@ const DasbhboardHeader = () => {
                 <img
                   className="profile-logo"
                   src={Images.profileUser}
-                  alt=""
                   width={"40px"}
                   height={"40px"}
                 />
@@ -45,10 +41,13 @@ const DasbhboardHeader = () => {
                   setShowSuperAdmin(!showSuperAdmin);
                 }}
                 className="ms-3 col-5 d-flex justify-content-start align-items-center bold"
-                style={{ fontSize: "13px" }}
+                style={{
+                  color: themeBuilder?.color?.headingTextColor,
+                  fontSize: "13px",
+                }}
               >
                 Super Admin
-                <button className="dropdown-toogle"></button>
+                <FaAngleDown />
               </div>
             </div>
           </div>

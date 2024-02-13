@@ -4,7 +4,6 @@ import { Images } from "../Config/Images";
 import { useDispatch, useSelector } from "react-redux";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { theme } from "../Config/Theme";
 import { RootState } from "../../redux/rootReducer";
 import { createGlobalStyle } from "styled-components";
 import AuthService from "../../services/AuthService";
@@ -61,13 +60,6 @@ const DasbhboardSidebar = () => {
             notificationStructure: notification,
           })
         );
-
-        setSidebarLinksApi(sidebarData);
-        setSidebarLinks(sidebarData);
-        setSidebarLinksApiCompliance(
-          sidebarData[2]?.sidebarwithcompliance || []
-        );
-
         setSidebarLinksApi(sidebarData);
         setSidebarLinks(sidebarData);
         setSidebarLinksApiCompliance(SidebarCompilnaceData || []);
