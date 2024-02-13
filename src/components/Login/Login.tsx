@@ -44,9 +44,11 @@ const Login = () => {
       "http://192.168.6.123:3003/admin-user/login",
       formField
     );
-    if (response) {
-      toast.success("Successfully Login!");
+    if (response.data.statusCode === 200) {
+      console.log(response, "13");
       navigate("/dashboard");
+    } else {
+      alert("invalid");
     }
   };
   const validationSchema = Yup.object().shape({

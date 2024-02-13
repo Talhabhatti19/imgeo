@@ -6,7 +6,7 @@ const Cards = (props: any) => {
       <div className="card card-flex">
         <img src={props.icon} alt={props.title} />
         <div className="card-body w-100">
-          <div className="card-title" style={{ fontSize: "12px" }}>
+          <div className="card-title h-auto" style={{ fontSize: "12px" }}>
             {props.title}
           </div>
           <p className="card-text" style={{ fontSize: "12px" }}>
