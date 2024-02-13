@@ -12,7 +12,7 @@ import { authSlice, initiateRequest } from "../../redux/apis/apisSlice";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-  dispatch(authSlice.actions.setTheme({ theme }));
+
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
 
   const [toggled, setToggled] = useState(false);

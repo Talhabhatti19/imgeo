@@ -194,7 +194,7 @@ const TableView = ({ header, data, apiHeader }: any) => {
                         padding: "0.22rem 1rem",
                         borderRadius: "12px",
                         backgroundColor: themeBuilder?.table?.backgroundColor,
-                        color: "white",
+                        color: themeBuilder?.table?.headingColor,
                         cursor: row.Status === "Active" ? "pointer" : "default",
                       }}
                     >
