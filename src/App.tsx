@@ -5,16 +5,20 @@ import { PersistGate } from "redux-persist/integration/react";
 import { router } from "./Routes/path";
 import { ThemeProvider } from "styled-components";
 import { theme } from "antd";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <PersistGate persistor={persistor}>
-          <RouterProvider router={router} />
-        </PersistGate>
-      </ThemeProvider>
-    </Provider>
+    <>
+      <Toaster position="top-center" reverseOrder={false} />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <PersistGate persistor={persistor}>
+            <RouterProvider router={router} />
+          </PersistGate>
+        </ThemeProvider>
+      </Provider>
+    </>
   );
 };
 

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import Loader from "../Loader/Loader";
 import styled, { keyframes } from "styled-components";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
@@ -44,6 +45,7 @@ const Login = () => {
       formField
     );
     if (response) {
+      toast.success("Successfully Login!");
       navigate("/dashboard");
     }
   };
