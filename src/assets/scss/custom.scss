@@ -1245,3 +1245,18 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
     display: block !important;
   }
 }
+@media (max-width: 1200px) {
+  .mobile-responsive-chart {
+    display: grid !important;
+    padding-top: 8px;
+  }
+  .filter-padding-responsive{
+    padding-bottom: 8px;
+  }
+}
+@media (max-width: 980px) {
+  .mobile-responsive-chart-filter{
+    display: grid !important;
+    padding-top: 8px;
+  }
+}
