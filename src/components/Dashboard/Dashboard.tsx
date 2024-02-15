@@ -17,9 +17,9 @@ function Dashboard() {
     dashboardStructure?.financeOverview &&
     dashboardStructure?.financeOverview.map((item: any, index: any) => (
       <div key={index} className="view-chart mb-4">
-        <div className="chart-header d-flex justify-content-between align-items-center">
-          <h3 className="welcome-heading">{item.title}</h3>
-          <div className="d-flex align-items-center">
+        <div className="chart-header d-flex mobile-responsive-chart justify-content-between align-items-center">
+          <h3 className="welcome-heading col-xl-3 col-12">{item.title}</h3>
+          <div className="d-flex mobile-responsive-chart-filter col-xl-9 col-12 align-items-center justify-content-end">
             <div className="d-grid">
               <label htmlFor="" className="label-theme">
                 From
@@ -57,7 +57,7 @@ function Dashboard() {
     dashboardStructure?.barchart &&
     dashboardStructure?.barchart.map((item: any, index: any) => {
       return (
-        <div key={index} className="col-6 p-2">
+        <div key={index} className="col-md-6 col-12 p-2">
           <h2 className="col-12 fs-6 fw-bold mt-5">{item.title}</h2>
           {item.child.map((chart: any, chartIndex: any) => {
             return (
