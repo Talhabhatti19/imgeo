@@ -2,7 +2,7 @@ import React from "react";
 
 const Cards = (props: any) => {
   return (
-    <div className="col-md-3">
+    <div className="col-xl-3 col-sm-12 col-lg-4 col-md-6">
       <div className="card card-flex">
         <img src={props.icon} alt={props.title} />
         <div className="card-body w-100">

@@ -17,9 +17,9 @@ function DynamicHeaderStructure({
 }: any) {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   return (
-    <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
-      {title && <h2 className="col-xl-4 col-12 fs-6 fw-bold">{title}</h2>}
-      <div className="col-xl-8 col-12 d-flex justify-content-end align-items-center">
+    <div className="col-xl-12 d-flex align-items-center pb-3">
+      {title && <h2 className="fs-6 col-xl-3 col-12 fw-bold">{title}</h2>}
+      <div className="d-flex col-12 col-xl-9 col-12 justify-content-end align-items-center">
         {parentStatus && (
           <div className="d-grid pb-2 search-bar">
             <label htmlFor="" className="label-theme">
@@ -39,7 +39,6 @@ function DynamicHeaderStructure({
                           <div className="col-3">
                             <input type="radio" />
                           </div>
-
                           {item.label}
                         </div>
                       </>

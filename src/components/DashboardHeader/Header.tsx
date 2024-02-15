@@ -32,7 +32,7 @@ const DasbhboardHeader = () => {
   return (
     <>
       <div className="header_layout">
-        <div className="d-flex align-items-center">
+        <div className="d-flex align-items-center ">
           {isMobile && (
             <div>
               <button
