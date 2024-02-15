@@ -22,7 +22,6 @@ const OverView = (props: any) => {
           {props?.cards &&
             props?.cards.map((card: any, index: any) => (
               <Cards
-                className=""
                 key={index}
                 icon={card.icon ? card.icon : Images.Distribute}
                 title={card.title}

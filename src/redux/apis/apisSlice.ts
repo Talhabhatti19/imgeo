@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { ApisState } from "./apisInterface";
-import staticMethods from "antd/es/message";
 
 const initialState: ApisState = {
   isError: false,
@@ -13,6 +12,7 @@ const initialState: ApisState = {
   compilanceDashboard: {},
   actionBoard: [],
   notificationStructure: {},
+  toggled: false,
 };
 
 export const authSlice = createSlice({
@@ -37,6 +37,9 @@ export const authSlice = createSlice({
     setNotificationStructure: (state, action) => {
       state.notificationStructure = action.payload.notificationStructure;
     },
+    toggleSidebar: (state) => {
+      state.toggled = !state.toggled;
+    },
     catchError: (state: any, action: PayloadAction<any>) => {
       state.isError = true;
       state.isLoading = false;
@@ -45,7 +48,12 @@ export const authSlice = createSlice({
   },
 });
 
-export const { catchError, initiateRequest, setTheme, setDashboardStructure } =
-  authSlice.actions;
+export const {
+  catchError,
+  toggleSidebar,
+  initiateRequest,
+  setTheme,
+  setDashboardStructure,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -3,20 +3,16 @@ import Graphs from "./Graphs";
 import OverView from "./OverView";
 import RecentApplication from "./RecentApplication";
 import NotificationBar from "./Notification";
-import { DatePicker, Select } from "antd";
-import { EChartsOption } from "echarts";
-import * as echarts from "echarts/core";
+import { DatePicker } from "antd";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
-import { Dropdown } from "react-bootstrap";
-import { Images } from "../Config/Images";
 import DynamicHeaderStructure from "../DynamicHeaderStructure";
 
 function Dashboard() {
   const dashboardStructure = useSelector(
     (state: RootState) => state.block.dashboardStructure
   );
-  const themeBuilder = useSelector((state: RootState) => state.block.theme);
+
   const renderedFinanceOverview =
     dashboardStructure?.financeOverview &&
     dashboardStructure?.financeOverview.map((item: any, index: any) => (
@@ -59,16 +55,21 @@ function Dashboard() {
     ));
   const renderedBarOverview =
     dashboardStructure?.barchart &&
-    dashboardStructure?.barchart.map((item: any, index: any) => (
-      <div key={index} className="col-6 p-2">
-        <h2 className="col-12 fs-6 fw-bold mt-5">{item.title}</h2>
-        {item.child.map((chart: any, chartIndex: any) => (
-          <div className="view-chart" key={chartIndex}>
-            <Graphs option={chart} />
-          </div>
-        ))}
-      </div>
-    ));
+    dashboardStructure?.barchart.map((item: any, index: any) => {
+      return (
+        <div key={index} className="col-6 p-2">
+          <h2 className="col-12 fs-6 fw-bold mt-5">{item.title}</h2>
+          {item.child.map((chart: any, chartIndex: any) => {
+            return (
+              <div className="view-chart" key={chartIndex}>
+                <Graphs option={chart} />
+              </div>
+            );
+          })}
+        </div>
+      );
+    });
+
   // const dashbaordTables =
   //   dashboardStructure?.table &&
   //   dashboardStructure?.table.map((item: any, index: any) => (

@@ -14,8 +14,7 @@ const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
 
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-  const [toggled, setToggled] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
   const [activeBar, setActiveBar] = useState();
   const [sidebarLinksApi, setSidebarLinksApi] = useState([]);
   const [sidebarLinksApiCompliance, setSidebarLinksApiCompliance] = useState(
@@ -25,6 +24,8 @@ const DasbhboardSidebar = () => {
   const [table, setTable] = useState();
   const [fullscreenError, setFullscreenError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const toggled = useSelector((state: RootState) => state.block.toggled);
+
   let sidebarmenu = async () => {
     try {
       setLoading(true);
@@ -73,13 +74,6 @@ const DasbhboardSidebar = () => {
 
   useEffect(() => {
     sidebarmenu();
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
   const handleRetry = () => {
     setFullscreenError(null);
@@ -135,7 +129,7 @@ const DasbhboardSidebar = () => {
                     color: themeBuilder?.sidebarTextColor,
                   }}
                   onClick={() => {
-                    setToggled(false);
+                    dispatch(authSlice.actions.toggleSidebar());
                   }}
                 >
                   {submenuItem.subMenu}
@@ -153,14 +147,10 @@ const DasbhboardSidebar = () => {
     <>
       <div>
         {loading && <Loader />}
-        {isMobile && (
-          <button className="bar-btn" onClick={() => setToggled(!toggled)}>
-            {<FaBars />}
-          </button>
-        )}
+
         <Sidebar
           transitionDuration={1000}
-          onBackdropClick={() => setToggled(false)}
+          onBackdropClick={() => dispatch(authSlice.actions.toggleSidebar())}
           toggled={toggled}
           customBreakPoint="768px"
           collapsedWidth="80px"
@@ -195,7 +185,7 @@ const DasbhboardSidebar = () => {
                           <MenuItem
                             active={item.label === activeBar}
                             onClick={() => {
-                              setToggled(false);
+                              dispatch(authSlice.actions.toggleSidebar());
                               onSmash(item.label);
                             }}
                             prefix={

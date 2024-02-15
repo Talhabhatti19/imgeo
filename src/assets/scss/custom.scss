@@ -106,6 +106,7 @@ body {
   border-radius: 50%;
   object-fit: cover;
 }
+
 .img-width {
   height: 16px;
   width: 16px;
@@ -117,14 +118,7 @@ body {
   top: 12px;
 }
 .navbar-brand {
-  display: inline-block;
-  padding-top: 0.3125rem;
-  padding-bottom: 0.3125rem;
-  margin-right: 1rem;
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: inherit;
-  white-space: nowrap;
+  margin-right: 0rem !important;
 }
 .css-12w9als {
   overflow: visible !important;
@@ -230,6 +224,7 @@ h3.welcome-heading {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 1rem;
 }
 
 .finance-table {

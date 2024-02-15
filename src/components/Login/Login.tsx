@@ -37,9 +37,7 @@ const Login = () => {
       setLoader(false);
     }
   };
-
   let login = async (formField: any) => {
-    console.log(formField, "formField");
     let response = await AuthService.post(
       "http://192.168.6.123:3003/admin-user/login",
       formField
@@ -48,7 +46,7 @@ const Login = () => {
       console.log(response, "13");
       navigate("/dashboard");
     } else {
-      alert("invalid");
+      toast.error("invalid");
     }
   };
   const validationSchema = Yup.object().shape({

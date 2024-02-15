@@ -88,7 +88,6 @@ const TableView = ({ header, data, apiHeader }: any) => {
           try {
             // Use Function constructor instead of eval for better security
             const renderFunction = new Function(`return ${column.selector}`)();
-            console.log(renderFunction, "renderFunction");
             column.selector = renderFunction;
           } catch (error) {
             console.error("Error parsing render function:", error);

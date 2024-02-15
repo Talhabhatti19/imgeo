@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { FaAngleDown } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { FaAngleDown, FaBars } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { createGlobalStyle } from "styled-components";
+import { authSlice } from "../../redux/apis/apisSlice";
 import { RootState } from "../../redux/rootReducer";
 import { Images } from "../Config/Images";
 import SuperAdmin from "./SuperAdmin";
@@ -9,25 +10,58 @@ import SuperAdmin from "./SuperAdmin";
 const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
+  const toggled = useSelector((state: RootState) => state.block.toggled);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const GlobalStyle = createGlobalStyle`
   .header_layout{
     background: ${themeBuilder?.sideBarmenuBackgroundColor} !important;
   }
+
+
   `;
   return (
     <>
       <div className="header_layout">
         <div className="d-flex align-items-center">
+          {isMobile && (
+            <div>
+              <button
+                className="bar-btn"
+                onClick={() => dispatch(authSlice.actions.toggleSidebar())}
+              >
+                {<FaBars />}
+              </button>
+            </div>
+          )}
           <h2
-            className="col-sm-6 navbar-brand"
+            className="col-md-6 navbar-brand"
             style={{ color: themeBuilder?.color?.headingTextColor }}
           >
             Welcome !
           </h2>
-          <div className="col-6 d-flex">
-            <div className="col-6"></div>
-            <div className="d-flex col-sm-6">
-              <div className="col-7 d-flex justify-content-end align-items-center">
+
+          <div className="d-flex col-md-6 justify-content-end ">
+            <div
+              onClick={() => {
+                setShowSuperAdmin(!showSuperAdmin);
+              }}
+              className="d-flex bold align-items-center"
+              style={{
+                color: themeBuilder?.color?.headingTextColor,
+                fontSize: "13px",
+              }}
+            >
+              <div className=" d-flex align-items-center justify-content-end">
                 <img
                   className="profile-logo"
                   src={Images.profileUser}
@@ -35,20 +69,8 @@ const DasbhboardHeader = () => {
                   height={"40px"}
                 />
               </div>
-
-              <div
-                onClick={() => {
-                  setShowSuperAdmin(!showSuperAdmin);
-                }}
-                className="ms-3 col-5 d-flex justify-content-start align-items-center bold"
-                style={{
-                  color: themeBuilder?.color?.headingTextColor,
-                  fontSize: "13px",
-                }}
-              >
-                Super Admin
-                <FaAngleDown />
-              </div>
+              Super Admin
+              <FaAngleDown />
             </div>
           </div>
         </div>
@@ -60,6 +82,7 @@ const DasbhboardHeader = () => {
           </>
         )}
       </div>
+
       <GlobalStyle />
     </>
   );

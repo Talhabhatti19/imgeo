@@ -8,4 +8,5 @@ export interface ApisState {
   compilanceDashboard: any;
   actionBoard: any;
   notificationStructure: any;
+  toggled: boolean;
 }
