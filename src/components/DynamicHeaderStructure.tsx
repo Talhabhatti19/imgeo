@@ -1,7 +1,5 @@
 import React from "react";
 import { DatePicker, Select } from "antd";
-import { EChartsOption } from "echarts";
-import * as echarts from "echarts/core";
 import { useSelector } from "react-redux";
 import { Dropdown } from "react-bootstrap";
 import { RootState } from "../redux/rootReducer";
@@ -17,66 +15,67 @@ function DynamicHeaderStructure({
 }: any) {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   return (
-    <div className="col-xl-12 d-flex align-items-center pb-3">
-      {title && <h2 className="fs-6 col-xl-3 col-12 fw-bold">{title}</h2>}
-      <div className="d-flex col-12 col-xl-9 col-12 justify-content-end align-items-center">
-        {parentStatus && (
-          <div className="d-grid pb-2 search-bar">
-            <label htmlFor="" className="label-theme">
-              Parent Status
-            </label>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Select
-              </Dropdown.Toggle>
+    <div className="col-xl-12 d-flex align-items-center pb-3 structure">
+      {title && <h2 className="fs-6 col-xl-4 col-3 fw-bold">{title}</h2>}
+      <div className="d-flex structure col-xl-8 col-12 align-items-center ">
+        <div className="d-flex">
+          {parentStatus && (
+            <div className="d-grid pb-2 search-bar">
+              <label htmlFor="" className="label-theme">
+                Parent Status
+              </label>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Select
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {parentStatus &&
-                  parentStatus.map((item: any) => (
-                    <Dropdown.Item>
-                      <>
-                        <div className="d-flex">
-                          <div className="col-3">
-                            <input type="radio" />
+                <Dropdown.Menu>
+                  {parentStatus &&
+                    parentStatus.map((item: any) => (
+                      <Dropdown.Item>
+                        <>
+                          <div className="d-flex">
+                            <div className="col-3">
+                              <input type="radio" />
+                            </div>
+                            {item.label}
                           </div>
-                          {item.label}
-                        </div>
-                      </>
-                    </Dropdown.Item>
-                  ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        )}
-        {status && (
-          <div className="d-grid pb-2 search-bar">
-            <label htmlFor="" className="label-theme">
-              Status
-            </label>
-            <Dropdown>
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Select
-              </Dropdown.Toggle>
+                        </>
+                      </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          )}
+          {status && (
+            <div className="d-grid pb-2 search-bar">
+              <label htmlFor="" className="label-theme">
+                Status
+              </label>
+              <Dropdown>
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                  Select
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu>
-                {status &&
-                  status.map((item: any) => (
-                    <Dropdown.Item>
-                      <>
-                        <div className="d-flex">
-                          <div className="col-3"></div>
-
-                          {item.label}
-                        </div>
-                      </>
-                    </Dropdown.Item>
-                  ))}
-              </Dropdown.Menu>
-            </Dropdown>
-          </div>
-        )}
+                <Dropdown.Menu>
+                  {status &&
+                    status.map((item: any) => (
+                      <Dropdown.Item>
+                        <>
+                          <div className="d-flex">
+                            <div className="col-3"></div>
+                            {item.label}
+                          </div>
+                        </>
+                      </Dropdown.Item>
+                    ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          )}
+        </div>
         {partner && (
-          <div className="d-grid pb-2 search-bar">
+          <div className="d-grid pb-2 search-bar ">
             <label htmlFor="" className="label-theme">
               Partner
             </label>
@@ -89,11 +88,8 @@ function DynamicHeaderStructure({
           </div>
         )}
         {filter && (
-          <form
-            action=""
-            className=" d-flex justify-content-end pb-2 search-bar"
-          >
-            <div className="d-flex justify-content-between ">
+          <form action="" className=" d-flex pb-2  search-bar">
+            <div className="d-flex  structure justify-content-between">
               <div className="d-grid">
                 <label htmlFor="" className="label-theme">
                   From

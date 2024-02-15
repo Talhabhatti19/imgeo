@@ -1239,3 +1239,9 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
   transition: transform 0.6s ease-in-out;
   animation: gradient 10s ease infinite;
 }
+
+@media (max-width: 768px) {
+  .structure {
+    display: block !important;
+  }
+}
