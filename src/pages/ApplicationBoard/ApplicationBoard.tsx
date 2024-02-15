@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import BoardView from "./BoardView";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const ApplicationBoard = () => {
   const actionBoard = useSelector(
@@ -43,6 +44,14 @@ const ApplicationBoard = () => {
   ];
   return (
     <>
+      <DynamicHeaderStructure
+        title={actionBoard?.title}
+        parentStatus={actionBoard?.parentStatus}
+        status={actionBoard?.status}
+        partner={actionBoard?.partner}
+        filter={actionBoard?.filter}
+        button={actionBoard?.button}
+      />
       <BoardView header={actionBoard} data={subdata} />
     </>
   );

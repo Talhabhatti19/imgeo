@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import RecentApplication from "../Dashboard/RecentApplication";
 import { Images } from "../Config/Images";
+import DynamicHeaderStructure from "../DynamicHeaderStructure";
 
 function ComplianceDashboard() {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -76,14 +77,15 @@ function ComplianceDashboard() {
   return (
     <>
       <div>
-        <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
-          <h2
-            className="col-lg-6 col-12 fs-6 fw-bold"
-            style={{ color: themeBuilder?.color?.headingTextColor }}
-          >
-            {compilanceData.title}
-          </h2>
-        </div>
+        <DynamicHeaderStructure
+          title={compilanceData?.title}
+          parentStatus={compilanceData?.parentStatus}
+          status={compilanceData?.status}
+          partner={compilanceData?.partner}
+          filter={compilanceData?.filter}
+          button={compilanceData?.button}
+          searchPlaceHolder={compilanceData?.searchPlaceHolder}
+        />
         <div className="col-12">
           <div className="card-blocks">
             <div className="row">
