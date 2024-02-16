@@ -94,37 +94,29 @@ const Login = () => {
         <div className="login-form">
           <div className="container">
             <div className="row">
-              <div className="col-md-6">
+              <div className="col-lg-6 col-12">
                 <div className="overlay-container">
                   <Overlay>
                     <div className="overlay">
-                      <div
-                        className={`overlay-panel overlay-right ${
-                          isForgotPassword ? "l" : ""
-                        }`}
-                      >
+                      <div className={`overlay-panel overlay-right l`}>
                         <div className="text-center l mb-2">
                           <img src={Images.tanmeyaLogo} height="60" alt="" />
                         </div>
                         <h1>
-                          {isForgotPassword ? "Welcome !" : "One Step Away"}
+                          {isForgotPassword ? "One Step Away" : "Welcome !"}
                         </h1>
-                        <p>
+                        <p className="text-center">
                           {isForgotPassword
-                            ? "To keep connected with us please login with your personal info."
-                            : "Enter your account email to recover your password."}
+                            ? "Enter your account email to recover your password."
+                            : "To keep connected with us please login with your personal info."}
                         </p>
                       </div>
                     </div>
                   </Overlay>
                 </div>
               </div>
-              <div className="col-md-6">
-                <div
-                  className={`form-container ${
-                    isForgotPassword ? "forgot-container" : "sign-in-container"
-                  }`}
-                >
+              <div className="col-lg-6 col-12">
+                <div className={`form-container sign-in-container`}>
                   <Formik
                     initialValues={{ email: "", password: "" }}
                     validationSchema={validationSchema}
