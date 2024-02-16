@@ -15,7 +15,7 @@ function DynamicHeaderStructure({
 }: any) {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   return (
-    <div className="col-xl-12 d-flex align-items-center pb-3 structure">
+    <div className="col-xl-12 d-flex align-items-center pb-3 structure mobile-layout">
       <h2 className="col-xl-4 col-12 fs-6 fw-bold">{title ? title : ""}</h2>
       <div className="d-flex structure col-xl-8 col-12 align-items-center ">
         <div className="d-flex">
