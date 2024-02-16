@@ -115,7 +115,7 @@ const DashboardSystem = () => {
           <h3 className="text-dark mb-4">Dashboard</h3>
           {systemCards.map((item, index) => {
             return (
-              <div className="col-md-2">
+              <div className="col-xl-2 col-lg-3 col-md-4">
                 <div
                   className="system-card"
                   style={{ backgroundColor: BackgroundColors[index] }}
