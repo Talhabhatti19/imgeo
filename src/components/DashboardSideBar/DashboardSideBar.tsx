@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Images } from "../Config/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { RootState } from "../../redux/rootReducer";
 import { createGlobalStyle } from "styled-components";
@@ -12,9 +11,7 @@ import Loader from "../Loader/Loader";
 
 const DasbhboardSidebar = () => {
   const dispatch = useDispatch();
-
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
-
   const [activeBar, setActiveBar] = useState();
   const [sidebarLinksApi, setSidebarLinksApi] = useState([]);
   const [sidebarLinksApiCompliance, setSidebarLinksApiCompliance] = useState(
@@ -31,7 +28,7 @@ const DasbhboardSidebar = () => {
       setLoading(true);
       const userID = "12245";
       let res = await AuthService.get(
-        `http://192.168.6.123:3003/admin-user/dashboard/${userID}`
+        `/admin-user/dashboard/${userID}`
       );
 
       if (res?.data?.data?.structure?.sidebar?.sidebarWithdashboard) {
@@ -41,7 +38,7 @@ const DasbhboardSidebar = () => {
           res.data.data.structure.sidebar.sidebarwithcompliance;
         const dashboard = sidebarData[0]?.dashboard || {};
         const complianceDashboard = sidebarData[1]?.comlianceDashboard || {};
-        console.log(complianceDashboard, "complianceDashboard");
+        
         const notification = sidebarData[2]?.notification || {};
         const applicationBoard = sidebarData[3]?.application?.board || [];
         setTable(dashboard.table?.header || []);

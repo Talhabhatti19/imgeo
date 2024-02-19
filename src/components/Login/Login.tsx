@@ -27,23 +27,22 @@ const Login = () => {
   let setTheme = async () => {
     setLoader(true);
     let response = await AuthService.get(
-      "http://192.168.6.123:3003/admin-user/theme"
+      "/admin-user/theme"
     );
+    console.log("Response data:", response.data);
     if (response) {
       let theme = response?.data?.data;
       dispatch(authSlice.actions.setTheme({ theme }));
-      console.log(theme, "theme");
       setThemeStatus(true);
       setLoader(false);
     }
   };
   let login = async (formField: any) => {
     let response = await AuthService.post(
-      "http://192.168.6.123:3003/admin-user/login",
+      "/admin-user/login",
       formField
     );
     if (response.data.statusCode === 200) {
-      console.log(response, "13");
       navigate("/dashboard");
     } else {
       toast.error("invalid");
