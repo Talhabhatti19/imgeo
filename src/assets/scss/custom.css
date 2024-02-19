@@ -1385,3 +1385,11 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
     align-items: center;
   }
 }/*# sourceMappingURL=custom.css.map */
+
+@media (max-width:767px) {
+
+  .header_layout .align-items-center {
+    align-items: center!important;
+    justify-content: space-between;
+  }
+}
