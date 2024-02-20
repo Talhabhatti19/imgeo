@@ -21,30 +21,30 @@ const ManagementForm = () => {
           </button>
         </div>
         <div className="p-2 ms-2 me-1">
-          <div className="row align-items-center ">
+          <div className="d-flex align-items-center home-page-view ">
             <div className="col-md-4">
               <img
-                src={Images.sidebarLogo}
+                src={Images.tanmeyaLogo}
                 alt=""
                 height={80}
                 style={{ background: "#fff" }}
               />
             </div>
-            <div className="col-md-4">
+            {/* <div className="col-md-4">
               <button
                 className="btn-theme fs-9 p-2.5"
                 style={{ width: "220px" }}
               >
                 Change Bakcground Image
               </button>
-            </div>
-            <div className="col-md-4 pe-5  d-flex justify-content-end align-items-center">
+            </div> */}
+            <div className="col-md-8 d-flex justify-content-end">
               <img src={Images.callIcon} alt="" height={32} width={32} />
               <div className="ps-1 fs-3 ">8001248765</div>
             </div>
           </div>
         </div>
-        <div className="bg-image-container container">
+        <div className="bg-image-container">
           <div className="dropdown d-flex justify-content-end sticky">
             <button
               className="btn btn-secondary dropdown-toggle "
@@ -91,12 +91,9 @@ const ManagementForm = () => {
           <>
             <div className="finance-table show">
               <div className="d-flex table-data">
-                <div className="d-flex justify-content-between form-header">
-                  <div>
-                    <h2 className="ps-3 m-0 fs-7 text-white">
-                      Edit Button Details
-                    </h2>
-                  </div>
+                <div className="d-flex justify-content-between">
+                  <h2 className="ps-3 m-0 fs-7 ">Edit Button Details</h2>
+
                   <div className="cursor-pointer d-flex ">
                     {" "}
                     <img
@@ -107,7 +104,7 @@ const ManagementForm = () => {
                     />
                   </div>
                 </div>
-                <div className="ps-3 mt-5">
+                <div className="ps-3 mt-3">
                   <div>
                     <div className="mb-2 text-secondary">Button text</div>
                     <input
@@ -199,75 +196,79 @@ const ManagementForm = () => {
           </div>
         </div>
       </div>
-      <div className="wrapper">
-        <div className="row">
-          <div className="col-md-6 wrapper">
-            <h1>POS Financing</h1>
-            <p className="fs-6 mb-4 line-height">
-              POS Financing is the fastest financing facility, It is a quick fix
-              for your business problems. This facility can be availed within 24
-              hours and can be utilised for 30 days. Below are the salient
-              features for POS Financing product
-            </p>
-            <div
-              className="d-flex justify-content-start"
-              style={{ color: "#004d72" }}
-            >
-              <ul className="line-height p-1 list-style">
-                <li className="pb-3">Shariah Compliance</li>
-                <li className="pb-3">Amount: Upto SR 150,000</li>
-                <li className="pb-3">Duration: One month financing</li>
-                <li className="pb-4">Approval within 24 hours</li>
-              </ul>
-            </div>
-            <button className="btn-theme mt-3 ms-3" style={{ width: "100px" }}>
-              Apply
-            </button>
+      <div className="d-flex structure wrapper">
+        <div className="col-md-6">
+          <h1>POS Financing</h1>
+          <p className="fs-6 mb-4 line-height">
+            POS Financing is the fastest financing facility, It is a quick fix
+            for your business problems. This facility can be availed within 24
+            hours and can be utilised for 30 days. Below are the salient
+            features for POS Financing product
+          </p>
+          <div
+            className="d-flex justify-content-start"
+            style={{ color: "#004d72" }}
+          >
+            <ul className="line-height p-1 list-style">
+              <li className="pb-3">Shariah Compliance</li>
+              <li className="pb-3">Amount: Upto SR 150,000</li>
+              <li className="pb-3">Duration: One month financing</li>
+              <li className="pb-4">Approval within 24 hours</li>
+            </ul>
           </div>
-          <div className="col-md-6 d-flex justify-content-start">
-            <img src={Images.formImage} alt="" />
+          <button className="btn-theme mt-3 ms-3" style={{ width: "100px" }}>
+            Apply
+          </button>
+        </div>
+        <div className="col-md-6 ">
+          <img className="form-img" src={Images.formImage} alt="" />
+        </div>
+      </div>
+      <div className="padder">
+        <div className="row">
+          <h1 className="text-center fs-1 bold">Why choose us?</h1>
+          <div className="d-flex justify-content-center">
+            <div className="mt-5 col-10 text-center line-height">
+              Within our values and the Islamic Shari’a spirit and principles,
+              we have started our journey in 2012. And throughout, we have been
+              inspired to deal with our clients and partners, and that’s how we
+              started. Tanmeya Capital launched its operations promoting its
+              financing services for individuals and SME’s in compliancy with
+              the Islamic Shari'ah principles, by providing a variety of
+              financing products that our individual and corporate clients
+              entail.
+            </div>
           </div>
         </div>
-        <div className="padder">
-          <div className="row">
-            <h1 className="text-center fs-1 bold">Why choose us?</h1>
-            <div className="d-flex justify-content-center">
-              <div className="mt-5 col-10 text-center line-height">
-                Within our values and the Islamic Shari’a spirit and principles,
-                we have started our journey in 2012. And throughout, we have
-                been inspired to deal with our clients and partners, and that’s
-                how we started. Tanmeya Capital launched its operations
-                promoting its financing services for individuals and SME’s in
-                compliancy with the Islamic Shari'ah principles, by providing a
-                variety of financing products that our individual and corporate
-                clients entail.
+      </div>
+      <div className="inner-bg">
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className=" col-md-10">
+              {/* <div className="col-md-12 d-flex justify-content-center">
+            <button className="btn-theme" style={{ width: "240px" }}>
+              change background image
+            </button>
+          </div> */}
+
+              <h2
+                className="text-white text-center mb-3 "
+                style={{ fontSize: "2.4rem" }}
+              >
+                Whether you need SR 8000 or SR 250,000 We can help you!
+              </h2>
+
+              <div className="col-md-12 d-flex mt-4 justify-content-center">
+                <button className="btn-theme" style={{ width: "240px" }}>
+                  change background image
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div className=" inner-bg">
-          <div className="row">
-            <div className="col-md-12 d-flex justify-content-center">
-              <button className="btn-theme" style={{ width: "240px" }}>
-                change background image
-              </button>
-            </div>
-            <div className="col-md-12 d-flex justify-content-center">
-              <h2 className="text-white mb-3">
-                Whether you need SR 8000 or SR 250,000 We can help you!
-              </h2>
-            </div>
-          </div>
-          <div className="col-md-12 d-flex mt-4 justify-content-center">
-            <button className="btn-theme" style={{ width: "240px" }}>
-              change background image
-            </button>
-          </div>
-        </div>
-        <div className="mt-5 d-flex justify-content-center text-center line-height">
-          Copyright Tanmeya Capital Financing Co. <br /> Powered by MYTM LLC
-          KSA.
-        </div>
+      </div>
+      <div className="mt-5 d-flex justify-content-center text-center line-height">
+        Copyright Tanmeya Capital Financing Co. <br /> Powered by MYTM LLC KSA.
       </div>
     </>
   );

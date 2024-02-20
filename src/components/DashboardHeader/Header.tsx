@@ -10,7 +10,7 @@ import SuperAdmin from "./SuperAdmin";
 const DasbhboardHeader = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showSuperAdmin, setShowSuperAdmin] = useState(false);
-  const toggled = useSelector((state: RootState) => state.block.toggled);
+
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,8 +26,6 @@ const DasbhboardHeader = () => {
   .header_layout{
     background: ${themeBuilder?.sideBarmenuBackgroundColor} !important;
   }
-
-
   `;
   return (
     <>

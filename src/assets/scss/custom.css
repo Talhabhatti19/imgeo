@@ -295,7 +295,7 @@ h3.welcome-heading {
 }
 
 .padder {
-  margin: 7rem 0rem;
+  margin: 5rem 0rem;
 }
 
 .line-height {
@@ -311,10 +311,7 @@ h3.welcome-heading {
   background-position: center !important;
   background-repeat: no-repeat;
   background-size: cover;
-  width: 100%;
-  color: white;
   border-radius: 15px;
-  padding: 30px 0px 0px 0px;
 }
 
 .card-blocks,
@@ -592,6 +589,14 @@ div#DataTables_Table_0_paginate {
   background-color: transparent;
   border: none;
   position: absolute;
+}
+
+.structure-btn {
+  background-color: transparent;
+  position: absolute;
+  right: 1rem;
+  border: none;
+  top: 4rem;
 }
 
 .flex.colOne {
@@ -1299,9 +1304,39 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
   animation: gradient 10s ease infinite;
 }
 
+.filter-options {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.visible {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+.main-dashboard {
+  margin-top: 66px;
+}
+
 @media (max-width: 768px) {
   .structure {
     display: block !important;
+  }
+  .finance-table {
+    top: 65px;
+  }
+  .home-page-view {
+    flex-direction: column;
+    height: 130px;
+    justify-content: space-between;
+  }
+  .form-img {
+    width: -webkit-fill-available;
   }
 }
 @media (max-width: 1200px) {
@@ -1384,12 +1419,38 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
     justify-content: center;
     align-items: center;
   }
-}/*# sourceMappingURL=custom.css.map */
-
-@media (max-width:767px) {
-
+}
+@media (max-width: 767px) {
   .header_layout .align-items-center {
-    align-items: center!important;
+    align-items: center !important;
     justify-content: space-between;
   }
-}
+  .header_layout > .d-flex.align-items-center > div:first-child {
+    position: absolute;
+    top: 20px;
+  }
+  h2.col-md-6.navbar-brand {
+    padding-left: 40px;
+    margin-bottom: 0px;
+  }
+  .header_layout {
+    position: fixed;
+    width: 100%;
+    z-index: 9999;
+  }
+  .structure.mobile-layout {
+    padding-top: 70px;
+  }
+  .structure.mobile-layout .ant-select.css-dev-only-do-not-override-dkbvqv.ant-select-single.ant-select-show-arrow {
+    width: 100% !important;
+  }
+  .ant-picker.css-dev-only-do-not-override-dkbvqv {
+    width: 100% !important;
+  }
+  .filter-options {
+    display: block;
+  }
+  .ant-select.css-dev-only-do-not-override-dkbvqv.ant-select-single.ant-select-show-arrow {
+    width: 100% !important;
+  }
+}/*# sourceMappingURL=custom.css.map */
