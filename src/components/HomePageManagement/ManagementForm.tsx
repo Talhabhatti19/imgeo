@@ -1,17 +1,40 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Images } from "../Config/Images";
 import "react-responsive-modal/styles.css";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { Modal } from "react-bootstrap";
 
 const ManagementForm = () => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [formValue, setFormValue] = useState("");
   const [buttonText, setButtonText] = useState("Apply For Financing");
+  const [phoneNumber, setPhoneNumber] = useState("810 - 111 -1810");
+  const [headingText, setHeadingText] = useState(
+    "A simple way to finance your business"
+  );
+  const [isEditing, setIsEditing] = useState(false);
+  const [paragraphContent, setParagraphContent] = useState(
+    "Apply now for a decision in 60 seconds.."
+  );
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
   const handleChange = () => {
     setButtonText(formValue);
   };
 
+  const handleParagraphClick = () => {
+    setIsEditing(true);
+  };
+  const headingTextChange = (e: any) => {
+    setHeadingText(e.target.value);
+  };
+  const openDocument = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
   return (
     <>
       <div className="m-0" style={{ backgroundColor: "#f6f6f6" }}>
@@ -24,23 +47,43 @@ const ManagementForm = () => {
           <div className="d-flex align-items-center home-page-view ">
             <div className="col-md-4">
               <img
+                onClick={openDocument}
                 src={Images.tanmeyaLogo}
                 alt=""
                 height={80}
                 style={{ background: "#fff" }}
               />
             </div>
-            {/* <div className="col-md-4">
+            <div className="col-md-4 d-flex justify-content-center">
               <button
                 className="btn-theme fs-9 p-2.5"
                 style={{ width: "220px" }}
+                onClick={openDocument}
               >
-                Change Bakcground Image
+                Change Background Image
               </button>
-            </div> */}
-            <div className="col-md-8 d-flex justify-content-end">
+              <input
+                type="file"
+                accept="image/*"
+                id="bgImage0"
+                name="content[en][Home][Background Image]"
+                className="form-control"
+                style={{ display: "none" }}
+                ref={fileInputRef}
+              />
+            </div>
+            <div className="col-md-4 d-flex justify-content-end">
               <img src={Images.callIcon} alt="" height={32} width={32} />
-              <div className="ps-1 fs-3 ">8001248765</div>
+              <div className="ps-1 fs-3 ">
+                <input
+                  className="number-input"
+                  type="text"
+                  value={phoneNumber}
+                  onChange={(e: any) => {
+                    setPhoneNumber(e.target.value);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -67,14 +110,36 @@ const ManagementForm = () => {
           <div className="ps-2 pe-2">
             <div>
               <h2 className="banner-heading ">
-                A simple way to <br /> finance your business
+                <textarea
+                  className="number-input"
+                  style={{ color: "white", fontWeight: "600" }}
+                  value={headingText}
+                  onChange={headingTextChange}
+                  onClick={(e) => e.stopPropagation()} // prevent closing the textarea on click
+                />
               </h2>
               <div>
-                <p style={{ fontSize: "30px" }}>
-                  {" "}
-                  Apply now for a decision in 60 seconds..
-                </p>
+                <div>
+                  {isEditing ? (
+                    <div>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={paragraphContent}
+                        onReady={(editor) => {
+                          // You can do something when the editor is ready
+                        }}
+                        onChange={(event, editor) => {
+                          const data = editor.getData();
+                          setParagraphContent(data);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <p onClick={handleParagraphClick}>{paragraphContent}</p>
+                  )}
+                </div>
               </div>
+
               <div className="mt-5">
                 <div
                   onClick={onOpenModal}
