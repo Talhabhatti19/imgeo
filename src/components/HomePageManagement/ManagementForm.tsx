@@ -1,50 +1,41 @@
 import React, { useRef, useState } from "react";
 import { Images } from "../Config/Images";
 import "react-responsive-modal/styles.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ModalEdit from "./EditModal";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Modal } from "react-bootstrap";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 const ManagementForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [open, setOpen] = useState(false);
   const [formValue, setFormValue] = useState("");
   const [buttonText, setButtonText] = useState("Apply For Financing");
   const [phoneNumber, setPhoneNumber] = useState("810 - 111 -1810");
+  const [Heading, setHeading] = useState("Why Choose Merchant Cash Advance");
+  const [editor, setEditor] = useState(false);
   const [headingText, setHeadingText] = useState(
     "A simple way to finance your business"
   );
-  const [isEditing, setIsEditing] = useState(false);
   const [paragraphContent, setParagraphContent] = useState(
     "Apply now for a decision in 60 seconds.."
   );
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
-  const handleChange = () => {
-    setButtonText(formValue);
-  };
-
-  const handleParagraphClick = () => {
-    setIsEditing(true);
-  };
-  const headingTextChange = (e: any) => {
-    setHeadingText(e.target.value);
-  };
   const openDocument = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
+  const handleEditorChange = (event: any, editor: any) => {
+    let editorData = paragraphContent;
+    editorData = editor.getData(event);
+    setParagraphContent(editorData);
+  };
   return (
     <>
-      <div className="m-0" style={{ backgroundColor: "#f6f6f6" }}>
+      <div style={{ backgroundColor: "#f6f6f6" }}>
         <div className="col-md-12">
-          <button className="btn-theme" style={{ padding: "14px" }}>
-            Publish
-          </button>
+          <button className="btn-theme">Publish</button>
         </div>
         <div className="p-2 ms-2 me-1">
-          <div className="d-flex align-items-center home-page-view ">
+          <div className="d-flex align-items-center home-page-view">
             <div className="col-md-4">
               <img
                 onClick={openDocument}
@@ -73,143 +64,132 @@ const ManagementForm = () => {
               />
             </div>
             <div className="col-md-4 d-flex justify-content-end">
-              <img src={Images.callIcon} alt="" height={32} width={32} />
-              <div className="ps-1 fs-3 ">
-                <input
-                  className="number-input"
-                  type="text"
-                  value={phoneNumber}
-                  onChange={(e: any) => {
-                    setPhoneNumber(e.target.value);
-                  }}
-                />
+              <div className="col-10">
+                <div className="col-1 d-flex align-items-center">
+                  <img src={Images.callIcon} alt="" height={32} width={32} />
+                </div>
+                <div className="ps-4 fs-3 d-flex">
+                  <input
+                    className="number-input col-11"
+                    type="text"
+                    value={phoneNumber}
+                    onChange={(e: any) => {
+                      setPhoneNumber(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div className="bg-image-container">
-          <div className="dropdown d-flex justify-content-end sticky">
-            <button
-              className="btn btn-secondary dropdown-toggle "
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Select Language
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a className="dropdown-item">English</a>
-              </li>
-              <li>
-                <a className="dropdown-item">عربي</a>
-              </li>
-            </ul>
+          <div className="d-flex justify-content-end">
+            <div className="sticky dropdown">
+              <select
+                className="form-select dropdown"
+                aria-label="Language Select"
+              >
+                <option value="english">English</option>
+                <option value="arabic">عربي</option>
+              </select>
+            </div>
           </div>
           <div className="ps-2 pe-2">
+            <h2 className="banner-heading">
+              <textarea
+                className="number-input"
+                style={{ color: "white", fontWeight: "600" }}
+                value={headingText}
+                onChange={(e: any) => {
+                  setHeadingText(e.target.value);
+                }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </h2>
             <div>
-              <h2 className="banner-heading ">
-                <textarea
-                  className="number-input"
-                  style={{ color: "white", fontWeight: "600" }}
-                  value={headingText}
-                  onChange={headingTextChange}
-                  onClick={(e) => e.stopPropagation()} // prevent closing the textarea on click
-                />
-              </h2>
-              <div>
-                <div>
-                  {isEditing ? (
+              {editor ? (
+                <div className="editor-container">
+                  <div style={{ background: "#004D72", color: "white" }}>
+                    <div className="d-flex col-md-12 justify-space-between">
+                      <h2 className="ps-3 col-md-8 fs-7">
+                        Edit Button Details
+                      </h2>
+                      <div className="cursor-pointer d-flex col-md-4 justify-content-end">
+                        <img
+                          className="me-3"
+                          onClick={() => {
+                            setEditor(false);
+                          }}
+                          src={Images.closeBtn}
+                          alt=""
+                        />
+                      </div>
+                    </div>
                     <div>
+                      {/* CKEditor */}
                       <CKEditor
                         editor={ClassicEditor}
                         data={paragraphContent}
-                        onReady={(editor) => {
-                          // You can do something when the editor is ready
-                        }}
-                        onChange={(event, editor) => {
-                          const data = editor.getData();
-                          setParagraphContent(data);
-                        }}
+                        onChange={handleEditorChange}
                       />
                     </div>
-                  ) : (
-                    <p onClick={handleParagraphClick}>{paragraphContent}</p>
-                  )}
+                    <div className="d-flex justify-content-start col-4">
+                      <button
+                        className="btn-theme"
+                        onClick={() => {
+                          setEditor(false);
+                        }}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
+              <div
+                style={{ fontSize: "20px" }}
+                onClick={() => {
+                  setEditor(true);
+                }}
+                dangerouslySetInnerHTML={{ __html: paragraphContent }}
+              ></div>
+            </div>
 
-              <div className="mt-5">
-                <div
-                  onClick={onOpenModal}
-                  className="btn-theme py-3 fw-2"
-                  style={{ width: "230px" }}
-                >
-                  {buttonText}
-                </div>
-              </div>
+            <div className="mt-5">
+              <button
+                className="btn-theme py-3 fw-2"
+                style={{ width: "230px" }}
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                {buttonText}
+              </button>
+              <ModalEdit
+                open={open}
+                setOpen={setOpen}
+                buttonText={buttonText}
+                setFormValue={setFormValue}
+                handleButtonText={() => {
+                  setButtonText(formValue);
+                }}
+              />
             </div>
           </div>
         </div>
-        {open ? (
-          <>
-            <div className="finance-table show">
-              <div className="d-flex table-data">
-                <div className="d-flex justify-content-between">
-                  <h2 className="ps-3 m-0 fs-7 ">Edit Button Details</h2>
-
-                  <div className="cursor-pointer d-flex ">
-                    {" "}
-                    <img
-                      className="me-3"
-                      onClick={onCloseModal}
-                      src={Images.closeBtn}
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div className="ps-3 mt-3">
-                  <div>
-                    <div className="mb-2 text-secondary">Button text</div>
-                    <input
-                      placeholder={buttonText}
-                      type="text"
-                      className="text-dark"
-                      onChange={(e: any) => {
-                        setFormValue(e.target.value);
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <div className="mb-2 text-secondary">Button Url</div>
-                    <input type="text" />
-                  </div>
-                  <div>
-                    <button
-                      onClick={() => {
-                        {
-                          handleChange();
-                        }
-                      }}
-                      className="btn-theme mt-3"
-                      style={{ width: "80px", height: "40px" }}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
-        ) : (
-          ""
-        )}
       </div>
       <div className="wrapper" style={{ backgroundColor: "white" }}>
-        <div>
-          <h1 className="text-center fw-8">Why Choose Merchant Cash Advance</h1>
-        </div>
+        <h1
+          className="text-center fw-8"
+          defaultValue={Heading}
+          onChange={(e: any) => {
+            setHeading(e.target.value);
+          }}
+        >
+          Why Choose Merchant Cash Advance
+        </h1>
         <div className="row mt-5">
           <div className="col-md-4">
             <div className="d-flex justify-content-center mt-3">
