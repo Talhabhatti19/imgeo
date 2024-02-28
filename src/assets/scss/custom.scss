@@ -1381,6 +1381,14 @@ button.btn.btn-theme:hover {
     height: 100%;
     border-radius: 8px;
 }
+.template-non-default{
+  position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+}
 .template-default input {
   /* border-radius: 50% !important; */
   position: absolute;
@@ -1398,4 +1406,14 @@ button.btn.btn-theme:hover {
   border: none;
   background-color: transparent;
 
+}
+.home-management-select{
+border: 1px solid transparent;
+white-space: nowrap;
+font-weight: 400;
+font-size: 1.25rem;
+border-radius: 0.25rem;
+background-color: #A1A1A1;
+color: #fff;
+margin-right: 10px;
 }
