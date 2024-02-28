@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Images } from "../Config/Images";
 import "react-responsive-modal/styles.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ModalEdit from "./EditModal";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import i18n, { updateUserTranslations } from "../i18n";
 
+import { CKEditor } from "@ckeditor/ckeditor5-react";
 const ManagementForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { t } = useTranslation();
@@ -16,22 +17,22 @@ const ManagementForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("810 - 111 -1810");
   const [headingText, setHeadingText] = useState<any>(t(`heading`));
   const [isEditing, setIsEditing] = useState(false);
-  const [paragraphContent, setParagraphContent] = useState(
-    "Apply now for a decision in 60 seconds.."
-  );
-
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
   const handleChange = () => {
     setButtonText(formValue);
   };
-
   const handleParagraphClick = () => {
     setIsEditing(true);
   };
   const headingTextChange = (e: any) => {
     setHeadingText(e.target.value);
   };
+  const [Heading, setHeading] = useState("Why Choose Merchant Cash Advance");
+  const [editor, setEditor] = useState(false);
+  const [paragraphContent, setParagraphContent] = useState(
+    "Apply now for a decision in 60 seconds.."
+  );
   const openDocument = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -55,16 +56,21 @@ const ManagementForm = () => {
     });
   }, []);
   console.log(updateUserTranslations);
+  const handleEditorChange = (event: any, editor: any) => {
+    let editorData = paragraphContent;
+    editorData = editor.getData(event);
+    setParagraphContent(editorData);
+  };
   return (
     <>
-      <div className="m-0" style={{ backgroundColor: "#f6f6f6" }}>
+      <div style={{ backgroundColor: "#f6f6f6" }}>
         <div className="col-md-12">
           <button className="btn-theme" style={{ padding: "14px" }}>
             {t(`publish`)}
           </button>
         </div>
         <div className="p-2 ms-2 me-1">
-          <div className="d-flex align-items-center home-page-view ">
+          <div className="d-flex align-items-center home-page-view">
             <div className="col-md-4">
               <img
                 onClick={openDocument}
@@ -93,16 +99,20 @@ const ManagementForm = () => {
               />
             </div>
             <div className="col-md-4 d-flex justify-content-end">
-              <img src={Images.callIcon} alt="" height={32} width={32} />
-              <div className="ps-1 fs-3 ">
-                <input
-                  className="number-input"
-                  type="text"
-                  value={phoneNumber}
-                  onChange={(e: any) => {
-                    setPhoneNumber(e.target.value);
-                  }}
-                />
+              <div className="col-10">
+                <div className="col-1 d-flex align-items-center">
+                  <img src={Images.callIcon} alt="" height={32} width={32} />
+                </div>
+                <div className="ps-4 fs-3 d-flex">
+                  <input
+                    className="number-input col-11"
+                    type="text"
+                    value={phoneNumber}
+                    onChange={(e: any) => {
+                      setPhoneNumber(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -130,47 +140,87 @@ const ManagementForm = () => {
             </ul> */}
           </div>
           <div className="ps-2 pe-2">
+            <h2 className="banner-heading">
+              <textarea
+                className="number-input"
+                style={{ color: "white", fontWeight: "600" }}
+                value={headingText}
+                onChange={(e: any) => {
+                  setHeadingText(e.target.value);
+                }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            </h2>
             <div>
-              <h2 className="banner-heading ">
-                <textarea
-                  className="number-input"
-                  style={{ color: "white", fontWeight: "600" }}
-                  value={headingText}
-                  onChange={headingTextChange}
-                  onClick={(e) => e.stopPropagation()} // prevent closing the textarea on click
-                />
-              </h2>
-              <div>
-                <div>
-                  {isEditing ? (
+              {editor ? (
+                <div className="editor-container">
+                  <div style={{ background: "#004D72", color: "white" }}>
+                    <div className="d-flex col-md-12 justify-space-between">
+                      <h2 className="ps-3 col-md-8 fs-7">
+                        Edit Button Details
+                      </h2>
+                      <div className="cursor-pointer d-flex col-md-4 justify-content-end">
+                        <img
+                          className="me-3"
+                          onClick={() => {
+                            setEditor(false);
+                          }}
+                          src={Images.closeBtn}
+                          alt=""
+                        />
+                      </div>
+                    </div>
                     <div>
+                      {/* CKEditor */}
                       <CKEditor
                         editor={ClassicEditor}
                         data={paragraphContent}
-                        onReady={(editor) => {
-                          // You can do something when the editor is ready
-                        }}
-                        onChange={(event, editor) => {
-                          const data = editor.getData();
-                          setParagraphContent(data);
-                        }}
+                        onChange={handleEditorChange}
                       />
                     </div>
-                  ) : (
-                    <p onClick={handleParagraphClick}>{paragraphContent}</p>
-                  )}
+                    <div className="d-flex justify-content-start col-4">
+                      <button
+                        className="btn-theme"
+                        onClick={() => {
+                          setEditor(false);
+                        }}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                ""
+              )}
+              <div
+                style={{ fontSize: "20px" }}
+                onClick={() => {
+                  setEditor(true);
+                }}
+                dangerouslySetInnerHTML={{ __html: paragraphContent }}
+              ></div>
+            </div>
 
-              <div className="mt-5">
-                <div
-                  onClick={onOpenModal}
-                  className="btn-theme py-3 fw-2"
-                  style={{ width: "230px" }}
-                >
-                  {buttonText}
-                </div>
-              </div>
+            <div className="mt-5">
+              <button
+                className="btn-theme py-3 fw-2"
+                style={{ width: "230px" }}
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                {buttonText}
+              </button>
+              <ModalEdit
+                open={open}
+                setOpen={setOpen}
+                buttonText={buttonText}
+                setFormValue={setFormValue}
+                handleButtonText={() => {
+                  setButtonText(formValue);
+                }}
+              />
             </div>
           </div>
         </div>

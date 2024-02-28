@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DatePicker, Select } from "antd";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Dropdown } from "react-bootstrap";
 import { RootState } from "../redux/rootReducer";
 import { FaFilter } from "react-icons/fa";
@@ -17,15 +17,13 @@ function DynamicHeaderStructure({
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileStructure, setMobileStructure] = useState(false);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-   
-      if(window.innerWidth<768){
+
+      if (window.innerWidth < 768) {
         setMobileStructure(true);
-      }
-      else{
+      } else {
         setMobileStructure(false);
       }
     };
@@ -34,7 +32,7 @@ function DynamicHeaderStructure({
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
+
   return (
     <div className="main-dashboard">
       {isMobile && (
@@ -43,9 +41,7 @@ function DynamicHeaderStructure({
             className="structure-btn mt-4"
             onClick={() => {
               setMobileStructure(!mobileStructure);
-
             }}
-            
           >
             {<FaFilter />}
           </button>
