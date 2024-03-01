@@ -52,7 +52,6 @@ const PendingLoans = () => {
       navigate(`/applications/all/activity-log`);
     }
   };
-
   const Pending_Loans_Header = [
     {
       name: "Application No",

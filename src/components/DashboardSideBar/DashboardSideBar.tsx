@@ -76,7 +76,7 @@ const DasbhboardSidebar = () => {
   };
   const onSmash = (item: any) => {
     setActiveBar(item);
-
+    console.log(item, "item Check");
     // Update the links when Contact is clicked
     {
       item == "Compliance Dashboard"
@@ -95,12 +95,12 @@ const DasbhboardSidebar = () => {
   .ps-menu-button:hover {
     background:${themeBuilder?.table?.backgroundColor}!important;
   }
-  .active { 
-    .css-1tqrhto >.ps-menu-button {
-       background:${themeBuilder?.table?.backgroundColor}!important;
-
+  .active{
+    .css-1tqrhto >.ps-menu-button{
+    background:${themeBuilder?.table?.backgroundColor}!important;
+    color:#fff!important;
+    }
   }
-}
   `;
   const renderSubmenu = (item: any) => (
     <>
@@ -122,7 +122,6 @@ const DasbhboardSidebar = () => {
                   fontSize: "12px",
                 }}
                 className={submenuItem.subMenu === activeBar ? "active" : ""}
-                key={subIndex}
               >
                 <MenuItem
                   key={subIndex}
@@ -146,7 +145,6 @@ const DasbhboardSidebar = () => {
       </div>
     </>
   );
-
   return (
     <>
       <div>
