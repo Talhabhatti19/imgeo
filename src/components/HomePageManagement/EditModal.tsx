@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Images } from "../Config/Images";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
 
 interface ModalEditProps {
   open: any;

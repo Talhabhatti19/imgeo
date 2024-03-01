@@ -37,13 +37,13 @@ const ApprovedLoans = () => {
   ];
   const handleURL = (link: any) => {
     console.log(link, "{item.label}");
-    if (link == "View") {
+    if (link === "View") {
       navigate(`/applications/all/detail`);
     }
-    if (link == "Documents") {
+    if (link === "Documents") {
       navigate(`/applications/all/application-document`);
     }
-    if (link == "Activity Logs") {
+    if (link === "Activity Logs") {
       navigate(`/applications/all/activity-log`);
     }
   };

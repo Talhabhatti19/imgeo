@@ -3,31 +3,10 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import { Images } from "../../components/Config/Images";
 import TableView from "../../components/TableView/TableView";
-import { DatePicker, Select } from "antd";
-import { Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { DatePicker } from "antd";
 import OverView from "../../components/Dashboard/OverView";
 import Graphs from "../../components/Dashboard/Graphs";
 import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
-
-const data = [
-  {
-    ApplicationNo: "kajbdsf",
-    KastleContractNo: "2235",
-    KastleApplicationNo: "1234",
-    KastleStatus: "11@gmail.com",
-    ContractStatus: "--",
-    CustomerName: "---",
-    CRNo: "--",
-    Product: "11@gmail.com",
-    LoanTenure: "--",
-    LoanAmount: "11@gmail.com",
-    ApplicationDate: "--",
-    Status: "11@gmail.com",
-    Reason: "--",
-    Action: "11@gmail.com",
-  },
-];
 
 const NotificationTable = () => {
   const notificationStructure = useSelector(
@@ -36,7 +15,6 @@ const NotificationTable = () => {
   const dashboardStructure = useSelector(
     (state: RootState) => state.block.dashboardStructure
   );
-  console.log(notificationStructure, "notificationStructure");
   const actionSelect = [
     { label: "View", img: Images.listIcon, Link: "detail" },
     {
@@ -48,81 +26,6 @@ const NotificationTable = () => {
     { label: "Resend Login Email", img: Images.settingIcon, Link: "edit" },
   ];
 
-  const All_Application_Header = [
-    {
-      name: "Application No",
-      selector: (row: { ApplicationNo: any }) => row.ApplicationNo,
-    },
-    {
-      name: "Kastle Contract No",
-      selector: (row: { KastleContractNo: any }) => row.KastleContractNo,
-    },
-
-    {
-      name: "Customer Name",
-      selector: (row: { CustomerName: any }) => row.CustomerName,
-    },
-    {
-      name: "CR No.",
-      selector: (row: { CRNo: any }) => row.CRNo,
-    },
-
-    {
-      name: "Product",
-      selector: (row: { Product: any }) => row.Product,
-    },
-    {
-      name: "Loan Tenure",
-      selector: (row: { LoanTenure: any }) => row.LoanTenure,
-    },
-    {
-      name: "Loan Amount",
-      selector: (row: { LoanAmount: any }) => row.LoanAmount,
-    },
-    {
-      name: "Application Date",
-      selector: (row: { ApplicationDate: any }) => row.ApplicationDate,
-    },
-    {
-      name: "Status",
-      selector: (row: { Status: any }) => row.Status,
-    },
-    {
-      name: "Reason",
-      selector: (row: { Reason: any }) => row.Reason,
-    },
-    {
-      name: "Action",
-      selector: (row: { Action: any }) => row.Action,
-      cell: (row: any) => (
-        <div>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Select
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              {actionSelect.map((item, index) => (
-                <Dropdown.Item>
-                  <>
-                    <Link to={`${item.Link}`} className="a-link">
-                      <div className="d-flex">
-                        <div className="col-2">
-                          <img src={item.img} alt="" />
-                        </div>
-
-                        <div className="col-10">{item.label}</div>
-                      </div>
-                    </Link>
-                  </>
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      ),
-    },
-  ];
   const renderedFinanceOverview =
     notificationStructure?.financeOverview &&
     notificationStructure?.financeOverview.map((item: any, index: any) => (

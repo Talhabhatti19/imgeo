@@ -3,10 +3,8 @@ import { Images } from "../Config/Images";
 import "react-responsive-modal/styles.css";
 import ModalEdit from "./EditModal";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { Modal } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import i18n, { updateUserTranslations } from "../i18n";
-
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 const ManagementForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -16,19 +14,9 @@ const ManagementForm = () => {
   const [buttonText, setButtonText] = useState(t(`apply`));
   const [phoneNumber, setPhoneNumber] = useState("810 - 111 -1810");
   const [headingText, setHeadingText] = useState<any>(t(`heading`));
-  const [isEditing, setIsEditing] = useState(false);
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
   const handleChange = () => {
     setButtonText(formValue);
   };
-  const handleParagraphClick = () => {
-    setIsEditing(true);
-  };
-  const headingTextChange = (e: any) => {
-    setHeadingText(e.target.value);
-  };
-  const [Heading, setHeading] = useState("Why Choose Merchant Cash Advance");
   const [editor, setEditor] = useState(false);
   const [paragraphContent, setParagraphContent] = useState(
     "Apply now for a decision in 60 seconds.."
@@ -41,7 +29,6 @@ const ManagementForm = () => {
   const changeLanguage = (lng: any) => {
     i18n.changeLanguage(lng);
   };
-  console.log(t, "tttt");
   useEffect(() => {
     updateUserTranslations("ar", {
       dynamicWelcome: "Hello, dynamic world!",
@@ -55,7 +42,7 @@ const ManagementForm = () => {
       },
     });
   }, []);
-  console.log(updateUserTranslations);
+
   const handleEditorChange = (event: any, editor: any) => {
     let editorData = paragraphContent;
     editorData = editor.getData(event);
@@ -99,13 +86,13 @@ const ManagementForm = () => {
               />
             </div>
             <div className="col-md-4 d-flex justify-content-end">
-              <div className="col-10">
-                <div className="col-1 d-flex align-items-center">
+              <div className="col-8 d-flex">
+                <div className="col-2 d-flex align-items-center">
                   <img src={Images.callIcon} alt="" height={32} width={32} />
                 </div>
-                <div className="ps-4 fs-3 d-flex">
+                <div className="col-10 fs-3 d-flex">
                   <input
-                    className="number-input col-11"
+                    className="number-input col-12"
                     type="text"
                     value={phoneNumber}
                     onChange={(e: any) => {
@@ -235,7 +222,9 @@ const ManagementForm = () => {
                     {" "}
                     <img
                       className="me-3"
-                      onClick={onCloseModal}
+                      onClick={() => {
+                        setOpen(false);
+                      }}
                       src={Images.closeBtn}
                       alt=""
                     />
@@ -259,11 +248,7 @@ const ManagementForm = () => {
                   </div>
                   <div>
                     <button
-                      onClick={() => {
-                        {
-                          handleChange();
-                        }
-                      }}
+                      onClick={handleChange}
                       className="btn-theme mt-3"
                       style={{ width: "80px", height: "40px" }}
                     >

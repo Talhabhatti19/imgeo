@@ -9,9 +9,6 @@ interface CheckListItem {
   secondsubchild?: { label: string }[];
 }
 
-interface CheckListProps {
-  checkList: CheckListItem[];
-}
 const ManagePermission: React.FC = () => {
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     {}
@@ -48,8 +45,8 @@ const ManagePermission: React.FC = () => {
               if (item.label === label && item.sublabel) {
                 updatedCheckedItems[item.sublabel] = true;
                 updatedCheckedItems[item.label] = true;
-
-              }})
+              }
+            });
           }
         });
       } else {
@@ -195,7 +192,10 @@ const ManagePermission: React.FC = () => {
                           type="checkbox"
                           checked={checkedItems[subitem.label] || false}
                           onChange={(e) =>
-                            handleCheckboxChange(subitem.label, e.target.checked)
+                            handleCheckboxChange(
+                              subitem.label,
+                              e.target.checked
+                            )
                           }
                         />
                         <div
@@ -262,7 +262,10 @@ const ManagePermission: React.FC = () => {
                             type="checkbox"
                             checked={checkedItems[subitem.label] || false}
                             onChange={(e) =>
-                              handleCheckboxChange(subitem.label, e.target.checked)
+                              handleCheckboxChange(
+                                subitem.label,
+                                e.target.checked
+                              )
                             }
                           />
                           <div
@@ -299,7 +302,10 @@ const ManagePermission: React.FC = () => {
                         type="checkbox"
                         checked={checkedItems[item.secondsub] || false}
                         onChange={(e) =>
-                          handleCheckboxChange(item.secondsub || '', e.target.checked)
+                          handleCheckboxChange(
+                            item.secondsub || "",
+                            e.target.checked
+                          )
                         }
                       />
                       <div

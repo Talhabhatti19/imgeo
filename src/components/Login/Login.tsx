@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Images } from "../Config/Images";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import AuthService from "../../services/AuthService";
@@ -16,7 +16,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [change, setChange] = useState<any>();
   const [swapPassword, setSwapPassword] = useState(false);
-  const [loginState, setLoginState] = useState(false);
   const [themeStatus, setThemeStatus] = useState(false);
   const [loader, setLoader] = useState(false);
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -26,9 +25,7 @@ const Login = () => {
   };
   let setTheme = async () => {
     setLoader(true);
-    let response = await AuthService.get(
-      "/admin-user/theme"
-    );
+    let response = await AuthService.get("/admin-user/theme");
     console.log("Response data:", response.data);
     if (response) {
       let theme = response?.data?.data;
@@ -38,10 +35,7 @@ const Login = () => {
     }
   };
   let login = async (formField: any) => {
-    let response = await AuthService.post(
-      "/admin-user/login",
-      formField
-    );
+    let response = await AuthService.post("/admin-user/login", formField);
     if (response.data.statusCode === 200) {
       navigate("/dashboard");
     } else {

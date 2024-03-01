@@ -1,4 +1,3 @@
-import { log } from "console";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -6,7 +5,7 @@ import { RootState } from "../../redux/rootReducer";
 import { Images } from "../Config/Images";
 
 const LandingPageManage = () => {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showButton, setShowButton] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(1);
@@ -27,7 +26,6 @@ const LandingPageManage = () => {
       img: Images.template4,
     },
   ];
-  console.log(selectedIndex, "indexCheck");
   return (
     <>
       <div className="container-fluid ">
@@ -85,7 +83,12 @@ const LandingPageManage = () => {
                       <div className="template-non-default"></div>
                     )}
                     {selectedIndex == index ? (
-                      <div className="" onClick={()=>{navigate(`/home-page/setting`)}}>
+                      <div
+                        className=""
+                        onClick={() => {
+                          navigate(`/home-page/setting`);
+                        }}
+                      >
                         <button
                           className="btn btn-theme"
                           style={{

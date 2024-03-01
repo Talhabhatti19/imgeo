@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
 import { Images } from "../../components/Config/Images";
 import TableView from "../../components/TableView/TableView";
 import { DatePicker, Select } from "antd";
@@ -27,7 +25,6 @@ const data = [
 ];
 
 const InProgressLoans = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
   const navigate = useNavigate();
   const actionSelect = [
     { label: "View", img: Images.listIcon, Link: "detail" },
@@ -40,14 +37,13 @@ const InProgressLoans = () => {
     { label: "Resend Login Email", img: Images.settingIcon, Link: "edit" },
   ];
   const handleURL = (link: any) => {
-    console.log(link, "{item.label}");
-    if (link == "View") {
+    if (link === "View") {
       navigate(`/applications/all/detail`);
     }
-    if (link == "Documents") {
+    if (link === "Documents") {
       navigate(`/applications/all/application-document`);
     }
-    if (link == "Activity Logs") {
+    if (link === "Activity Logs") {
       navigate(`/applications/all/activity-log`);
     }
   };
