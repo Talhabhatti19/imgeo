@@ -8,8 +8,11 @@ import { useTranslation } from "react-i18next";
 import i18n, { updateUserTranslations } from "../i18n";
 
 import { CKEditor } from "@ckeditor/ckeditor5-react";
+import { RootState } from "../../redux/rootReducer";
+import { useSelector } from "react-redux";
 const ManagementForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [formValue, setFormValue] = useState("");
@@ -65,7 +68,13 @@ const ManagementForm = () => {
     <>
       <div style={{ backgroundColor: "#f6f6f6" }}>
         <div className="col-md-12">
-          <button className="btn-theme" style={{ padding: "14px" }}>
+          <button
+            className="btn-theme"
+            style={{
+              padding: "14px",
+              backgroundColor: themeBuilder?.table?.backgroundColor,
+            }}
+          >
             {t(`publish`)}
           </button>
         </div>
@@ -83,7 +92,10 @@ const ManagementForm = () => {
             <div className="col-md-4 d-flex justify-content-center">
               <button
                 className="btn-theme fs-9 p-2.5"
-                style={{ width: "220px" }}
+                style={{
+                  width: "220px",
+                  backgroundColor: themeBuilder?.table?.backgroundColor,
+                }}
                 onClick={openDocument}
               >
                 {t(`imageText`)}
@@ -154,8 +166,13 @@ const ManagementForm = () => {
             <div>
               {editor ? (
                 <div className="editor-container">
-                  <div style={{ background: "#004D72", color: "white" }}>
-                    <div className="d-flex col-md-12 justify-space-between">
+                  <div style={{ color: "white" }}>
+                    <div
+                      style={{
+                        backgroundColor: themeBuilder?.table?.backgroundColor,
+                      }}
+                      className="d-flex col-md-12 justify-space-between"
+                    >
                       <h2 className="ps-3 col-md-8 fs-7">
                         Edit Button Details
                       </h2>
@@ -178,14 +195,17 @@ const ManagementForm = () => {
                         onChange={handleEditorChange}
                       />
                     </div>
-                    <div className="d-flex justify-content-start col-4">
+                    <div className="mb-2 col-2">
                       <button
-                        className="btn-theme"
+                        style={{
+                          backgroundColor: themeBuilder?.table?.backgroundColor,
+                        }}
+                        className="btn-theme ms-2"
                         onClick={() => {
                           setEditor(false);
                         }}
                       >
-                        Apply
+                        {t(`applyB`)}
                       </button>
                     </div>
                   </div>
@@ -205,7 +225,10 @@ const ManagementForm = () => {
             <div className="mt-5">
               <button
                 className="btn-theme py-3 fw-2"
-                style={{ width: "230px" }}
+                style={{
+                  width: "230px",
+                  backgroundColor: themeBuilder?.table?.backgroundColor,
+                }}
                 onClick={() => {
                   setOpen(true);
                 }}
@@ -265,7 +288,11 @@ const ManagementForm = () => {
                         }
                       }}
                       className="btn-theme mt-3"
-                      style={{ width: "80px", height: "40px" }}
+                      style={{
+                        width: "80px",
+                        height: "40px",
+                        backgroundColor: themeBuilder?.table?.backgroundColor,
+                      }}
                     >
                       {t(`applyB`)}
                     </button>
@@ -337,11 +364,17 @@ const ManagementForm = () => {
               <li className="pb-4">{t(`pos4`)}</li>
             </ul>
           </div>
-          <button className="btn-theme mt-3 ms-3" style={{ width: "100px" }}>
+          <button
+            className="btn-theme mt-3 ms-3"
+            style={{
+              width: "100px",
+              backgroundColor: themeBuilder?.table?.backgroundColor,
+            }}
+          >
             {t(`applyB`)}
           </button>
         </div>
-        <div className="col-md-6 ">
+        <div className="col-md-6">
           <img className="form-img" src={Images.formImage} alt="" />
         </div>
       </div>
@@ -373,7 +406,13 @@ const ManagementForm = () => {
               </h2>
 
               <div className="col-md-12 d-flex mt-4 justify-content-center">
-                <button className="btn-theme" style={{ width: "240px" }}>
+                <button
+                  className="btn-theme"
+                  style={{
+                    width: "240px",
+                    backgroundColor: themeBuilder?.table?.backgroundColor,
+                  }}
+                >
                   {t(`imageText`)}
                 </button>
               </div>
