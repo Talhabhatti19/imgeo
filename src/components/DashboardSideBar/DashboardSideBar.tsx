@@ -27,9 +27,7 @@ const DasbhboardSidebar = () => {
     try {
       setLoading(true);
       const userID = "12245";
-      let res = await AuthService.get(
-        `/admin-user/dashboard/${userID}`
-      );
+      let res = await AuthService.get(`/admin-user/dashboard/${userID}`);
 
       if (res?.data?.data?.structure?.sidebar?.sidebarWithdashboard) {
         const sidebarData =
@@ -38,7 +36,7 @@ const DasbhboardSidebar = () => {
           res.data.data.structure.sidebar.sidebarwithcompliance;
         const dashboard = sidebarData[0]?.dashboard || {};
         const complianceDashboard = sidebarData[1]?.comlianceDashboard || {};
-        
+
         const notification = sidebarData[2]?.notification || {};
         const applicationBoard = sidebarData[3]?.application?.board || [];
         setTable(dashboard.table?.header || []);
@@ -78,7 +76,7 @@ const DasbhboardSidebar = () => {
   };
   const onSmash = (item: any) => {
     setActiveBar(item);
-
+    console.log(item, "item Check");
     // Update the links when Contact is clicked
     {
       item == "Compliance Dashboard"
@@ -96,6 +94,12 @@ const DasbhboardSidebar = () => {
   }
   .ps-menu-button:hover {
     background:${themeBuilder?.table?.backgroundColor}!important;
+  }
+  .active{
+    .css-1tqrhto >.ps-menu-button{
+    background:${themeBuilder?.table?.backgroundColor}!important;
+    color:#fff!important;
+    }
   }
   `;
   const renderSubmenu = (item: any) => (
@@ -117,6 +121,7 @@ const DasbhboardSidebar = () => {
                   textDecoration: "none",
                   fontSize: "12px",
                 }}
+                className={submenuItem.subMenu === activeBar ? "active" : ""}
               >
                 <MenuItem
                   key={subIndex}
@@ -127,6 +132,7 @@ const DasbhboardSidebar = () => {
                   }}
                   onClick={() => {
                     dispatch(authSlice.actions.toggleSidebar());
+                    onSmash(submenuItem.subMenu);
                   }}
                 >
                   {submenuItem.subMenu}
@@ -139,7 +145,6 @@ const DasbhboardSidebar = () => {
       </div>
     </>
   );
-
   return (
     <>
       <div>
