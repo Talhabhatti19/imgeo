@@ -26,9 +26,7 @@ const Login = () => {
   };
   let setTheme = async () => {
     setLoader(true);
-    let response = await AuthService.get(
-      "/admin-user/theme"
-    );
+    let response = await AuthService.get("/admin-user/theme");
     console.log("Response data:", response.data);
     if (response) {
       let theme = response?.data?.data;
@@ -38,10 +36,7 @@ const Login = () => {
     }
   };
   let login = async (formField: any) => {
-    let response = await AuthService.post(
-      "/admin-user/login",
-      formField
-    );
+    let response = await AuthService.post("/admin-user/login", formField);
     if (response.data.statusCode === 200) {
       navigate("/dashboard");
     } else {

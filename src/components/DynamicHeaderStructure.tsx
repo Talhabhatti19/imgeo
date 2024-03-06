@@ -164,7 +164,7 @@ function DynamicHeaderStructure({
               {button &&
                 button.map((item: any) => (
                   <div
-                    className="theme-btn mt-1 button-margin"
+                    className="theme-btn mt-1 button-margin d-flex justify-content-center"
                     style={{
                       backgroundColor: themeBuilder?.table?.backgroundColor,
                     }}

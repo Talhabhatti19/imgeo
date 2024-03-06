@@ -4,6 +4,7 @@ import TableView from "../../components/TableView/TableView";
 import { Dropdown } from "react-bootstrap";
 import { Images } from "../../components/Config/Images";
 import { Link } from "react-router-dom";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const CustomerList = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
@@ -98,9 +99,7 @@ const CustomerList = () => {
   return (
     <>
       <div className="cs-table">
-        <div className="d-flex align-items-center">
-          <h2 className="col-6 fs-6 fw-bold mt-5">Product Management</h2>
-        </div>
+        <DynamicHeaderStructure title={"Product Management"} filter={false} />
         <TableView header={Product_Management_Header} data={data} />
       </div>
     </>
