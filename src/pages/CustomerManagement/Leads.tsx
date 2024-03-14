@@ -7,6 +7,7 @@ import TableView from "../../components/TableView/TableView";
 import { DatePicker } from "antd";
 import { Modal, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const Leads = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -153,45 +154,7 @@ const Leads = () => {
   return (
     <>
       <div className="cs-table">
-        <div className="col-lg-12 search-bar col-12 d-flex align-items-center">
-          <h2
-            className="col-lg-6 col-12 fs-6 fw-bold"
-            style={{ color: themeBuilder?.color?.headingTextColor }}
-          >
-            Leads
-          </h2>
-          <form
-            action="search-bar"
-            className="col-lg-6 col-12 d-flex justify-content-end pb-2"
-          >
-            <div className="d-flex justify-content-between ">
-              <div className="d-grid">
-                <label htmlFor="" className="label-theme">
-                  From
-                </label>
-                <DatePicker
-                  style={{
-                    width: "200px",
-                    height: "36px",
-                    marginRight: "10px",
-                  }}
-                />
-              </div>
-
-              <div className="d-grid">
-                <label htmlFor="" className="label-theme">
-                  To
-                </label>
-                <DatePicker
-                  style={{
-                    width: "200px",
-                    height: "36px",
-                  }}
-                />
-              </div>
-            </div>
-          </form>
-        </div>
+        <DynamicHeaderStructure title={"Leads"} filter={true} />
         <TableView
           header={Leads_Header}
           data={rowData.map((item: any, index: any) => ({

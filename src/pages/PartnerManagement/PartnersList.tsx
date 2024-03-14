@@ -4,6 +4,7 @@ import { RootState } from "../../redux/rootReducer";
 import TableView from "../../components/TableView/TableView";
 import { Types_Reasons_Header } from "../../components/Config/TableHeaders";
 import { DatePicker } from "antd";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const data = [
   {
@@ -17,10 +18,15 @@ const data = [
 const PartnerList = () => {
   const checkReduxState = useSelector((state: RootState) => state.block.check);
   console.log(checkReduxState, "checkReduxState");
+  const button = [
+    {
+      title: "+ add partner",
+    },
+  ];
   return (
     <>
       <div className="cs-table">
-        <div className="col-lg-12 col-12 d-flex align-items-center">
+        {/* <div className="col-lg-12 col-12 d-flex align-items-center">
           <h2 className="col-lg-6 col-12 fs-6 fw-bold">Partner List</h2>
           <div className="col-lg-6 col-12 d-flex justify-content-end align-items-center">
             <form
@@ -56,7 +62,12 @@ const PartnerList = () => {
             </form>
             <div className="theme-btn mt-1">+ add partner</div>
           </div>
-        </div>
+        </div> */}
+        <DynamicHeaderStructure
+          title={"Partner List"}
+          button={button}
+          filter={true}
+        />
         <TableView header={Types_Reasons_Header} data={data} />
       </div>
     </>

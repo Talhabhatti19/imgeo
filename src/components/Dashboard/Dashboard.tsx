@@ -7,6 +7,7 @@ import { DatePicker } from "antd";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
 import DynamicHeaderStructure from "../DynamicHeaderStructure";
+import Loader from "../Loader/Loader";
 
 function Dashboard() {
   const dashboardStructure = useSelector(

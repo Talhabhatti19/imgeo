@@ -3,46 +3,28 @@ import React from "react";
 const Loader = () => {
   const loader = [
     {
-      loader: "T",
-    },
-    {
-      loader: "A",
-    },
-    {
-      loader: "N",
-    },
-    {
       loader: "M",
-    },
-    {
-      loader: "E",
     },
     {
       loader: "Y",
     },
     {
-      loader: "A",
+      loader: "T",
+    },
+    {
+      loader: "M",
     },
     {
       loader: "",
     },
     {
-      loader: "F",
-    },
-    {
-      loader: "I",
-    },
-    {
-      loader: "N",
-    },
-    {
-      loader: "A",
-    },
-    {
-      loader: "N",
-    },
-    {
       loader: "C",
+    },
+    {
+      loader: "O",
+    },
+    {
+      loader: "R",
     },
     {
       loader: "E",
@@ -50,7 +32,7 @@ const Loader = () => {
   ];
   return (
     <div className="loader">
-      <div className="loader-container">
+      <div className="loader-container col-md-12 col-10">
         {loader.map((item: any) => (
           <div className="wave">{item.loader}</div>
         ))}

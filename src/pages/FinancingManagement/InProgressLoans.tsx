@@ -4,6 +4,7 @@ import TableView from "../../components/TableView/TableView";
 import { DatePicker, Select } from "antd";
 import { Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const data = [
   {
@@ -136,10 +137,15 @@ const InProgressLoans = () => {
       ),
     },
   ];
+  const button = [
+    {
+      title: "Export CSV",
+    },
+  ];
   return (
     <>
       <div className="cs-table">
-        <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
+        {/* <div className="col-xl-12 col-12 d-flex align-items-center pb-3">
           <h2 className="col-xl-3 col-12 fs-6 fw-bold">
             In Progress Financing Applications
           </h2>
@@ -211,7 +217,14 @@ const InProgressLoans = () => {
             </form>
             <div className="theme-btn mt-1">Export CSV</div>
           </div>
-        </div>
+        </div> */}
+        <DynamicHeaderStructure
+          title={"In Progress Financing Applications"}
+          status={actionSelect}
+          parentStatus={actionSelect}
+          button={button}
+          filter={true}
+        />
         <TableView header={InProgress_Loans_Header} data={data} />
       </div>
     </>
