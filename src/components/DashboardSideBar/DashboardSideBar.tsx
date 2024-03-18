@@ -66,13 +66,14 @@ const DasbhboardSidebar = () => {
       setLoading(false);
     }
   };
+  const sidebarItems = [{ label: "Notifications", Link: "notification" }];
 
-  useEffect(() => {
-    sidebarmenu();
-  }, []);
+  // useEffect(() => {
+  //   sidebarmenu();
+  // }, []);
   const handleRetry = () => {
     setFullscreenError(null);
-    sidebarmenu();
+    // sidebarmenu();
   };
   const onSmash = (item: any) => {
     setActiveBar(item);
@@ -130,12 +131,16 @@ const DasbhboardSidebar = () => {
                     background: themeBuilder?.sideBarmenuBackgroundColor,
                     color: themeBuilder?.sidebarTextColor,
                   }}
-                  onClick={() => {
-                    dispatch(authSlice.actions.toggleSidebar());
-                    onSmash(submenuItem.subMenu);
-                  }}
+                  // onClick={() => {
+                  //   dispatch(authSlice.actions.toggleSidebar());
+                  //   onSmash(submenuItem.subMenu);
+                  // }}
                 >
-                  {submenuItem.subMenu}
+                  <Link to={item.Link} style={{ color: "#000000" }}>
+                    {item.label}
+                  </Link>
+
+                  {/* {submenuItem.subMenu} */}
                 </MenuItem>
               </Link>
             ))}
@@ -148,7 +153,7 @@ const DasbhboardSidebar = () => {
   return (
     <>
       <div>
-        {loading && <Loader />}
+        {/* {loading && <Loader />} */}
 
         <Sidebar
           transitionDuration={1000}
@@ -169,7 +174,7 @@ const DasbhboardSidebar = () => {
           </div>
 
           <Menu>
-            {sidebarLinksApi.map((item: any, index: any) => (
+            {sidebarItems.map((item: any, index: any) => (
               <>
                 <React.Fragment key={index}>
                   {item.menu ? (
@@ -186,10 +191,10 @@ const DasbhboardSidebar = () => {
                         >
                           <MenuItem
                             active={item.label === activeBar}
-                            onClick={() => {
-                              dispatch(authSlice.actions.toggleSidebar());
-                              onSmash(item.label);
-                            }}
+                            // onClick={() => {
+                            //   dispatch(authSlice.actions.toggleSidebar());
+                            //   onSmash(item.label);
+                            // }}
                             prefix={
                               <img
                                 width={16}

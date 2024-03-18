@@ -23,17 +23,17 @@ const Login = () => {
   const handleToggleView = () => {
     setIsForgotPassword((prev) => !prev);
   };
-  let setTheme = async () => {
-    setLoader(true);
-    let response = await AuthService.get("/admin-user/theme");
-    console.log("Response data:", response.data);
-    if (response) {
-      let theme = response?.data?.data;
-      dispatch(authSlice.actions.setTheme({ theme }));
-      setThemeStatus(true);
-      setLoader(false);
-    }
-  };
+  // let setTheme = async () => {
+  //   setLoader(true);
+  //   let response = await AuthService.get("/admin-user/theme");
+  //   console.log("Response data:", response.data);
+  //   if (response) {
+  //     let theme = response?.data?.data;
+  //     dispatch(authSlice.actions.setTheme({ theme }));
+  //     setThemeStatus(true);
+  //     setLoader(false);
+  //   }
+  // };
   let login = async (formField: any) => {
     let response = await AuthService.post("/admin-user/login", formField);
     if (response.data.statusCode === 200) {
@@ -54,139 +54,140 @@ const Login = () => {
         "Min 8 and Max 15 character with at least (one capital, one special symbol and one number"
       ) */
   });
-  useEffect(() => {
-    setTheme();
-  }, []);
-  const gradientAnimation = keyframes`
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-`;
-  const Overlay = styled.div`
-    background: ${themeBuilder.backgroundOne};
-    background: ${themeBuilder.backgroundTwo};
-    background-size: 400% 400%;
-    color: #ffffff;
-    position: relative;
-    height: 100%;
-    transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
-    animation: ${gradientAnimation} 10s ease infinite;
-    -webkit-animation: ${gradientAnimation} 10s ease infinite;
-    border-radius: 12px 0px 0px 12px;
-  `;
+  // useEffect(() => {
+  //   setTheme();
+  // }, []);
+  //   const gradientAnimation = keyframes`
+  //   0% {
+  //     background-position: 0% 50%;
+  //   }
+  //   50% {
+  //     background-position: 100% 50%;
+  //   }
+  //   100% {
+  //     background-position: 0% 50%;
+  //   }
+  // `;
+  // const Overlay = styled.div`
+  //   background: ${themeBuilder.backgroundOne};
+  //   background: ${themeBuilder.backgroundTwo};
+  //   background-size: 400% 400%;
+  //   color: #ffffff;
+  //   position: relative;
+  //   height: 100%;
+  //   transform: translateX(0);
+  //   transition: transform 0.6s ease-in-out;
+  //   animation: ${gradientAnimation} 10s ease infinite;
+  //   -webkit-animation: ${gradientAnimation} 10s ease infinite;
+  //   border-radius: 12px 0px 0px 12px;
+  // `;
   return (
     <>
-      {themeStatus && (
-        <div className="login-form">
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-6 col-12">
-                <div className="overlay-container">
-                  <Overlay>
-                    <div className="overlay">
-                      <div className={`overlay-panel overlay-right l`}>
-                        <div className="text-center l mb-2">
-                          <img src={Images.tanmeyaLogo} height="60" alt="" />
-                        </div>
-                        <h1>
-                          {isForgotPassword ? "One Step Away" : "Welcome !"}
-                        </h1>
-                        <p className="text-center">
-                          {isForgotPassword
-                            ? "Enter your account email to recover your password."
-                            : "To keep connected with us please login with your personal info."}
-                        </p>
-                      </div>
+      {/* {themeStatus && ( */}
+      <div className="login-form">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6 col-12">
+              <div className="overlay-container">
+                {/* <Overlay> */}
+                <div className="overlay">
+                  <div className={`overlay-panel overlay-right l`}>
+                    <div className="text-center l mb-2">
+                      <img src={Images.tanmeyaLogo} height="60" alt="" />
                     </div>
-                  </Overlay>
+                    <h1>{isForgotPassword ? "One Step Away" : "Welcome !"}</h1>
+                    <p className="text-center">
+                      {isForgotPassword
+                        ? "Enter your account email to recover your password."
+                        : "To keep connected with us please login with your personal info."}
+                    </p>
+                  </div>
                 </div>
+                {/* </Overlay> */}
               </div>
-              <div className="col-lg-6 col-12">
-                <div className={`form-container sign-in-container`}>
-                  <Formik
-                    initialValues={{ email: "", password: "" }}
-                    validationSchema={validationSchema}
-                    onSubmit={login}
-                  >
-                    {() => {
-                      return (
-                        <Form>
-                          <div className="form-group form-label-group">
-                            <Field
-                              className="form-control"
-                              type="email"
-                              placeholder="Email"
-                              name="email"
-                              id="email"
-                              autoComplete="off"
-                            />
-                            <label htmlFor="email">Email</label>
-                            <ErrorMessage
-                              name="email"
-                              component="div"
-                              className="invalid-feedback text-danger"
-                            />
-                          </div>
-                          <div className="form-group new_password form-label-group">
-                            <Field
-                              type={swapPassword ? "text" : "password"}
-                              name="password"
-                              id="password"
-                              className="form-control"
-                              placeholder="Password"
-                              onFocus={() => setChange(false)}
-                              onBlur={(e: any) =>
-                                e.target.value == ""
-                                  ? setChange(true)
-                                  : setChange(false)
-                              }
-                            />
-                            <label htmlFor="password">Password</label>
-                            <ErrorMessage
-                              name="password"
-                              component="div"
-                              className="invalid-feedback text-danger"
-                            />
-                          </div>
-                          <button
-                            className="btn btn-theme btn-lg w-100 mt-2"
-                            type="submit"
-                            style={{
-                              backgroundColor:
-                                themeBuilder?.table?.backgroundColor,
-                            }}
+            </div>
+            <div className="col-lg-6 col-12">
+              <div className={`form-container sign-in-container`}>
+                <Formik
+                  initialValues={{ email: "", password: "" }}
+                  validationSchema={validationSchema}
+                  onSubmit={login}
+                >
+                  {() => {
+                    return (
+                      <Form>
+                        <div className="form-group form-label-group">
+                          <Field
+                            className="form-control"
+                            type="email"
+                            placeholder="Email"
+                            name="email"
+                            id="email"
+                            autoComplete="off"
+                          />
+                          <label htmlFor="email">Email</label>
+                          <ErrorMessage
+                            name="email"
+                            component="div"
+                            className="invalid-feedback text-danger"
+                          />
+                        </div>
+                        <div className="form-group new_password form-label-group">
+                          <Field
+                            type={swapPassword ? "text" : "password"}
+                            name="password"
+                            id="password"
+                            className="form-control"
+                            placeholder="Password"
+                            onFocus={() => setChange(false)}
+                            onBlur={(e: any) =>
+                              e.target.value == ""
+                                ? setChange(true)
+                                : setChange(false)
+                            }
+                          />
+                          <label htmlFor="password">Password</label>
+                          <ErrorMessage
+                            name="password"
+                            component="div"
+                            className="invalid-feedback text-danger"
+                          />
+                        </div>
+                        <button
+                          onClick={() => {
+                            navigate("/dashboard");
+                          }}
+                          className="btn btn-theme btn-lg w-100 mt-2"
+                          type="submit"
+                          style={{
+                            backgroundColor:
+                              themeBuilder?.table?.backgroundColor,
+                          }}
+                        >
+                          Login
+                        </button>
+                        <div className="text-end mt-3">
+                          <span
+                            id="forgot-password"
+                            onClick={handleToggleView}
+                            className="pointer"
                           >
-                            Login
-                          </button>
-                          <div className="text-end mt-3">
-                            <span
-                              id="forgot-password"
-                              onClick={handleToggleView}
-                              className="pointer"
-                            >
-                              {isForgotPassword
-                                ? "Sign In Instead?"
-                                : "Forgot Password?"}
-                            </span>
-                          </div>
-                        </Form>
-                      );
-                    }}
-                  </Formik>
-                </div>
+                            {isForgotPassword
+                              ? "Sign In Instead?"
+                              : "Forgot Password?"}
+                          </span>
+                        </div>
+                      </Form>
+                    );
+                  }}
+                </Formik>
               </div>
             </div>
           </div>
         </div>
-      )}
-      {loader && <Loader />}
+      </div>
+      {/* )} */}
+      {/* {loader && <Loader />} */}
     </>
   );
 };
