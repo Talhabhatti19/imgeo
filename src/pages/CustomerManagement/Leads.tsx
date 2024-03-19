@@ -6,18 +6,12 @@ import { Images } from "../../components/Config/Images";
 import TableView from "../../components/TableView/TableView";
 import { DatePicker } from "antd";
 import { Modal, Button, Dropdown } from "react-bootstrap";
-
-import { theme } from "../../components/Config/Theme";
 import { Link } from "react-router-dom";
 import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 
 const Leads = () => {
-  const checkReduxState = useSelector((state: RootState) => state.block.check);
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showPopup, setShowPopup] = useState(false);
-
-  console.log(checkReduxState, "checkReduxState");
-
   const [rowData, setRowData] = useState([
     {
       Customer: "jhdbfs",

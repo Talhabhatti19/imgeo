@@ -27,29 +27,29 @@ const Layout = () => {
 
   return (
     <>
-      {loading ? (
+      {/* {loading ? (
         <Loader />
-      ) : (
-        <div className={`flex ${isMobile ? "sidebar-mobile" : "side-bar"}`}>
+      ) : ( */}
+      <div className={`flex ${isMobile ? "sidebar-mobile" : "side-bar"}`}>
+        <div
+          className={`flex ${isMobile ? "" : "colOne"}`}
+          style={{
+            backgroundColor: themeBuilder?.sideBarmenuBackgroundColor,
+          }}
+        >
+          <DasbhboardSideBar />
+        </div>
+        <div className={`flex ${isMobile ? "" : "colTwo"}`}>
+          <DasbhboardHeader />
           <div
-            className={`flex ${isMobile ? "" : "colOne"}`}
-            style={{
-              backgroundColor: themeBuilder?.sideBarmenuBackgroundColor,
-            }}
+            className="p-3"
+            style={{ backgroundColor: themeBuilder?.appBackgroundColor }}
           >
-            <DasbhboardSideBar />
-          </div>
-          <div className={`flex ${isMobile ? "" : "colTwo"}`}>
-            <DasbhboardHeader />
-            <div
-              className="p-3"
-              style={{ backgroundColor: themeBuilder?.appBackgroundColor }}
-            >
-              <Outlet />
-            </div>
+            <Outlet />
           </div>
         </div>
-      )}
+      </div>
+      {/* )} */}
     </>
   );
 };
