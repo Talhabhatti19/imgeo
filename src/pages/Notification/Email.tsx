@@ -1,27 +1,22 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/rootReducer";
-import { Images } from "../../components/Config/Images";
+import React from "react";
+
 import TableView from "../../components/TableView/TableView";
-import { DatePicker } from "antd";
-import OverView from "../../components/Dashboard/OverView";
-import Graphs from "../../components/Dashboard/Graphs";
+
 import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
-import { Customer_List_Header } from "../../components/Config/TableHeaders";
-import { Dropdown, Tab, Tabs } from "react-bootstrap";
+
 import { getAllEmails } from "./NotificationCrud";
 
 const Email = () => {
-    const allEmailsInfo = () => {
-        getAllEmails()
-          .then((response) => {
-          console.log(response,'resposne');
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      };
-      allEmailsInfo();
+  const allEmailsInfo = () => {
+    getAllEmails()
+      .then((response) => {
+        console.log(response, "resposne");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  allEmailsInfo();
   const Header = [
     {
       name: "Template Name",
@@ -38,7 +33,7 @@ const Email = () => {
     {
       name: "Action",
       selector: (row: { KastleStatus: any }) => row.KastleStatus,
-    }
+    },
   ];
   const data = [
     {
@@ -61,8 +56,8 @@ const Email = () => {
   return (
     <>
       <div className="cs-table">
-        <DynamicHeaderStructure searchPlaceHolder={"Search"}/>
-        <TableView header={Header} data={data}/>
+        <DynamicHeaderStructure searchPlaceHolder={"Search"} />
+        <TableView header={Header} data={data} />
       </div>
     </>
   );

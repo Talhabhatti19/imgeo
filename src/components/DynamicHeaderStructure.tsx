@@ -168,6 +168,7 @@ function DynamicHeaderStructure({
                     style={{
                       backgroundColor: themeBuilder?.table?.backgroundColor,
                     }}
+                    onClick={item.onClick}
                   >
                     {item.title}
                   </div>
