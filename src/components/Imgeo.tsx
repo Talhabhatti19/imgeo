@@ -167,18 +167,7 @@ const Imgeo: React.FC = () => {
 
         ctx.fillText(` ${email}`, textX, textY - 90);
         ctx.fillText(`${nameChange}`, textX, textY - 60);
-        if (increment >= 60) {
-          incrementCounter++;
-          hours++;
-          increment = 0;
-        } else {
-          increment += diff;
-        }
-        if (seconds >= 60) {
-          seconds = 0;
-        } else {
-          seconds += index + 5;
-        }
+
         canvas.toBlob((blob: any) => {
           // Convert to PNG
           canvas.toBlob((pngBlob: any) => {
@@ -629,6 +618,8 @@ const Imgeo: React.FC = () => {
                   }}
                 />
               </div>
+            </div>
+            <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="picNameInput">Enter the pic name:</label>
                 <input
@@ -639,17 +630,6 @@ const Imgeo: React.FC = () => {
                   value={nameChange}
                   onChange={handleTextChange}
                 />
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="cornerSelect">Select Corner:</label>
-                <select id="cornerSelect" className="form-control">
-                  <option value="top">Top</option>
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
-                  <option value="bottom">Bottom</option>
-                </select>
               </div>
             </div>
             <div className="col-12 d-flex justify-content-center form-group">
