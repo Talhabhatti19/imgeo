@@ -148,18 +148,7 @@ const Imgeo: React.FC = () => {
         const textX = canvas.width - margin;
         const textY = canvas.height - margin;
         latitudeLongitude = 10 * (index + 1);
-        if (increment >= 60) {
-          incrementCounter++;
-          hours++;
-          increment = 0;
-        } else {
-          increment += diff;
-        }
-        if (seconds >= 60) {
-          seconds = 0;
-        } else {
-          seconds += index + 5;
-        }
+
         console.log(increment, "123");
 
         ctx.fillText(

@@ -655,7 +655,7 @@ div#DataTables_Table_0_paginate {
   min-width: 300px !important;
   max-width: 300px !important;
   word-wrap: break-word;
-  /* background-color: #fff; */
+
   background-clip: border-box;
   border: 1px dashed rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
@@ -974,7 +974,7 @@ h1.custom-heading {
   transition: filter 0.3s ease;
 }
 
-/* Apply a black and white filter to the image on hover */
+
 .col-lg-3:hover img {
   filter: grayscale(100%);
 }
@@ -993,7 +993,7 @@ h1.custom-heading {
   transition: opacity 0.3s ease;
 }
 
-/* Show the button on hover */
+
 .p-relative:hover .use-template-btn {
   opacity: 1;
 }
@@ -1257,12 +1257,11 @@ ul.mt-30.position-relative.tabs-overflow.mt-3.nav.nav-tabs {
 
   .container {
     width: 100%;
-    /* min-height: 100vh; */
     height: auto;
     position: relative;
     display: flex;
 
-    /* overflow-y: auto !important */
+
   }
 
   .form-container {
@@ -1409,7 +1408,7 @@ button.btn.btn-theme:hover {
     border-radius: 8px;
 }
 .template-default input {
-  /* border-radius: 50% !important; */
+ 
   position: absolute;
   right: 15px;
   top: 8px;
@@ -1443,9 +1442,9 @@ margin-right: 10px;
   right: 0;
   max-width: 720px;
   width: 100%;
-  background-color: #fff; /* Set background color */
-  z-index: 1000; /* Set a higher z-index to make sure it appears on top of other elements */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for a subtle effect */
+  background-color: #fff; 
+  z-index: 1000; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 .ck.ck-editor__editable_inline>:last-child{
   color: black!important;
@@ -1459,9 +1458,6 @@ margin-right: 10px;
 .editor-container .btn-theme {
   margin-top: 10px;
 }
-
-
-// login css
 :root {
   --background: #1a1a2e;
   --color: #ffffff;
@@ -1672,7 +1668,7 @@ h1 {
 }
 .selected-images {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Adjust the width as needed */
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); 
   grid-gap: 10px;
 }
 
@@ -1683,7 +1679,7 @@ h1 {
   cursor: pointer;
 }
 
-/* Add this CSS to your existing stylesheet or create a new one */
+
 .form-container {
   max-width: 800px;
   margin: 0 auto;
