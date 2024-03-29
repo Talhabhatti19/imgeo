@@ -1,12 +1,13 @@
 import React from "react";
 import { Images } from "../Config/Images";
 import { FaUserAlt, FaSignOutAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled, { keyframes } from "styled-components";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
-
+import toast from "react-hot-toast";
 const AdminModal = () => {
+  const navigate = useNavigate();
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const gradientAnimation = keyframes`
   0% {
@@ -35,34 +36,52 @@ const AdminModal = () => {
     border-radius: 0px 0px 0px 0px;
     align-items: center;
   `;
+
+  const login = async () => {
+    const emailLogout = localStorage.getItem("email");
+    const passwordLogout = localStorage.getItem("password");
+    console.log(emailLogout, passwordLogout);
+    let data: any = localStorage.getItem("match");
+    let dummyValue: any = JSON.parse(data);
+    console.error("Error parsing data from localStorage:", dummyValue);
+    if (data) {
+      try {
+        // Attempt to parse the data as JSON
+        dummyValue = JSON.parse(data);
+      } catch (error) {
+        // Log and handle any parsing errors
+        console.error("Error parsing data from localStorage:", error);
+      }
+    }
+
+    // Check if dummyValue is an array
+
+    if (dummyValue) {
+      dummyValue.status = false; // Store the updated array back to localStorage
+      if (dummyValue.status == false) {
+        console.log("logout", dummyValue);
+        navigate("");
+        localStorage.clear();
+      }
+    } else {
+      console.log("logout", dummyValue, emailLogout, passwordLogout);
+      toast.error("not match");
+    }
+  };
+
   return (
     <>
       <div className="login-form-data">
-        <div className="d-flex justify-content-start align-items-center">
-          <Overlay>
-            <div className="p-3">
-              <img src={Images.profileUser} className="profile-logo" />
-            </div>
-            <div>
-              <h4 className="mb-0 text-white fs-16">Super Admin</h4>
-              <p className="mb-0 text-white fs-12">superadmin@tanmeyaa.com</p>
-            </div>
-          </Overlay>
-        </div>
-        <div className="d-flex justify-content-start align-items-center ms-2 border-bottom">
-          <div className="p-3">
-            <FaUserAlt />
-          </div>
-
-          <p className="mb-0 ms-3 fs-6">My Profile</p>
-        </div>
-        <div className="d-flex justify-content-start align-items-center ms-2 border-bottom">
+        <div
+          onClick={login}
+          className="d-flex justify-content-start align-items-center ms-2 border-bottom"
+        >
           <div className="p-3">
             <FaSignOutAlt />
           </div>
-          <Link to={""} style={{ textDecoration: "none", color: "black" }}>
+          <div style={{ textDecoration: "none", color: "black" }}>
             <p className="mb-0 ms-3  fs-12">Log Out</p>
-          </Link>
+          </div>
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Dropdown, Row } from "react-bootstrap";
 import Slider from "react-slick";
 import DatePicker from "react-datepicker";
@@ -11,31 +11,44 @@ import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
 // @ts-ignore
 import jsPDF from "jspdf";
-
-const ManageRoles: React.FC = () => {
+import { format } from "date-fns";
+import toast from "react-hot-toast";
+import Loader from "./Loader/Loader";
+import { setTheme } from "../redux/apis/apisSlice";
+var from: any = 0;
+var to: any = 0;
+const Imgeo: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
   const [indexNumber, setIndexNumber] = useState(0);
   const [email, setEmail] = useState("");
   const [longitude, setLongitude] = useState("");
-  const [fontSize, setFontSize] = useState(0);
   const [latitude, setLatitude] = useState("");
   const [nameChange, setNameChange] = useState("");
   const [date, setDate] = useState("");
   const [initialTime, setInitialTime] = useState<any>("");
-  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  let [selectedTime, setSelectedTime] = useState<any>();
+  let [ew, setEw] = useState<any>("E");
 
+  let [hours, setHours] = useState<any>(0);
+  let [minutes, setMinutes] = useState<any>(0);
+  let [fromMin, setFromMin] = useState<any>(0);
+  let [toMin, setToMin] = useState<any>(0);
+  const [ns, setNs] = useState<any>("N");
+  const [fontSize, setFontSize] = useState<any>("30");
   const handleFontSizeChange = (e: any) => {
     setFontSize(Number(e.target.value)); // Convert input value to a number and update the state
   };
-
+  useEffect(() => {
+    // Set the current time when the component mounts
+    setSelectedDate(new Date());
+  }, []);
   const handleDateChange = (date: Date) => {
-    setSelectedDateTime((prevDateTime) => {
-      const newDateTime = new Date(date);
-      newDateTime.setHours(prevDateTime.getHours());
-      newDateTime.setMinutes(prevDateTime.getMinutes());
-      return newDateTime;
-    });
+    setSelectedDate(date);
+    console.log(format(selectedDate, "dd MMM yyyy"));
   };
+
   const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
@@ -43,16 +56,14 @@ const ManageRoles: React.FC = () => {
     setNameChange(event.target.value);
   };
 
-  const handleTimeChange = (time: string | null) => {
-    if (time !== null) {
-      setSelectedDateTime((prevDateTime) => {
-        const newDateTime = new Date(prevDateTime);
-        const [hours, minutes] = time.split(":").map(Number);
-        newDateTime.setHours(hours);
-        newDateTime.setMinutes(minutes);
-        return newDateTime;
-      });
-    }
+  const handleTimeChange = (event: any) => {
+    setSelectedTime(event.target.value);
+    const [hours, minutes] = selectedTime.split(":");
+    setMinutes(minutes);
+    setHours(hours);
+    console.log("Hours:", hours); // Outputs: Hours: 14
+    console.log("Minutes:", minutes);
+    console.log(selectedTime, "selectedTime");
   };
 
   const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,10 +94,33 @@ const ManageRoles: React.FC = () => {
     setIndexNumber(toIndex);
     console.log(toIndex);
   };
+  const handleSelectChangeLongitute = (event: any) => {
+    setEw(event.target.value);
+    console.log(event.target.value, ew);
+  };
+  const handleSelectChangeLatitude = (event: any) => {
+    setNs(event.target.value);
+    console.log(ns);
+  };
   const handleDownload = () => {
+    if (images.length === 0) {
+      console.log("No images uploaded");
+      return;
+    }
+    setLoading(true);
     const zip = new JSZip();
-    // @ts-ignore
-    let currentTime = moment(initialTime); // Initialize currentTime with the initial time entered by the user
+    let currentTime = moment(minutes);
+    let currentMinutes: any = minutes;
+    let incrementCounter = 0;
+    const diff = Number(toMin - fromMin);
+    var increment = Number(minutes);
+    var latitudeLongitude: any = 123;
+    var seconds: any = 9;
+
+    console.log(diff, increment, "diff");
+
+    // Track the number of images processed successfully
+    let imagesProcessed = 0;
 
     images.forEach((imageSrc, index) => {
       const img = new Image();
@@ -103,46 +137,103 @@ const ManageRoles: React.FC = () => {
         ctx.drawImage(img, 0, 0);
 
         ctx.fillStyle = "white";
-        ctx.font = "40px Arial";
-        ctx.textAlign = "right"; // Align text to the right
+        ctx.font = `${fontSize}px Arial`;
+        ctx.textAlign = "right";
 
-        // Set margin from the bottom and right edges
         const margin = 20;
 
-        // Increment time for each image by 10 minutes
         currentTime.add(10, "minutes");
-        const timeString = currentTime.format("HH:mm");
+        const timeString = currentTime.format("mm");
 
-        // Calculate starting point for text
         const textX = canvas.width - margin;
         const textY = canvas.height - margin;
+        latitudeLongitude = 10 * (index + 1);
+        if (increment >= 60) {
+          incrementCounter++;
+          hours++;
+          increment = 0;
+        } else {
+          increment += diff;
+        }
+        if (seconds >= 60) {
+          seconds = 0;
+        } else {
+          seconds += index + 5;
+        }
+        console.log(increment, "123");
 
-        // Print text on the bottom right
-        ctx.fillText(`Date: ${date}`, textX, textY - 150);
-        ctx.fillText(`Time: ${timeString}`, textX, textY - 120);
-        ctx.fillText(`Email: ${email}`, textX, textY - 90);
-        ctx.fillText(`Longitude: ${longitude}`, textX, textY - 60);
-        ctx.fillText(`Latitude: ${latitude}`, textX, textY - 30);
+        ctx.fillText(
+          `${format(
+            selectedDate,
+            "dd MMM yyyy"
+          )}  ${hours}:${increment}:${seconds}`,
+          textX,
+          textY - 150
+        );
+        ctx.fillText(
+          ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`,
+          textX,
+          textY - 120
+        );
 
+        ctx.fillText(` ${email}`, textX, textY - 90);
+        ctx.fillText(`${nameChange}`, textX, textY - 60);
+        if (increment >= 60) {
+          incrementCounter++;
+          hours++;
+          increment = 0;
+        } else {
+          increment += diff;
+        }
+        if (seconds >= 60) {
+          seconds = 0;
+        } else {
+          seconds += index + 5;
+        }
         canvas.toBlob((blob: any) => {
-          zip.file(`modified_image_${index}.jpg`, blob);
-          if (index === images.length - 1) {
-            zip.generateAsync({ type: "blob" }).then((content: any) => {
-              saveAs(content, "images.zip");
-            });
-          }
-        }, "image/jpeg");
+          // Convert to PNG
+          canvas.toBlob((pngBlob: any) => {
+            zip.file(`modified_image_${index}.png`, pngBlob); // Save as PNG
+            imagesProcessed++;
+
+            // Check if all images have been processed
+            if (imagesProcessed === images.length) {
+              // Generate ZIP file once all images are processed
+              zip.generateAsync({ type: "blob" }).then((content) => {
+                saveAs(content, "images.zip");
+                setLoading(false);
+                setImages([]);
+              });
+            }
+          }, "image/png");
+        }, "image/jpeg"); // Convert to JPEG initially
       };
 
       img.onerror = () => {
         console.error("Error loading image.");
+        imagesProcessed++;
+
+        // Check if all images have been processed
+        if (imagesProcessed === images.length) {
+          // Generate ZIP file once all images are processed
+          zip.generateAsync({ type: "blob" }).then((content) => {
+            saveAs(content, "images.zip");
+          });
+        }
       };
     });
   };
   const handleDownloadPdf = () => {
-    const pdf = new jsPDF(); // Initialize a new PDF document
+    const pdf = new jsPDF();
+    let currentHours = parseInt(hours); // Parse hours as an integer
+    let currentMinutes = parseInt(minutes); // Parse minutes as an integer
+    let seconds = 0; // Initialize seconds to 0
 
-    let currentTime = moment(initialTime); // Initialize currentTime with the initial time entered by the user
+    // Initialize incrementCounter and other variables
+    let incrementCounter = 0;
+    const diff = parseInt(toMin) - parseInt(fromMin);
+    let increment = parseInt(minutes);
+    let latitudeLongitude = 123;
 
     images.forEach((imageSrc, index) => {
       const img = new Image();
@@ -151,33 +242,90 @@ const ManageRoles: React.FC = () => {
 
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        const ctx: any = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+        if (ctx) {
+          // Check if ctx is not null
+          canvas.width = img.width;
+          canvas.height = img.height;
 
-        ctx.drawImage(img, 10, 20);
+          ctx.drawImage(img, 9, 25);
 
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
+          ctx.fillStyle = "white";
+          ctx.font = `${fontSize}px Arial`;
 
-        // Increment time for each image by 10 minutes
-        currentTime.add(10, "minutes");
-        const timeString = currentTime.format("HH:mm");
+          const margin = 10;
+          const textX = canvas.width - margin;
+          const textY = canvas.height - margin;
 
-        ctx.fillText(`Date: ${date}`, 10, 30);
-        ctx.fillText(`Time: ${timeString}`, 10, 60);
-        ctx.fillText(`Email: ${email}`, 10, 90);
-        ctx.fillText(`Longitude: ${longitude}`, 10, 120);
-        ctx.fillText(`Latitude: ${latitude}`, 10, 150);
+          latitudeLongitude = 10 * (index + 1);
 
-        // Add the canvas image to the PDF document
-        pdf.addImage(canvas.toDataURL("image/jpeg"), "JPEG", 10, 10, 180, 120);
+          // Update time only if it's not the first image
 
-        if (index < images.length - 1) {
-          pdf.addPage(); // Add a new page for the next image
+          if (increment >= 60) {
+            incrementCounter++;
+            currentHours++;
+            increment = 0;
+          } else {
+            increment += diff;
+            console.log(increment, "increment");
+          }
+          if (seconds >= 60) {
+            seconds = 0;
+          } else {
+            seconds += index + 5;
+          }
+
+          ctx.fillText(
+            `${format(
+              selectedDate,
+              "dd MMM yyyy"
+            )}  ${currentHours}:${increment}:${seconds}`,
+            textX -
+              ctx.measureText(
+                `${format(
+                  selectedDate,
+                  "dd MMM yyyy"
+                )}  ${currentHours}:${increment}:${seconds}`
+              ).width,
+            textY - 150
+          );
+          ctx.fillText(
+            ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`,
+            textX -
+              ctx.measureText(
+                ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`
+              ).width,
+            textY - 120
+          );
+          ctx.fillText(
+            ` ${email}`,
+            textX - ctx.measureText(` ${email}`).width,
+            textY - 90
+          );
+          ctx.fillText(
+            `${nameChange}`,
+            textX - ctx.measureText(`${nameChange}`).width,
+            textY - 60
+          );
+
+          pdf.addImage(
+            canvas.toDataURL("image/jpeg"),
+            "JPEG",
+            10,
+            10,
+            180,
+            120
+          );
+
+          if (index < images.length - 1) {
+            pdf.addPage();
+          } else {
+            pdf.save("images.pdf");
+            setTheme([]);
+          }
         } else {
-          pdf.save("images.pdf"); // Save the PDF document
+          console.error("2D context is null.");
         }
       };
 
@@ -186,8 +334,11 @@ const ManageRoles: React.FC = () => {
       };
     });
   };
+
+  console.log(toMin, fromMin, "minutes");
   return (
     <div className="form-container mt-3 driver-details">
+      {loading && <Loader />}
       <Col xl={12} className="px-custom">
         <Row className="mt-2 driver-details px-1 row-flex">
           <Col xl={12}>
@@ -337,22 +488,38 @@ const ManageRoles: React.FC = () => {
                 <label htmlFor="dateInput">Date:</label>
                 <DatePicker
                   id="dateInput"
-                  selected={selectedDateTime}
+                  selected={selectedDate}
                   onChange={handleDateChange}
-                  dateFormat="MM/dd/yyyy"
+                  dateFormat={"dd MMM yyyy"}
                   className="form-control"
                 />
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="timeInput">Time:</label>
-                <TimePicker
-                  id="timeInput"
-                  value={moment(selectedDateTime).format("HH:mm")}
-                  onChange={handleTimeChange}
-                  disableClock={true}
+            <div className="d-flex col-md-6">
+              <div className="col-6 form-group">
+                <label htmlFor="fromMinsInput">Hours:</label>
+                <input
+                  type="number"
+                  id="fromMinsInput"
+                  value={hours}
+                  onChange={(event: any) => {
+                    setHours(event.target.value);
+                  }}
+                  placeholder="enter hours"
                   className="form-control"
+                />
+              </div>
+              <div className="col-6 form-group">
+                <label htmlFor="toMinsInput">Minutes:</label>
+                <input
+                  type="number"
+                  id="toMinsInput"
+                  className="form-control"
+                  value={minutes}
+                  onChange={(event: any) => {
+                    setMinutes(event.target.value);
+                  }}
+                  placeholder="enter minutes"
                 />
               </div>
             </div>
@@ -375,18 +542,24 @@ const ManageRoles: React.FC = () => {
             <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="longitudeInput">Longitude:</label>
-                <input
-                  type="text"
-                  placeholder="Enter the Longitude"
-                  id="longitudeInput"
-                  className="form-control"
-                  value={longitude}
-                  onChange={handleLongitudeChange}
-                />
-                <select className="form-control">
-                  <option value="N">N</option>
-                  <option value="S">S</option>
-                </select>
+                <div className="d-flex">
+                  <input
+                    type="text"
+                    placeholder="Enter the Longitude"
+                    id="longitudeInput"
+                    className="form-control"
+                    value={longitude}
+                    onChange={handleLongitudeChange}
+                  />
+                  <select
+                    className="form-control"
+                    value={ns}
+                    onChange={handleSelectChangeLatitude}
+                  >
+                    <option value="N">N</option>
+                    <option value="S">S</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -395,35 +568,59 @@ const ManageRoles: React.FC = () => {
             <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="latitudeInput">Latitude:</label>
-                <input
-                  type="text"
-                  placeholder="Enter the Latitude"
-                  id="latitudeInput"
-                  className="form-control"
-                  value={latitude}
-                  onChange={handleLatitudeChange}
-                />
-                <select className="form-control">
-                  <option value="E">E</option>
-                  <option value="W">W</option>
-                </select>
+                <div className="d-flex">
+                  <input
+                    type="text"
+                    placeholder="Enter the Latitude"
+                    id="latitudeInput"
+                    className="form-control"
+                    value={latitude}
+                    onChange={handleLatitudeChange}
+                  />
+                  <select
+                    className="form-control"
+                    value={ew}
+                    onChange={handleSelectChangeLongitute}
+                  >
+                    <option value="E">E</option>
+                    <option value="W">W</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
+            <div className="d-flex col-md-6">
+              <div className="col-6 form-group">
                 <label htmlFor="fromMinsInput">From Mins:</label>
                 <input
+                  value={fromMin}
                   type="number"
                   id="fromMinsInput"
                   className="form-control"
+                  onChange={(event: any) => {
+                    setFromMin(event.target.value);
+                    // if (fromMin <= 3) {
+                    //   from = fromMin;
+                    // } else {
+                    //   toast.error("enter valid amount");
+                    // }
+                  }}
                 />
               </div>
-              <div className="form-group">
+              <div className="col-6 form-group">
                 <label htmlFor="toMinsInput">To Mins:</label>
                 <input
+                  value={toMin}
                   type="number"
                   id="toMinsInput"
                   className="form-control"
+                  onChange={(event: any) => {
+                    setToMin(event.target.value);
+                    // if (toMin >= 3) {
+                    //   to = toMin;
+                    // } else {
+                    //   toast.error("enter valid amount");
+                    // }
+                  }}
                 />
               </div>
             </div>
@@ -438,7 +635,9 @@ const ManageRoles: React.FC = () => {
                   id="fontSizeInput"
                   className="form-control"
                   value={fontSize}
-                  onChange={handleFontSizeChange}
+                  onChange={(event: any) => {
+                    setFontSize(event?.target.value);
+                  }}
                 />
               </div>
               <div className="form-group">
@@ -463,12 +662,20 @@ const ManageRoles: React.FC = () => {
                   <option value="bottom">Bottom</option>
                 </select>
               </div>
-              <div className="form-group">
+            </div>
+            <div className="col-12 d-flex justify-content-center form-group">
+              <div>
                 <button
                   onClick={() => handleDownload()}
-                  className="btn btn-primary btn-block"
+                  className="btn btn-primary btn-block mr-2"
                 >
-                  Process Images
+                  Download Images
+                </button>
+                <button
+                  onClick={() => handleDownloadPdf()}
+                  className="btn btn-primary btn-block ms-2"
+                >
+                  Download Pdf
                 </button>
               </div>
             </div>
@@ -479,4 +686,4 @@ const ManageRoles: React.FC = () => {
   );
 };
 
-export default ManageRoles;
+export default Imgeo;

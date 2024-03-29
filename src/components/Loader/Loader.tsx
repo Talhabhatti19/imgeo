@@ -3,31 +3,19 @@ import React from "react";
 const Loader = () => {
   const loader = [
     {
-      loader: "M",
-    },
-    {
-      loader: "Y",
-    },
-    {
-      loader: "T",
+      loader: "I",
     },
     {
       loader: "M",
     },
     {
-      loader: "",
-    },
-    {
-      loader: "C",
-    },
-    {
-      loader: "O",
-    },
-    {
-      loader: "R",
+      loader: "G",
     },
     {
       loader: "E",
+    },
+    {
+      loader: "O",
     },
   ];
   return (

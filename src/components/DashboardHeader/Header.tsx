@@ -67,7 +67,7 @@ const DasbhboardHeader = () => {
                   height={"40px"}
                 />
               </div>
-              Super Admin
+              <h4>Logout</h4>
               <FaAngleDown />
             </div>
           </div>
