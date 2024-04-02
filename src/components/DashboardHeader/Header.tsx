@@ -41,12 +41,7 @@ const DasbhboardHeader = () => {
               </button>
             </div>
           )}
-          <h2
-            className="col-md-6 navbar-brand"
-            style={{ color: themeBuilder?.color?.headingTextColor }}
-          >
-            Welcome !
-          </h2>
+          <h2 className="col-md-6 navbar-brand glow-text">Welcome !</h2>
 
           <div className="d-flex col-md-6 justify-content-end ">
             <div
@@ -67,7 +62,7 @@ const DasbhboardHeader = () => {
                   height={"40px"}
                 />
               </div>
-              <h4>Logout</h4>
+              <h4 className="glow-text">Logout</h4>
               <FaAngleDown />
             </div>
           </div>

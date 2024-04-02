@@ -52,17 +52,17 @@ const Login = () => {
   });
 
   return (
-    <div className="container">
+    <div className="container ">
       <div className="login-container">
         <div className="circle circle-one"></div>
         <div className="circle circle-two"></div>
-        <div className="form-container">
+        <div className="form-container bg-login">
           <img
             src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
             alt="illustration"
             className="illustration"
           />
-          <h1 className="opacity">LOGIN</h1>
+          <h1 className="glow-text">LOGIN</h1>
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={validationSchema}
@@ -73,14 +73,16 @@ const Login = () => {
                 <Form>
                   <div className="form-group">
                     <Field
-                      className="form-control"
+                      className="form-control "
                       type="email"
                       placeholder="Email"
                       name="email"
                       id="email"
                       autoComplete="off"
                     />
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email " className="glow-text">
+                      Email
+                    </label>
                     <ErrorMessage
                       name="email"
                       component="div"
@@ -95,7 +97,9 @@ const Login = () => {
                       className="form-control"
                       placeholder="Password"
                     />
-                    <label htmlFor="password">Password</label>
+                    <label htmlFor="password" className="glow-text">
+                      Password
+                    </label>
                     <ErrorMessage
                       name="password"
                       component="div"

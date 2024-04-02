@@ -104,7 +104,7 @@ const Imgeo: React.FC = () => {
   };
   const handleDownload = () => {
     if (images.length === 0) {
-      console.log("No images uploaded");
+      toast.error("No images uploaded");
       return;
     }
     setLoading(true);
@@ -116,7 +116,6 @@ const Imgeo: React.FC = () => {
     var increment = Number(minutes);
     var latitudeLongitude: any = 123;
     var seconds: any = 9;
-
     console.log(diff, increment, "diff");
 
     // Track the number of images processed successfully
@@ -148,8 +147,19 @@ const Imgeo: React.FC = () => {
         const textX = canvas.width - margin;
         const textY = canvas.height - margin;
         latitudeLongitude = 10 * (index + 1);
+        increment += diff;
+        if (increment >= 60) {
+          incrementCounter++;
+          hours++;
+          increment = 0;
+        }
 
-        console.log(increment, "123");
+        if (seconds >= 60) {
+          seconds = 0;
+        } else {
+          seconds += index + 5;
+        }
+        console.log(increment, index, "123");
 
         ctx.fillText(
           `${format(
@@ -178,9 +188,8 @@ const Imgeo: React.FC = () => {
             if (imagesProcessed === images.length) {
               // Generate ZIP file once all images are processed
               zip.generateAsync({ type: "blob" }).then((content) => {
-                saveAs(content, "images.zip");
+                saveAs(blob, `modified_image_${index}.png`);
                 setLoading(false);
-                setImages([]);
               });
             }
           }, "image/png");
@@ -190,7 +199,7 @@ const Imgeo: React.FC = () => {
       img.onerror = () => {
         console.error("Error loading image.");
         imagesProcessed++;
-
+        setLoading(false);
         // Check if all images have been processed
         if (imagesProcessed === images.length) {
           // Generate ZIP file once all images are processed
@@ -239,14 +248,11 @@ const Imgeo: React.FC = () => {
           latitudeLongitude = 10 * (index + 1);
 
           // Update time only if it's not the first image
-
+          increment += diff;
           if (increment >= 60) {
             incrementCounter++;
-            currentHours++;
+            hours++;
             increment = 0;
-          } else {
-            increment += diff;
-            console.log(increment, "increment");
           }
           if (seconds >= 60) {
             seconds = 0;
@@ -300,7 +306,6 @@ const Imgeo: React.FC = () => {
             pdf.addPage();
           } else {
             pdf.save("images.pdf");
-            setTheme([]);
           }
         } else {
           console.error("2D context is null.");
@@ -325,7 +330,7 @@ const Imgeo: React.FC = () => {
                 <div className="d-box h-100 rider-listing ">
                   <div className="col-12 pt-4 individual-inventory-header">
                     <div className="individual-inventory-images text-dark font-weight-bold">
-                      <h2 className="box-title">Images</h2>
+                      <h2 className="box-title glow-text">Images</h2>
                     </div>
                     <div className="col-12 d-flex justify-content-center">
                       <div className="">
@@ -458,12 +463,14 @@ const Imgeo: React.FC = () => {
               <div className="d-box"></div>
             </Row>
           </Col>
-          <h2>Pick Date and Time</h2>
+          <h2 className="glow-text">Pick Date and Time</h2>
 
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="dateInput">Date:</label>
+                <label htmlFor="dateInput" className="glow-text">
+                  Date:
+                </label>
                 <DatePicker
                   id="dateInput"
                   selected={selectedDate}
@@ -475,7 +482,9 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="d-flex col-md-6">
               <div className="col-6 form-group">
-                <label htmlFor="fromMinsInput">Hours:</label>
+                <label htmlFor="fromMinsInput" className="glow-text">
+                  Hours:
+                </label>
                 <input
                   type="number"
                   id="fromMinsInput"
@@ -488,7 +497,9 @@ const Imgeo: React.FC = () => {
                 />
               </div>
               <div className="col-6 form-group">
-                <label htmlFor="toMinsInput">Minutes:</label>
+                <label htmlFor="toMinsInput" className="glow-text">
+                  Minutes:
+                </label>
                 <input
                   type="number"
                   id="toMinsInput"
@@ -506,7 +517,9 @@ const Imgeo: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="emailInput">Email:</label>
+                <label htmlFor="emailInput" className="glow-text">
+                  Address
+                </label>
                 <input
                   placeholder="Enter the email"
                   type="email"
@@ -519,7 +532,9 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="longitudeInput">Longitude:</label>
+                <label htmlFor="longitudeInput" className="glow-text">
+                  Longitude:
+                </label>
                 <div className="d-flex">
                   <input
                     type="text"
@@ -545,7 +560,9 @@ const Imgeo: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="latitudeInput">Latitude:</label>
+                <label htmlFor="latitudeInput" className="glow-text">
+                  Latitude:
+                </label>
                 <div className="d-flex">
                   <input
                     type="text"
@@ -568,7 +585,9 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="d-flex col-md-6">
               <div className="col-6 form-group">
-                <label htmlFor="fromMinsInput">From Mins:</label>
+                <label htmlFor="fromMinsInput" className="glow-text">
+                  From Mins:
+                </label>
                 <input
                   value={fromMin}
                   type="number"
@@ -585,7 +604,9 @@ const Imgeo: React.FC = () => {
                 />
               </div>
               <div className="col-6 form-group">
-                <label htmlFor="toMinsInput">To Mins:</label>
+                <label htmlFor="toMinsInput" className="glow-text">
+                  To Mins:
+                </label>
                 <input
                   value={toMin}
                   type="number"
@@ -607,7 +628,9 @@ const Imgeo: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="fontSizeInput">Font Size:</label>
+                <label htmlFor="fontSizeInput" className="glow-text">
+                  Font Size:
+                </label>
                 <input
                   type="number"
                   id="fontSizeInput"
@@ -621,7 +644,9 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="picNameInput">Enter the pic name:</label>
+                <label htmlFor="picNameInput" className="glow-text">
+                  Enter the pic name:
+                </label>
                 <input
                   placeholder="Enter the pic name"
                   type="text"
