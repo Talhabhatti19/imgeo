@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Col, Dropdown, Row } from "react-bootstrap";
-import Slider from "react-slick";
+import { Col, Dropdown, Modal, ModalBody, Row } from "react-bootstrap";
+
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
-import moment from "moment";
+
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
 // @ts-ignore
 import jsPDF from "jspdf";
-import { format } from "date-fns";
+import { format as formatDate } from "date-fns";
 import toast from "react-hot-toast";
 import Loader from "./Loader/Loader";
-import { setTheme } from "../redux/apis/apisSlice";
+
+import { FileUploader } from "react-drag-drop-files";
 var from: any = 0;
 var to: any = 0;
 const Imgeo: React.FC = () => {
@@ -30,6 +31,7 @@ const Imgeo: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   let [selectedTime, setSelectedTime] = useState<any>();
   let [ew, setEw] = useState<any>("E");
+  const [open, setOpen] = useState(false);
 
   let [hours, setHours] = useState<any>(0);
   let [minutes, setMinutes] = useState<any>(0);
@@ -37,6 +39,7 @@ const Imgeo: React.FC = () => {
   let [toMin, setToMin] = useState<any>(0);
   const [ns, setNs] = useState<any>("N");
   const [fontSize, setFontSize] = useState<any>("30");
+  const [file, setFile] = useState<any>();
   const handleFontSizeChange = (e: any) => {
     setFontSize(Number(e.target.value)); // Convert input value to a number and update the state
   };
@@ -46,7 +49,6 @@ const Imgeo: React.FC = () => {
   }, []);
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
-    console.log(format(selectedDate, "dd MMM yyyy"));
   };
 
   const handleEmailChange = (event: any) => {
@@ -65,27 +67,93 @@ const Imgeo: React.FC = () => {
     console.log("Minutes:", minutes);
     console.log(selectedTime, "selectedTime");
   };
-
-  const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files: FileList = e.target.files;
-      const urls: string[] = [];
+  const fileTypes = ["JPEG", "PNG", "GIF"];
+  const handleChange = (file: any) => {
+    console.log(file, "file");
+    if (file) {
+      const files: FileList = file;
+      const newUrls: string[] = [];
 
       Array.from(files).forEach((file: File) => {
-        urls.push(URL.createObjectURL(file));
+        newUrls.push(URL.createObjectURL(file));
       });
 
-      setImages(urls);
+      // Concatenate the new image URLs with the existing ones
+      const updatedUrls = [...images, ...newUrls];
+      setFile(file);
+      setImages(updatedUrls);
+      setIndexNumber(0); // Reset indexNumber to display the first image
+    }
+
+    // setImages(file);
+  };
+  const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e, "newfile");
+
+    if (e.target.files) {
+      const files: FileList = e.target.files;
+      const newUrls: string[] = [];
+
+      Array.from(files).forEach((file: File) => {
+        newUrls.push(URL.createObjectURL(file));
+      });
+
+      // Concatenate the new image URLs with the existing ones
+      const updatedUrls = [...images, ...newUrls];
+
+      setImages(updatedUrls);
       setIndexNumber(0); // Reset indexNumber to display the first image
     }
   };
+
   const handleLongitudeChange = (event: any) => {
-    setLongitude(event.target.value);
+    const { value } = event.target;
+
+    const regEx = /^-?\d{0,2}(\.\d{0,15})?$/;
+
+    if (value === "" || value === "-" || regEx.test(value)) {
+      let isValidRange = true;
+
+      if (value !== "-" && value !== "") {
+        const numericValue = parseFloat(value);
+
+        isValidRange =
+          numericValue >= -99.999999999999999 &&
+          numericValue <= 99.999999999999999;
+      }
+
+      if (isValidRange) {
+        setLongitude(value);
+      }
+    }
   };
 
   const handleLatitudeChange = (event: any) => {
-    setLatitude(event.target.value);
+    const { value } = event.target;
+    // Allow input that starts with a negative sign, up to two digits before the decimal,
+    // and up to 15 digits after the decimal
+    const regEx = /^-?\d{0,2}(\.\d{0,15})?$/;
+
+    // Check if the input is either empty, a single minus for negative values, or matches the regex
+    if (value === "" || value === "-" || regEx.test(value)) {
+      let isValidRange = true;
+
+      // If it's not just a "-", check the range
+      if (value !== "-" && value !== "") {
+        const numericValue = parseFloat(value);
+        // Adjust the range check for negative values if necessary
+        isValidRange =
+          numericValue >= -99.999999999999999 &&
+          numericValue <= 99.999999999999999;
+      }
+
+      // If in range, update the state
+      if (isValidRange) {
+        setLatitude(value);
+      }
+    }
   };
+
   const moveImage = (fromIndex: number, toIndex: number) => {
     const updatedImages = [...images];
     const movedImage = updatedImages.splice(fromIndex, 1)[0];
@@ -107,19 +175,27 @@ const Imgeo: React.FC = () => {
       toast.error("No images uploaded");
       return;
     }
-    setLoading(true);
-    const zip = new JSZip();
-    let currentTime = moment(minutes);
-    let currentMinutes: any = minutes;
-    let incrementCounter = 0;
-    const diff = Number(toMin - fromMin);
-    var increment = Number(minutes);
-    var latitudeLongitude: any = 123;
-    var seconds: any = 9;
-    console.log(diff, increment, "diff");
+    let currentHours = parseInt(hours); // Parse hours as an integer
+    let currentMinutes = parseInt(minutes); // Parse minutes as an integer
+    let seconds = 0; // Initialize seconds to 0
 
-    // Track the number of images processed successfully
+    // Initialize incrementCounter and other variables
+    let incrementCounter = 0;
+    const diff = parseInt(toMin) - parseInt(fromMin);
+    let increment = parseInt(minutes);
+    let latitudeLongitude = 123;
+    const format = window.prompt(
+      "Enter the format to save images (jpg, png, zip):"
+    );
+
+    if (!format || (format !== "jpg" && format !== "png" && format !== "zip")) {
+      toast.error("Invalid format selected.");
+      return;
+    }
+
+    setLoading(true);
     let imagesProcessed = 0;
+    const zip = format === "zip" ? new JSZip() : null;
 
     images.forEach((imageSrc, index) => {
       const img = new Image();
@@ -128,88 +204,124 @@ const Imgeo: React.FC = () => {
 
       img.onload = () => {
         const canvas = document.createElement("canvas");
-        const ctx: any = canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
+
+        if (!ctx) {
+          console.error("Failed to get canvas context");
+          return; // Exit if ctx is null
+        }
 
         canvas.width = img.width;
         canvas.height = img.height;
 
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 9, 25);
 
         ctx.fillStyle = "white";
-        ctx.font = `${fontSize}px Arial`;
-        ctx.textAlign = "right";
+        ctx.font = `30px Arial`;
 
-        const margin = 20;
-
-        currentTime.add(10, "minutes");
-        const timeString = currentTime.format("mm");
-
-        const textX = canvas.width - margin;
-        const textY = canvas.height - margin;
         latitudeLongitude = 10 * (index + 1);
+        function drawText(
+          ctx: CanvasRenderingContext2D,
+          text: string,
+          x: number,
+          y: number,
+          maxWidth: number
+        ) {
+          let fontSize = 30; // Start with a default font size
+          ctx.font = `${fontSize}px Arial`;
+          ctx.fillStyle = "white";
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = 2;
+
+          // Reduce the font size until the text fits the canvas width or reaches a minimum size
+          while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+            fontSize--;
+            ctx.font = `${fontSize}px Arial`;
+          }
+
+          // Draw text with a stroke to ensure visibility on varied backgrounds
+          ctx.strokeText(text, x, y);
+          ctx.fillText(text, x, y);
+        }
+
+        // ...Inside your image processing loop
+
+        // Calculate maximum text width based on image dimensions
+        const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
+
+        // Calculate positions for your texts; adjust based on your requirements
+        const textYDate = img.height - 90; // Position for date
+        const textYLongitude = img.height - 60; // Position for longitude
+        const textYEmail = img.height - 30; // Position for email
+        const textYName = img.height - 10; // Position for name
+
+        // Construct your text strings
         increment += diff;
         if (increment >= 60) {
           incrementCounter++;
           hours++;
           increment = 0;
         }
-
         if (seconds >= 60) {
           seconds = 0;
         } else {
           seconds += index + 5;
         }
-        console.log(increment, index, "123");
+        console.log(increment, "sfjkhgjdgfslk");
 
-        ctx.fillText(
-          `${format(
-            selectedDate,
-            "dd MMM yyyy"
-          )}  ${hours}:${increment}:${seconds}`,
-          textX,
-          textY - 150
-        );
-        ctx.fillText(
-          ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`,
-          textX,
-          textY - 120
-        );
+        // Formatting the date using date-fns for example
+        const dateString = `${formatDate(
+          selectedDate,
+          "dd MMM yyyy"
+        )} ${currentHours}:${increment}:${seconds}`;
+        const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
+        const emailString = `${email}`;
+        const nameString = `${nameChange}`;
 
-        ctx.fillText(` ${email}`, textX, textY - 90);
-        ctx.fillText(`${nameChange}`, textX, textY - 60);
-
-        canvas.toBlob((blob: any) => {
-          // Convert to PNG
-          canvas.toBlob((pngBlob: any) => {
-            zip.file(`modified_image_${index}.png`, pngBlob); // Save as PNG
+        // Draw the texts onto the canvas
+        drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
+        drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
+        drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
+        drawText(ctx, nameString, 10, textYName, maxTextWidth);
+        const handleBlob = (blob: any) => {
+          if (blob && format === "zip" && zip) {
+            zip.file(`modified_image_${index}.png`, blob);
             imagesProcessed++;
-
-            // Check if all images have been processed
             if (imagesProcessed === images.length) {
-              // Generate ZIP file once all images are processed
               zip.generateAsync({ type: "blob" }).then((content) => {
-                saveAs(blob, `modified_image_${index}.png`);
+                saveAs(content, "images.zip");
                 setLoading(false);
+                toast.success("All images have been saved as ZIP.");
               });
             }
-          }, "image/png");
-        }, "image/jpeg"); // Convert to JPEG initially
+          } else if (blob) {
+            saveAs(blob, `modified_image_${index}.${format}`);
+            imagesProcessed++;
+            if (imagesProcessed === images.length) {
+              setLoading(false);
+              toast.success("All images have been saved individually.");
+            }
+          }
+        };
+
+        if (format === "zip" || format === "png") {
+          canvas.toBlob(handleBlob, "image/png");
+        } else if (format === "jpg") {
+          canvas.toBlob(handleBlob, "image/jpeg");
+        }
       };
 
       img.onerror = () => {
         console.error("Error loading image.");
         imagesProcessed++;
-        setLoading(false);
-        // Check if all images have been processed
         if (imagesProcessed === images.length) {
-          // Generate ZIP file once all images are processed
-          zip.generateAsync({ type: "blob" }).then((content) => {
-            saveAs(content, "images.zip");
-          });
+          setLoading(false);
+          toast.error("An error occurred with some images.");
         }
       };
     });
   };
+
   const handleDownloadPdf = () => {
     const pdf = new jsPDF();
     let currentHours = parseInt(hours); // Parse hours as an integer
@@ -221,7 +333,8 @@ const Imgeo: React.FC = () => {
     const diff = parseInt(toMin) - parseInt(fromMin);
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
-
+    let textX = 10; // Example x position for text
+    let textY = 180;
     images.forEach((imageSrc, index) => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
@@ -233,20 +346,26 @@ const Imgeo: React.FC = () => {
 
         if (ctx) {
           // Check if ctx is not null
-          canvas.width = img.width;
-          canvas.height = img.height;
+          const pdfWidth = 180;
+          const pdfHeight = 120;
+          const scaleX = pdfWidth / img.width;
+          const scaleY = pdfHeight / img.height;
+          const scaleToFit = Math.min(scaleX, scaleY);
 
-          ctx.drawImage(img, 9, 25);
+          canvas.width = img.width * scaleToFit;
+          canvas.height = img.height * scaleToFit;
 
-          ctx.fillStyle = "white";
-          ctx.font = `${fontSize}px Arial`;
-
-          const margin = 10;
-          const textX = canvas.width - margin;
-          const textY = canvas.height - margin;
-
+          ctx.scale(scaleToFit, scaleToFit);
+          ctx.drawImage(img, 0, 0); //
           latitudeLongitude = 10 * (index + 1);
-
+          pdf.addImage(
+            canvas.toDataURL("image/jpeg"),
+            "JPEG",
+            0,
+            0,
+            pdfWidth,
+            pdfHeight
+          );
           // Update time only if it's not the first image
           increment += diff;
           if (increment >= 60) {
@@ -261,13 +380,13 @@ const Imgeo: React.FC = () => {
           }
 
           ctx.fillText(
-            `${format(
+            `${formatDate(
               selectedDate,
               "dd MMM yyyy"
             )}  ${currentHours}:${increment}:${seconds}`,
             textX -
               ctx.measureText(
-                `${format(
+                `${formatDate(
                   selectedDate,
                   "dd MMM yyyy"
                 )}  ${currentHours}:${increment}:${seconds}`
@@ -317,8 +436,17 @@ const Imgeo: React.FC = () => {
       };
     });
   };
+  const handleHours = (event: any) => {
+    const inputValue = event.target.value;
+    const numericValue = parseInt(inputValue, 10);
 
-  console.log(toMin, fromMin, "minutes");
+    if (numericValue > 24 || numericValue < 0 || isNaN(numericValue)) {
+      setHours("");
+    } else {
+      setHours(inputValue);
+    }
+  };
+
   return (
     <div className="form-container mt-3 driver-details">
       {loading && <Loader />}
@@ -330,7 +458,9 @@ const Imgeo: React.FC = () => {
                 <div className="d-box h-100 rider-listing ">
                   <div className="col-12 pt-4 individual-inventory-header">
                     <div className="individual-inventory-images text-dark font-weight-bold">
-                      <h2 className="box-title glow-text">Images</h2>
+                      <h2 className="box-title" style={{ color: "white" }}>
+                        Images
+                      </h2>
                     </div>
                     <div className="col-12 d-flex justify-content-center">
                       <div className="">
@@ -413,7 +543,10 @@ const Imgeo: React.FC = () => {
                     </div>
                     <div className="col-xl-12 d-flex justify-content-center mt-4">
                       <div className="col-xl-8 d-flex align-items-center justify-content-center">
-                        <label htmlFor="imageInput" className="btn btn-primary">
+                        <label
+                          htmlFor="imageInput"
+                          className=" btn-theme btn-block"
+                        >
                           Upload Image
                         </label>
                         <input
@@ -426,34 +559,65 @@ const Imgeo: React.FC = () => {
                         />
                       </div>
                     </div>
-                  </div>
-                  {/* New section for selected images */}
-                  <div className="col-12 mt-4 text-center">
-                    <div className="selected-images">
-                      {images.map((image, index) => (
-                        <img
-                          key={index}
-                          src={image}
-                          alt={`Selected ${index}`}
-                          className="selected-image"
-                          onClick={() => setIndexNumber(index)}
-                          onDragStart={(e) => {
-                            e.dataTransfer.setData("index", index.toString());
-                          }}
-                          onDragOver={(e) => {
-                            e.preventDefault();
-                          }}
-                          onDrop={(e) => {
-                            const fromIndex = parseInt(
-                              e.dataTransfer.getData("index")
-                            );
-                            moveImage(fromIndex, index);
-                          }}
-                          draggable
+                    <div className="col-xl-12 d-flex justify-content-center mt-4">
+                      <div className="drag">
+                        <FileUploader
+                          multiple={true}
+                          handleChange={handleChange}
+                          name="file"
+                          types={fileTypes}
                         />
-                      ))}
+                        {/* <p style={{ color: "white" }}>
+                          {file
+                            ? `File name: ${file[0].name}`
+                            : "no files uploaded yet"}
+                        </p> */}
+                      </div>
                     </div>
                   </div>
+                  {/* New section for selected images */}
+
+                  <button
+                    onClick={() => {
+                      setOpen(true);
+                    }}
+                    className="btn btn-theme btn-block"
+                  >
+                    selected images
+                  </button>
+                  <Modal size="lg" show={open} onHide={() => setOpen(!open)}>
+                    <ModalBody>
+                      <div className="col-12 mt-4 text-center">
+                        <div className="selected-images">
+                          {images.map((image, index) => (
+                            <img
+                              key={index}
+                              src={image}
+                              alt={`Selected ${index}`}
+                              className="selected-image"
+                              onClick={() => setIndexNumber(index)}
+                              onDragStart={(e) => {
+                                e.dataTransfer.setData(
+                                  "index",
+                                  index.toString()
+                                );
+                              }}
+                              onDragOver={(e) => {
+                                e.preventDefault();
+                              }}
+                              onDrop={(e) => {
+                                const fromIndex = parseInt(
+                                  e.dataTransfer.getData("index")
+                                );
+                                moveImage(fromIndex, index);
+                              }}
+                              draggable
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </ModalBody>
+                  </Modal>
                 </div>
               </Col>
             </Row>
@@ -463,12 +627,11 @@ const Imgeo: React.FC = () => {
               <div className="d-box"></div>
             </Row>
           </Col>
-          <h2 className="glow-text">Pick Date and Time</h2>
-
+          <h2 style={{ color: "white" }}>Pick Date and Time</h2>
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="dateInput" className="glow-text">
+                <label htmlFor="dateInput" style={{ color: "white" }}>
                   Date:
                 </label>
                 <DatePicker
@@ -482,22 +645,20 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="d-flex col-md-6">
               <div className="col-6 form-group">
-                <label htmlFor="fromMinsInput" className="glow-text">
+                <label htmlFor="fromMinsInput" style={{ color: "white" }}>
                   Hours:
                 </label>
                 <input
                   type="number"
                   id="fromMinsInput"
                   value={hours}
-                  onChange={(event: any) => {
-                    setHours(event.target.value);
-                  }}
+                  onChange={handleHours}
                   placeholder="enter hours"
                   className="form-control"
                 />
               </div>
               <div className="col-6 form-group">
-                <label htmlFor="toMinsInput" className="glow-text">
+                <label htmlFor="toMinsInput" style={{ color: "white" }}>
                   Minutes:
                 </label>
                 <input
@@ -517,75 +678,22 @@ const Imgeo: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="emailInput" className="glow-text">
+                <label htmlFor="address" style={{ color: "white" }}>
                   Address
                 </label>
                 <input
-                  placeholder="Enter the email"
-                  type="email"
-                  id="emailInput"
+                  placeholder="Enter the address"
+                  type="address"
+                  id="addressInput"
                   className="form-control"
                   value={email}
                   onChange={handleEmailChange}
                 />
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="longitudeInput" className="glow-text">
-                  Longitude:
-                </label>
-                <div className="d-flex">
-                  <input
-                    type="text"
-                    placeholder="Enter the Longitude"
-                    id="longitudeInput"
-                    className="form-control"
-                    value={longitude}
-                    onChange={handleLongitudeChange}
-                  />
-                  <select
-                    className="form-control"
-                    value={ns}
-                    onChange={handleSelectChangeLatitude}
-                  >
-                    <option value="N">N</option>
-                    <option value="S">S</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="latitudeInput" className="glow-text">
-                  Latitude:
-                </label>
-                <div className="d-flex">
-                  <input
-                    type="text"
-                    placeholder="Enter the Latitude"
-                    id="latitudeInput"
-                    className="form-control"
-                    value={latitude}
-                    onChange={handleLatitudeChange}
-                  />
-                  <select
-                    className="form-control"
-                    value={ew}
-                    onChange={handleSelectChangeLongitute}
-                  >
-                    <option value="E">E</option>
-                    <option value="W">W</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="d-flex col-md-6">
+            <div className="col-md-6 d-flex">
               <div className="col-6 form-group">
-                <label htmlFor="fromMinsInput" className="glow-text">
+                <label htmlFor="fromMinsInput" style={{ color: "white" }}>
                   From Mins:
                 </label>
                 <input
@@ -604,7 +712,7 @@ const Imgeo: React.FC = () => {
                 />
               </div>
               <div className="col-6 form-group">
-                <label htmlFor="toMinsInput" className="glow-text">
+                <label htmlFor="toMinsInput" style={{ color: "white" }}>
                   To Mins:
                 </label>
                 <input
@@ -628,7 +736,60 @@ const Imgeo: React.FC = () => {
           <div className="row">
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="fontSizeInput" className="glow-text">
+                <label htmlFor="latitudeInput" style={{ color: "white" }}>
+                  Latitude:
+                </label>
+                <div className="d-flex">
+                  <input
+                    type="number"
+                    placeholder="Enter the Latitude"
+                    id="latitudeInput"
+                    className="form-control"
+                    value={latitude}
+                    onChange={handleLatitudeChange}
+                  />
+                  <select
+                    className="form-control"
+                    value={ew}
+                    onChange={handleSelectChangeLongitute}
+                  >
+                    <option value="E">E</option>
+                    <option value="W">W</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="d-flex col-md-6">
+              <div className="form-group">
+                <label htmlFor="longitudeInput" style={{ color: "white" }}>
+                  Longitude:
+                </label>
+                <div className="d-flex">
+                  <input
+                    type="number"
+                    placeholder="Enter the Longitude"
+                    id="longitudeInput"
+                    className="form-control"
+                    value={longitude}
+                    onChange={handleLongitudeChange}
+                  />
+                  <select
+                    className="form-control"
+                    value={ns}
+                    onChange={handleSelectChangeLatitude}
+                  >
+                    <option value="N">N</option>
+                    <option value="S">S</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="fontSizeInput" style={{ color: "white" }}>
                   Font Size:
                 </label>
                 <input
@@ -644,7 +805,7 @@ const Imgeo: React.FC = () => {
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <label htmlFor="picNameInput" className="glow-text">
+                <label htmlFor="picNameInput" style={{ color: "white" }}>
                   Enter the pic name:
                 </label>
                 <input
@@ -661,13 +822,13 @@ const Imgeo: React.FC = () => {
               <div>
                 <button
                   onClick={() => handleDownload()}
-                  className="btn btn-primary btn-block mr-2"
+                  className="btn btn-theme btn-block mr-2"
                 >
                   Download Images
                 </button>
                 <button
                   onClick={() => handleDownloadPdf()}
-                  className="btn btn-primary btn-block ms-2"
+                  className="btn btn-theme btn-block ms-2"
                 >
                   Download Pdf
                 </button>

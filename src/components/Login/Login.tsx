@@ -62,7 +62,7 @@ const Login = () => {
             alt="illustration"
             className="illustration"
           />
-          <h1 className="glow-text">LOGIN</h1>
+          <h1 style={{ color: "white" }}>LOGIN</h1>
           <Formik
             initialValues={{ email: "", password: "" }}
             validationSchema={validationSchema}
@@ -80,7 +80,7 @@ const Login = () => {
                       id="email"
                       autoComplete="off"
                     />
-                    <label htmlFor="email " className="glow-text">
+                    <label htmlFor="email " style={{ color: "white" }}>
                       Email
                     </label>
                     <ErrorMessage
@@ -97,7 +97,7 @@ const Login = () => {
                       className="form-control"
                       placeholder="Password"
                     />
-                    <label htmlFor="password" className="glow-text">
+                    <label htmlFor="password" style={{ color: "white" }}>
                       Password
                     </label>
                     <ErrorMessage

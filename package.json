@@ -36,6 +36,7 @@
     "react-bootstrap": "^2.9.2",
     "react-datepicker": "^6.6.0",
     "react-dom": "^18.2.0",
+    "react-drag-drop-files": "^2.3.10",
     "react-echarts-wrapper": "^1.0.3",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^14.0.5",

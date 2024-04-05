@@ -3,14 +3,12 @@ body {
   margin: 0;
   height: 100% !important;
   line-height: 1 !important;
-  background: #231931;
+  background: rgb(67, 66, 66);
   font-family: titillium-web, sans-serif !important;
   overflow-x: hidden;
   
 }
-.bg-login{
-  background: linear-gradient(to right, #231931 0, #711f9d 54%, #29abe2 100%)!important;
-}
+
 
 #overlay {
   position: fixed;
@@ -99,7 +97,24 @@ body {
     transform: rotate(360deg);
   }
 }
-
+.pub-logo-3 {
+  fill: url(#linear-gradient-logo);
+}
+.pub-logo-8 {
+  fill: #fff;
+}
+.pub-logo-4 {
+  fill: #4f3084;
+}
+.pub-logo-6 {
+  fill: #164999;
+}
+.pub-logo-1 {
+  clip-path: url(#clippath);
+}
+.pub-logo-9 {
+  fill: #eb2a27;
+}
 .cursor-pointer {
   cursor: pointer;
 }
@@ -146,7 +161,7 @@ body {
 }
 
 .header_layout {
-  background-color: #231931;
+
   padding: 0.75rem;
 }
 .page-header {
@@ -541,6 +556,10 @@ div#DataTables_Table_0_paginate {
   border: none;
   top: 4rem;
 }
+.css-pb8bpm{
+  border-right-style: none!important;
+}
+
 .flex.colOne {
   z-index: 1000;
   position: fixed;
@@ -551,7 +570,7 @@ div#DataTables_Table_0_paginate {
   -moz-transition: all 0.3s ease;
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
-  box-shadow: 0 0 36px 1px #e968e8;
+  box-shadow: 0 0 36px 1px rgb(243, 243, 243);
   border-radius: 10px;
   backdrop-filter: blur(20px);
   z-index: 99;
@@ -1495,7 +1514,8 @@ h1 {
 
 }
 .form-container {
-  border: 1px solid hsla(0, 0%, 65%, 0.158);
+  border: 5px solid hsla(0, 100%, 99%, 0.158);
+  box-shadow: 0 0 36px 1px rgb(243, 243, 243);
   border-radius: 10px;
   backdrop-filter: blur(20px);
   z-index: 99;
@@ -1539,7 +1559,7 @@ h1 {
 }
 
 .login-container form button {
-  background-color: #e968e8;
+  background-color: rgb(34, 32, 32);
   color: var(--color);
   display: block;
   padding: 13px;
@@ -1742,4 +1762,21 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.drag{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+}
+label{
+  width: 350px;
+}
+.guZdik{
+  border: 2px dashed white!important;
+}
+.jWkLDY > span{
+  color: white!important;
 }
