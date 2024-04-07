@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Dropdown, Modal, ModalBody, Row } from "react-bootstrap";
-
+import heic2any from "heic2any";
 import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -67,26 +67,45 @@ const Imgeo: React.FC = () => {
     console.log("Minutes:", minutes);
     console.log(selectedTime, "selectedTime");
   };
-  const fileTypes = ["JPEG", "PNG", "GIF"];
-  const handleChange = (file: any) => {
-    console.log(file, "file");
-    if (file) {
-      const files: FileList = file;
+  const fileTypes = ["JPEG", "PNG", "GIF", "JPG", "HEIC"];
+
+  const handleChange = async (fileInput: any) => {
+    console.log(fileInput, "file");
+    if (fileInput) {
+      const files: FileList = fileInput;
       const newUrls: string[] = [];
 
-      Array.from(files).forEach((file: File) => {
-        newUrls.push(URL.createObjectURL(file));
-      });
+      for (const file of Array.from(files)) {
+        if (file.type === "image/heic") {
+          try {
+            // Convert HEIC to JPEG
+            const conversionResult: any = await heic2any({
+              blob: file,
+              toType: "image/jpeg", // or "image/png"
+              quality: 0.8, // Quality of the output JPEG
+            });
+
+            // Create a URL for the converted image and push it to newUrls
+            newUrls.push(URL.createObjectURL(conversionResult));
+          } catch (error) {
+            console.error("Error converting HEIC to JPEG:", error);
+            setLoading(false);
+          }
+        } else {
+          // For non-HEIC images, create a URL as before
+          newUrls.push(URL.createObjectURL(file));
+          setLoading(false);
+        }
+      }
 
       // Concatenate the new image URLs with the existing ones
       const updatedUrls = [...images, ...newUrls];
-      setFile(file);
+      setFile(fileInput); // Assuming this should be fileInput, not file
       setImages(updatedUrls);
       setIndexNumber(0); // Reset indexNumber to display the first image
     }
-
-    // setImages(file);
   };
+
   const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e, "newfile");
 
@@ -175,6 +194,7 @@ const Imgeo: React.FC = () => {
       toast.error("No images uploaded");
       return;
     }
+    setLoading(true);
     let currentHours = parseInt(hours); // Parse hours as an integer
     let currentMinutes = parseInt(minutes); // Parse minutes as an integer
     let seconds = 0; // Initialize seconds to 0
@@ -185,11 +205,19 @@ const Imgeo: React.FC = () => {
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
     const format = window.prompt(
-      "Enter the format to save images (jpg, png, zip):"
+      "Enter the format to save images (jpg, png, zip,jpeg,heic):"
     );
 
-    if (!format || (format !== "jpg" && format !== "png" && format !== "zip")) {
+    if (
+      !format ||
+      !format ||
+      (format !== "jpg" &&
+        format !== "png" &&
+        format !== "zip" &&
+        format !== "heic")
+    ) {
       toast.error("Invalid format selected.");
+      setLoading(false);
       return;
     }
 
@@ -201,115 +229,137 @@ const Imgeo: React.FC = () => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = imageSrc;
+      increment += diff;
 
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+      if (increment >= 60) {
+        incrementCounter++;
 
-        if (!ctx) {
-          console.error("Failed to get canvas context");
-          return; // Exit if ctx is null
+        hours++;
+        if (hours > 24) {
+          hours = 0;
+          console.log(hours, "1111");
         }
+        console.log(hours, "222");
 
-        canvas.width = img.width;
-        canvas.height = img.height;
+        increment = 0;
+      }
+      if (seconds >= 60) {
+        seconds = 0;
+      } else {
+        seconds += index + 5;
+      }
 
-        ctx.drawImage(img, 9, 25);
-
-        ctx.fillStyle = "white";
-        ctx.font = `30px Arial`;
-
-        latitudeLongitude = 10 * (index + 1);
-        function drawText(
-          ctx: CanvasRenderingContext2D,
-          text: string,
-          x: number,
-          y: number,
-          maxWidth: number
-        ) {
-          let fontSize = 30; // Start with a default font size
-          ctx.font = `${fontSize}px Arial`;
-          ctx.fillStyle = "white";
-          ctx.strokeStyle = "black";
-          ctx.lineWidth = 2;
-
-          // Reduce the font size until the text fits the canvas width or reaches a minimum size
-          while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
-            fontSize--;
-            ctx.font = `${fontSize}px Arial`;
+      (function (currentIncrement, currentSeconds, hours) {
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          if (increment >= 60) {
+            incrementCounter++;
+            hours++;
+            if (hours > 24) {
+              setHours(0);
+            }
+            increment = 0;
+            console.log(increment, "hours3");
           }
 
-          // Draw text with a stroke to ensure visibility on varied backgrounds
-          ctx.strokeText(text, x, y);
-          ctx.fillText(text, x, y);
-        }
+          if (!ctx) {
+            console.error("Failed to get canvas context");
+            return; // Exit if ctx is null
+          }
 
-        // ...Inside your image processing loop
+          canvas.width = img.width;
+          canvas.height = img.height;
 
-        // Calculate maximum text width based on image dimensions
-        const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
+          ctx.drawImage(img, 9, 25);
 
-        // Calculate positions for your texts; adjust based on your requirements
-        const textYDate = img.height - 90; // Position for date
-        const textYLongitude = img.height - 60; // Position for longitude
-        const textYEmail = img.height - 30; // Position for email
-        const textYName = img.height - 10; // Position for name
+          ctx.fillStyle = "white";
+          ctx.font = `30px Arial`;
 
-        // Construct your text strings
-        increment += diff;
-        if (increment >= 60) {
-          incrementCounter++;
-          hours++;
-          increment = 0;
-        }
-        if (seconds >= 60) {
-          seconds = 0;
-        } else {
-          seconds += index + 5;
-        }
-        console.log(increment, "sfjkhgjdgfslk");
+          latitudeLongitude = 10 * (index + 1);
+          function drawText(
+            ctx: CanvasRenderingContext2D,
+            text: string,
+            x: number,
+            y: number,
+            maxWidth: number
+          ) {
+            let fontSize = 30; // Start with a default font size
+            ctx.font = `${fontSize}px Arial`;
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
 
-        // Formatting the date using date-fns for example
-        const dateString = `${formatDate(
-          selectedDate,
-          "dd MMM yyyy"
-        )} ${currentHours}:${increment}:${seconds}`;
-        const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
-        const emailString = `${email}`;
-        const nameString = `${nameChange}`;
+            // Reduce the font size until the text fits the canvas width or reaches a minimum size
+            while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+              fontSize--;
+              ctx.font = `${fontSize}px Arial`;
+            }
 
-        // Draw the texts onto the canvas
-        drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
-        drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
-        drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
-        drawText(ctx, nameString, 10, textYName, maxTextWidth);
-        const handleBlob = (blob: any) => {
-          if (blob && format === "zip" && zip) {
-            zip.file(`modified_image_${index}.png`, blob);
-            imagesProcessed++;
-            if (imagesProcessed === images.length) {
-              zip.generateAsync({ type: "blob" }).then((content) => {
-                saveAs(content, "images.zip");
+            // Draw text with a stroke to ensure visibility on varied backgrounds
+            ctx.strokeText(text, x, y);
+            ctx.fillText(text, x, y);
+          }
+
+          // ...Inside your image processing loop
+
+          // Calculate maximum text width based on image dimensions
+          const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
+
+          // Calculate positions for your texts; adjust based on your requirements
+          const textYDate = img.height - 90; // Position for date
+          const textYLongitude = img.height - 60; // Position for longitude
+          const textYEmail = img.height - 30; // Position for email
+          const textYName = img.height - 10; // Position for name
+
+          // Construct your text strings
+
+          // Formatting the date using date-fns for example
+          const dateString = `${formatDate(
+            selectedDate,
+            "dd MMM yyyy"
+          )} ${hours}:${currentIncrement}:${currentSeconds}`;
+
+          const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
+          const emailString = `${email}`;
+          const nameString = `${nameChange}`;
+
+          // Draw the texts onto the canvas
+          drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
+          drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
+          drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
+          drawText(ctx, nameString, 10, textYName, maxTextWidth);
+
+          const handleBlob = (blob: any) => {
+            if (blob && format === "zip" && zip) {
+              zip.file(`modified_image_${index}.png`, blob);
+              imagesProcessed++;
+              if (imagesProcessed === images.length) {
+                zip.generateAsync({ type: "blob" }).then((content) => {
+                  saveAs(content, "images.zip");
+                  setLoading(false);
+                  toast.success("All images have been saved as ZIP.");
+                });
+              }
+            } else if (blob) {
+              saveAs(blob, `modified_image_${index}.${format}`);
+              imagesProcessed++;
+
+              if (imagesProcessed === images.length) {
                 setLoading(false);
-                toast.success("All images have been saved as ZIP.");
-              });
+                setImages([]);
+                toast.success("All images have been saved individually.");
+              }
             }
-          } else if (blob) {
-            saveAs(blob, `modified_image_${index}.${format}`);
-            imagesProcessed++;
-            if (imagesProcessed === images.length) {
-              setLoading(false);
-              toast.success("All images have been saved individually.");
-            }
+          };
+
+          if (format === "zip" || format === "png") {
+            canvas.toBlob(handleBlob, "image/png");
+          } else if (format === "jpg" || format === "heic") {
+            canvas.toBlob(handleBlob, "image/jpeg");
           }
         };
-
-        if (format === "zip" || format === "png") {
-          canvas.toBlob(handleBlob, "image/png");
-        } else if (format === "jpg") {
-          canvas.toBlob(handleBlob, "image/jpeg");
-        }
-      };
+      })(increment, seconds, hours);
 
       img.onerror = () => {
         console.error("Error loading image.");
@@ -323,6 +373,8 @@ const Imgeo: React.FC = () => {
   };
 
   const handleDownloadPdf = () => {
+    setLoading(true); // Set loading state to true while processing
+
     const pdf = new jsPDF();
     let currentHours = parseInt(hours); // Parse hours as an integer
     let currentMinutes = parseInt(minutes); // Parse minutes as an integer
@@ -333,44 +385,36 @@ const Imgeo: React.FC = () => {
     const diff = parseInt(toMin) - parseInt(fromMin);
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
-    let textX = 10; // Example x position for text
-    let textY = 180;
+
     images.forEach((imageSrc, index) => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = imageSrc;
-
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
-
-        if (ctx) {
-          // Check if ctx is not null
-          const pdfWidth = 180;
-          const pdfHeight = 120;
-          const scaleX = pdfWidth / img.width;
-          const scaleY = pdfHeight / img.height;
-          const scaleToFit = Math.min(scaleX, scaleY);
-
-          canvas.width = img.width * scaleToFit;
-          canvas.height = img.height * scaleToFit;
-
-          ctx.scale(scaleToFit, scaleToFit);
-          ctx.drawImage(img, 0, 0); //
-          latitudeLongitude = 10 * (index + 1);
-          pdf.addImage(
-            canvas.toDataURL("image/jpeg"),
-            "JPEG",
-            0,
-            0,
-            pdfWidth,
-            pdfHeight
-          );
-          // Update time only if it's not the first image
-          increment += diff;
+      increment += diff;
+      if (increment >= 60) {
+        incrementCounter++;
+        hours++;
+        if (hours > 24) {
+          hours = 0;
+        }
+        increment = 0;
+      }
+      if (seconds >= 60) {
+        seconds = 0;
+      } else {
+        seconds += index + 5;
+      }
+      console.log(increment, "sfjkhgjdgfslk");
+      (function (currentIncrement, currentSeconds, hours) {
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
           if (increment >= 60) {
             incrementCounter++;
             hours++;
+            if (hours > 24) {
+              hours = 0;
+            }
             increment = 0;
           }
           if (seconds >= 60) {
@@ -378,64 +422,110 @@ const Imgeo: React.FC = () => {
           } else {
             seconds += index + 5;
           }
-
-          ctx.fillText(
-            `${formatDate(
-              selectedDate,
-              "dd MMM yyyy"
-            )}  ${currentHours}:${increment}:${seconds}`,
-            textX -
-              ctx.measureText(
-                `${formatDate(
-                  selectedDate,
-                  "dd MMM yyyy"
-                )}  ${currentHours}:${increment}:${seconds}`
-              ).width,
-            textY - 150
-          );
-          ctx.fillText(
-            ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`,
-            textX -
-              ctx.measureText(
-                ` ${longitude}.00000${latitudeLongitude}${ew}  ${latitude}.00000${latitudeLongitude}${ns}`
-              ).width,
-            textY - 120
-          );
-          ctx.fillText(
-            ` ${email}`,
-            textX - ctx.measureText(` ${email}`).width,
-            textY - 90
-          );
-          ctx.fillText(
-            `${nameChange}`,
-            textX - ctx.measureText(`${nameChange}`).width,
-            textY - 60
-          );
-
-          pdf.addImage(
-            canvas.toDataURL("image/jpeg"),
-            "JPEG",
-            10,
-            10,
-            180,
-            120
-          );
-
-          if (index < images.length - 1) {
-            pdf.addPage();
-          } else {
-            pdf.save("images.pdf");
+          canvas.width = img.width;
+          canvas.height = img.height;
+          if (!ctx) {
+            return;
           }
-        } else {
-          console.error("2D context is null.");
-        }
-      };
+          ctx.drawImage(img, 9, 25);
 
+          ctx.fillStyle = "white";
+          ctx.font = `30px Arial`;
+
+          latitudeLongitude = 10 * (index + 1);
+          function drawText(
+            ctx: CanvasRenderingContext2D,
+            text: string,
+            x: number,
+            y: number,
+            maxWidth: number
+          ) {
+            let fontSize = 30; // Start with a default font size
+            ctx.font = `${fontSize}px Arial`;
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            // Reduce the font size until the text fits the canvas width or reaches a minimum size
+            while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+              fontSize--;
+              ctx.font = `${fontSize}px Arial`;
+            }
+
+            // Draw text with a stroke to ensure visibility on varied backgrounds
+            ctx.strokeText(text, x, y);
+            ctx.fillText(text, x, y);
+          }
+
+          // Calculate maximum text width based on image dimensions
+          const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
+
+          // Calculate positions for your texts; adjust based on your requirements
+          const textYDate = img.height - 90; // Position for date
+          const textYLongitude = img.height - 60; // Position for longitude
+          const textYEmail = img.height - 30; // Position for email
+          const textYName = img.height - 10; // Position for name
+
+          // Construct your text strings
+
+          // Formatting the date using date-fns for example
+          const dateString = `${formatDate(
+            selectedDate,
+            "dd MMM yyyy"
+          )} ${hours}:${currentIncrement}:${currentSeconds}`;
+          const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
+          const emailString = `${email}`;
+          const nameString = `${nameChange}`;
+
+          // Draw the texts onto the canvas
+          drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
+          drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
+          drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
+          drawText(ctx, nameString, 10, textYName, maxTextWidth);
+
+          // Convert canvas to base64 image data
+          const imgData = canvas.toDataURL("image/png");
+
+          // Add a new page for each image
+          if (index > 0) {
+            console.log("Adding new page.");
+            pdf.addPage();
+          }
+          const pageWidth = 210; // in mm
+          const pageHeight = 297; // in mm
+
+          // Assuming image dimensions are known (width and height in mm)
+          const imageWidth = 150; // in mm
+          const imageHeight = 150; // in mm
+
+          // Calculate the coordinates to center the image on the page
+          const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
+          const yCoordinate = (pageHeight - imageHeight) / 2;
+
+          // Add image to PDF with fixed dimensions
+          pdf.addImage(
+            imgData,
+            "PNG",
+            xCoordinate,
+            yCoordinate,
+            imageWidth,
+            imageHeight
+          ); // Adjust width and height as needed
+
+          // If this is the last image, save PDF and set loading to false
+          if (index === images.length - 1) {
+            pdf.save("downloaded_images.pdf");
+            setLoading(false); // Set loading state to false after downloading
+            setImages([]);
+          }
+        };
+      })(increment, seconds, hours);
       img.onerror = () => {
         console.error("Error loading image.");
       };
     });
   };
+
   const handleHours = (event: any) => {
     const inputValue = event.target.value;
     const numericValue = parseInt(inputValue, 10);
@@ -541,24 +631,7 @@ const Imgeo: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="col-xl-12 d-flex justify-content-center mt-4">
-                      <div className="col-xl-8 d-flex align-items-center justify-content-center">
-                        <label
-                          htmlFor="imageInput"
-                          className=" btn-theme btn-block"
-                        >
-                          Upload Image
-                        </label>
-                        <input
-                          type="file"
-                          id="imageInput"
-                          accept="image/*"
-                          multiple
-                          onChange={handleImageUploads}
-                          style={{ display: "none" }}
-                        />
-                      </div>
-                    </div>
+                    <div className="col-xl-12 d-flex justify-content-center mt-4"></div>
                     <div className="col-xl-12 d-flex justify-content-center mt-4">
                       <div className="drag">
                         <FileUploader
