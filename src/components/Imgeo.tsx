@@ -291,7 +291,7 @@ const Imgeo: React.FC = () => {
             ctx.lineWidth = 2;
 
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
+            while (ctx.measureText(text).width > maxWidth && fontSize > 30) {
               fontSize--;
               ctx.font = `${fontSize}px Arial`;
             }
@@ -386,26 +386,28 @@ const Imgeo: React.FC = () => {
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
 
-    images.forEach((imageSrc, index) => {
-      const img = new Image();
-      img.crossOrigin = "Anonymous";
-      img.src = imageSrc;
-      increment += diff;
-      if (increment >= 60) {
-        incrementCounter++;
-        hours++;
-        if (hours > 24) {
-          hours = 0;
+    // Define a function to handle loading and processing of each image
+    const loadImage = (index: any) => {
+      if (index < images.length) {
+        const imageSrc = images[index];
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imageSrc;
+        increment += diff;
+        if (increment >= 60) {
+          incrementCounter++;
+          hours++;
+          if (hours > 24) {
+            hours = 0;
+          }
+          increment = 0;
         }
-        increment = 0;
-      }
-      if (seconds >= 60) {
-        seconds = 0;
-      } else {
-        seconds += index + 5;
-      }
-      console.log(increment, "sfjkhgjdgfslk");
-      (function (currentIncrement, currentSeconds, hours) {
+        if (seconds >= 60) {
+          seconds = 0;
+        } else {
+          seconds += index + 5;
+        }
+        console.log(increment, "increment");
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
@@ -466,13 +468,11 @@ const Imgeo: React.FC = () => {
           const textYEmail = img.height - 30; // Position for email
           const textYName = img.height - 10; // Position for name
 
-          // Construct your text strings
-
           // Formatting the date using date-fns for example
           const dateString = `${formatDate(
             selectedDate,
             "dd MMM yyyy"
-          )} ${hours}:${currentIncrement}:${currentSeconds}`;
+          )} ${hours}:${increment}:${seconds}`;
           const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
@@ -486,11 +486,7 @@ const Imgeo: React.FC = () => {
           // Convert canvas to base64 image data
           const imgData = canvas.toDataURL("image/png");
 
-          // Add a new page for each image
-          if (index > 0) {
-            console.log("Adding new page.");
-            pdf.addPage();
-          }
+          // Add image to PDF with fixed dimensions
           const pageWidth = 210; // in mm
           const pageHeight = 297; // in mm
 
@@ -502,7 +498,12 @@ const Imgeo: React.FC = () => {
           const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
           const yCoordinate = (pageHeight - imageHeight) / 2;
 
-          // Add image to PDF with fixed dimensions
+          // Add a new page only for subsequent images
+          if (index > 0) {
+            console.log("Adding new page.");
+            pdf.addPage();
+          }
+
           pdf.addImage(
             imgData,
             "PNG",
@@ -512,17 +513,23 @@ const Imgeo: React.FC = () => {
             imageHeight
           ); // Adjust width and height as needed
 
-          // If this is the last image, save PDF and set loading to false
-          if (index === images.length - 1) {
-            pdf.save("downloaded_images.pdf");
-            setLoading(false); // Set loading state to false after downloading
-          }
+          // Load the next image recursively
+          loadImage(index + 1);
         };
-      })(increment, seconds, hours);
-      img.onerror = () => {
-        console.error("Error loading image.");
-      };
-    });
+        img.onerror = () => {
+          console.error("Error loading image.");
+          // Load the next image even if there's an error
+          loadImage(index + 1);
+        };
+      } else {
+        // If all images are processed, save the PDF and set loading to false
+        pdf.save("downloaded_images.pdf");
+        setLoading(false); // Set loading state to false after downloading
+      }
+    };
+
+    // Start loading the first image
+    loadImage(0);
   };
 
   const handleHours = (event: any) => {
