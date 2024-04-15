@@ -284,14 +284,14 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 30; // Start with a default font size
+            let fontSize = 50; // Start with a default font size
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
 
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+            while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
               fontSize--;
               ctx.font = `${fontSize}px Arial`;
             }
@@ -320,7 +320,7 @@ const Imgeo: React.FC = () => {
             "dd MMM yyyy"
           )} ${hours}:${currentIncrement}:${currentSeconds}`;
 
-          const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
+          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -347,7 +347,7 @@ const Imgeo: React.FC = () => {
 
               if (imagesProcessed === images.length) {
                 setLoading(false);
-                setImages([]);
+
                 toast.success("All images have been saved individually.");
               }
             }
@@ -473,7 +473,7 @@ const Imgeo: React.FC = () => {
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${currentIncrement}:${currentSeconds}`;
-          const longitudeString = `${longitude}.00000${latitudeLongitude}${ew} ${latitude}.00000${latitudeLongitude}${ns}`;
+          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -516,7 +516,6 @@ const Imgeo: React.FC = () => {
           if (index === images.length - 1) {
             pdf.save("downloaded_images.pdf");
             setLoading(false); // Set loading state to false after downloading
-            setImages([]);
           }
         };
       })(increment, seconds, hours);
@@ -535,6 +534,17 @@ const Imgeo: React.FC = () => {
     } else {
       setHours(inputValue);
     }
+  };
+  const handleMinutes = (e: any) => {
+    const value = e.target.value;
+    // Check if the value contains only digits and has length <= 2
+    if (/^\d*$/.test(value) && value.length <= 2) {
+      setMinutes(value);
+    }
+  };
+  const removeImage = (index: any) => {
+    const filteredImages = images.filter((_, i) => i !== index);
+    setImages(filteredImages);
   };
 
   return (
@@ -663,29 +673,41 @@ const Imgeo: React.FC = () => {
                       <div className="col-12 mt-4 text-center">
                         <div className="selected-images">
                           {images.map((image, index) => (
-                            <img
+                            <div
                               key={index}
-                              src={image}
-                              alt={`Selected ${index}`}
-                              className="selected-image"
-                              onClick={() => setIndexNumber(index)}
-                              onDragStart={(e) => {
-                                e.dataTransfer.setData(
-                                  "index",
-                                  index.toString()
-                                );
-                              }}
-                              onDragOver={(e) => {
-                                e.preventDefault();
-                              }}
-                              onDrop={(e) => {
-                                const fromIndex = parseInt(
-                                  e.dataTransfer.getData("index")
-                                );
-                                moveImage(fromIndex, index);
-                              }}
-                              draggable
-                            />
+                              className="selected-image-container"
+                            >
+                              <>
+                                <img
+                                  src={image}
+                                  alt={`Selected ${index}`}
+                                  className="selected-image"
+                                  onClick={() => setIndexNumber(index)}
+                                  onDragStart={(e) => {
+                                    e.dataTransfer.setData(
+                                      "index",
+                                      index.toString()
+                                    );
+                                  }}
+                                  onDragOver={(e) => {
+                                    e.preventDefault();
+                                  }}
+                                  onDrop={(e) => {
+                                    const fromIndex = parseInt(
+                                      e.dataTransfer.getData("index")
+                                    );
+                                    moveImage(fromIndex, index);
+                                  }}
+                                  draggable
+                                />
+                                <button
+                                  className="remove-button"
+                                  onClick={() => removeImage(index)}
+                                >
+                                  Remove
+                                </button>
+                              </>
+                            </div>
                           ))}
                         </div>
                       </div>
@@ -739,9 +761,7 @@ const Imgeo: React.FC = () => {
                   id="toMinsInput"
                   className="form-control"
                   value={minutes}
-                  onChange={(event: any) => {
-                    setMinutes(event.target.value);
-                  }}
+                  onChange={handleMinutes}
                   placeholder="enter minutes"
                 />
               </div>
@@ -807,31 +827,6 @@ const Imgeo: React.FC = () => {
           </div>
 
           <div className="row">
-            <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="latitudeInput" style={{ color: "white" }}>
-                  Latitude:
-                </label>
-                <div className="d-flex">
-                  <input
-                    type="number"
-                    placeholder="Enter the Latitude"
-                    id="latitudeInput"
-                    className="form-control"
-                    value={latitude}
-                    onChange={handleLatitudeChange}
-                  />
-                  <select
-                    className="form-control"
-                    value={ew}
-                    onChange={handleSelectChangeLongitute}
-                  >
-                    <option value="E">E</option>
-                    <option value="W">W</option>
-                  </select>
-                </div>
-              </div>
-            </div>
             <div className="d-flex col-md-6">
               <div className="form-group">
                 <label htmlFor="longitudeInput" style={{ color: "white" }}>
@@ -853,6 +848,31 @@ const Imgeo: React.FC = () => {
                   >
                     <option value="N">N</option>
                     <option value="S">S</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label htmlFor="latitudeInput" style={{ color: "white" }}>
+                  Latitude:
+                </label>
+                <div className="d-flex">
+                  <input
+                    type="number"
+                    placeholder="Enter the Latitude"
+                    id="latitudeInput"
+                    className="form-control"
+                    value={latitude}
+                    onChange={handleLatitudeChange}
+                  />
+                  <select
+                    className="form-control"
+                    value={ew}
+                    onChange={handleSelectChangeLongitute}
+                  >
+                    <option value="E">E</option>
+                    <option value="W">W</option>
                   </select>
                 </div>
               </div>
