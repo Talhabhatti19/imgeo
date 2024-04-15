@@ -284,14 +284,14 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 50; // Start with a default font size
+            let fontSize = 30; // Start with a default font size
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
 
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 30) {
+            while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
               fontSize--;
               ctx.font = `${fontSize}px Arial`;
             }
@@ -306,7 +306,7 @@ const Imgeo: React.FC = () => {
           // Calculate maximum text width based on image dimensions
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
 
-          // Calculate positions for your texts; adjust based on your requirements
+          // Calculate positions for your texts; adjust basedb on your requirements
           const textYDate = img.height - 90; // Position for date
           const textYLongitude = img.height - 60; // Position for longitude
           const textYEmail = img.height - 30; // Position for email
@@ -549,6 +549,21 @@ const Imgeo: React.FC = () => {
       setMinutes(value);
     }
   };
+  const handleFromMinutes = (e: any) => {
+    const value = e.target.value;
+    // Check if the value contains only digits and has length <= 2
+    if (/^\d*$/.test(value) && value.length <= 2) {
+      setFromMin(value);
+    }
+  };
+  const handleToMinutes = (e: any) => {
+    const value = e.target.value;
+    // Check if the value contains only digits and has length <= 2
+    if (/^\d*$/.test(value) && value.length <= 2) {
+      setToMin(value);
+    }
+  };
+
   const removeImage = (index: any) => {
     const filteredImages = images.filter((_, i) => i !== index);
     setImages(filteredImages);
@@ -801,14 +816,7 @@ const Imgeo: React.FC = () => {
                   type="number"
                   id="fromMinsInput"
                   className="form-control"
-                  onChange={(event: any) => {
-                    setFromMin(event.target.value);
-                    // if (fromMin <= 3) {
-                    //   from = fromMin;
-                    // } else {
-                    //   toast.error("enter valid amount");
-                    // }
-                  }}
+                  onChange={handleFromMinutes}
                 />
               </div>
               <div className="col-6 form-group">
@@ -820,14 +828,7 @@ const Imgeo: React.FC = () => {
                   type="number"
                   id="toMinsInput"
                   className="form-control"
-                  onChange={(event: any) => {
-                    setToMin(event.target.value);
-                    // if (toMin >= 3) {
-                    //   to = toMin;
-                    // } else {
-                    //   toast.error("enter valid amount");
-                    // }
-                  }}
+                  onChange={handleToMinutes}
                 />
               </div>
             </div>
