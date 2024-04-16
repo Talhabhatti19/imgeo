@@ -885,7 +885,7 @@ const Imgeo: React.FC = () => {
           </div>
 
           <div className="row">
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="fontSizeInput" style={{ color: "white" }}>
                   Font Size:
@@ -900,7 +900,7 @@ const Imgeo: React.FC = () => {
                   }}
                 />
               </div>
-            </div>
+            </div> */}
             <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="picNameInput" style={{ color: "white" }}>
