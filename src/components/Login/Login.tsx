@@ -7,17 +7,14 @@ export const dummyValue = [
   {
     email: "dummy@example.com",
     password: "pass123",
-    status: false,
   },
   {
     email: "test@example.com",
     password: "pass123",
-    status: false,
   },
   {
     email: "hello@example.com",
     password: "pass123",
-    status: false,
   },
 ];
 
@@ -31,12 +28,8 @@ const Login = () => {
       (dummy) => dummy.email === email && dummy.password === password
     );
 
-    if (match && match.status == false) {
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
-      match.status = true;
-      const jsonString = JSON.stringify(match);
-      localStorage.setItem("match", jsonString);
+    if (match) {
+      localStorage.setItem("isLoggedIn", "true");
       navigate("/imgeo");
       console.log("Status", dummyValue);
     } else {

@@ -37,35 +37,16 @@ const AdminModal = () => {
     align-items: center;
   `;
 
-  const login = async () => {
-    const emailLogout = localStorage.getItem("email");
-    const passwordLogout = localStorage.getItem("password");
-    console.log(emailLogout, passwordLogout);
-    let data: any = localStorage.getItem("match");
-    let dummyValue: any = JSON.parse(data);
-    console.error("Error parsing data from localStorage:", dummyValue);
-    if (data) {
-      try {
-        // Attempt to parse the data as JSON
-        dummyValue = JSON.parse(data);
-      } catch (error) {
-        // Log and handle any parsing errors
-        console.error("Error parsing data from localStorage:", error);
-      }
-    }
+  const handleLogout = async () => {
+    // Assuming 'isLoggedIn' is the flag you set in localStorage when logging in
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-    // Check if dummyValue is an array
-
-    if (dummyValue) {
-      dummyValue.status = false; // Store the updated array back to localStorage
-      if (dummyValue.status == false) {
-        console.log("logout", dummyValue);
-        navigate("");
-        localStorage.clear();
-      }
+    if (isLoggedIn) {
+      localStorage.clear(); // Clear all local storage items
+      navigate(""); // Navigate to the login page
+      toast.success("You have been logged out.");
     } else {
-      console.log("logout", dummyValue, emailLogout, passwordLogout);
-      toast.error("not match");
+      toast.error("You are not logged in.");
     }
   };
 
@@ -73,7 +54,7 @@ const AdminModal = () => {
     <>
       <div className="login-form-data">
         <div
-          onClick={login}
+          onClick={handleLogout}
           className="d-flex justify-content-start align-items-center ms-2 border-bottom"
         >
           <div className="p-3">

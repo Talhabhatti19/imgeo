@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 import TimePicker from "react-time-picker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-time-picker/dist/TimePicker.css";
-
 import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import html2canvas from "html2canvas";
@@ -14,7 +13,6 @@ import jsPDF from "jspdf";
 import { format as formatDate } from "date-fns";
 import toast from "react-hot-toast";
 import Loader from "./Loader/Loader";
-
 import { FileUploader } from "react-drag-drop-files";
 var from: any = 0;
 var to: any = 0;
@@ -26,8 +24,6 @@ const Imgeo: React.FC = () => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [nameChange, setNameChange] = useState("");
-  const [date, setDate] = useState("");
-  const [initialTime, setInitialTime] = useState<any>("");
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   let [selectedTime, setSelectedTime] = useState<any>();
   let [ew, setEw] = useState<any>("E");
