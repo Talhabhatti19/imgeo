@@ -470,7 +470,7 @@ const Imgeo: React.FC = () => {
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${increment}:${seconds}`;
-          const longitudeString = `${longitude}${latitudeLongitude}${ns} ${latitude}${latitudeLongitude}${ew}`;
+          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -489,7 +489,7 @@ const Imgeo: React.FC = () => {
 
           // Assuming image dimensions are known (width and height in mm)
           const imageWidth = 150; // in mm
-          const imageHeight = 150; // in mm
+          const imageHeight = 130; // in mm
 
           // Calculate the coordinates to center the image on the page
           const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
