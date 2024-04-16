@@ -271,7 +271,7 @@ const Imgeo: React.FC = () => {
           ctx.drawImage(img, 9, 25);
 
           ctx.fillStyle = "white";
-          ctx.font = `30px Arial`;
+          ctx.font = `32px Arial`;
 
           latitudeLongitude = 10 * (index + 1);
           function drawText(
