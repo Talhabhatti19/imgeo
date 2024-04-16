@@ -24,6 +24,7 @@ const Imgeo: React.FC = () => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [nameChange, setNameChange] = useState("");
+
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   let [selectedTime, setSelectedTime] = useState<any>();
   let [ew, setEw] = useState<any>("E");
@@ -469,7 +470,7 @@ const Imgeo: React.FC = () => {
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${increment}:${seconds}`;
-          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
+          const longitudeString = `${longitude}${latitudeLongitude}${ns} ${latitude}${latitudeLongitude}${ew}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -847,11 +848,11 @@ const Imgeo: React.FC = () => {
                   />
                   <select
                     className="form-control"
-                    value={ns}
-                    onChange={handleSelectChangeLatitude}
+                    value={ew}
+                    onChange={handleSelectChangeLongitute}
                   >
-                    <option value="N">N</option>
-                    <option value="S">S</option>
+                    <option value="E">E</option>
+                    <option value="W">W</option>
                   </select>
                 </div>
               </div>
@@ -872,11 +873,11 @@ const Imgeo: React.FC = () => {
                   />
                   <select
                     className="form-control"
-                    value={ew}
-                    onChange={handleSelectChangeLongitute}
+                    value={ns}
+                    onChange={handleSelectChangeLatitude}
                   >
-                    <option value="E">E</option>
-                    <option value="W">W</option>
+                    <option value="N">N</option>
+                    <option value="S">S</option>
                   </select>
                 </div>
               </div>
