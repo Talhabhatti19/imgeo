@@ -252,6 +252,7 @@ const Imgeo: React.FC = () => {
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
+          console.log(randomIncrement, "randomIncrementdownload");
 
           if (increment >= 60) {
             incrementCounter++;
@@ -386,24 +387,31 @@ const Imgeo: React.FC = () => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = imageSrc;
-        increment += diff;
+        const diff = parseInt(toMin) - parseInt(fromMin);
+        const randomIncrement =
+          Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
+
+        increment += randomIncrement;
+        console.log(randomIncrement, "randomIncrementrandomIncrementpdf");
+
         if (increment >= 60) {
           incrementCounter++;
           hours++;
           if (hours > 24) {
             hours = 0;
           }
-          increment = 0;
+          increment = increment - 60;
         }
         if (seconds >= 60) {
           seconds = 0;
         } else {
           seconds += index + 5;
         }
-        console.log(increment, "increment");
+
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
+
           if (increment >= 60) {
             incrementCounter++;
             hours++;
@@ -480,35 +488,52 @@ const Imgeo: React.FC = () => {
           const imgData = canvas.toDataURL("image/png");
 
           // Add image to PDF with fixed dimensions
-          const pageWidth = 210; // in mm
-          const pageHeight = 297; // in mm
+          // const pageWidth = 210; // in mm
+          // const pageHeight = 297; // in mm
 
-          // Assuming image dimensions are known (width and height in mm)
-          const imageWidth = 150; // in mm
-          const imageHeight = 130; // in mm
+          // // Assuming image dimensions are known (width and height in mm)
+          // const imageWidth = 150; // in mm
+          // const imageHeight = 130; // in mm
 
-          // Calculate the coordinates to center the image on the page
-          const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
-          const yCoordinate = (pageHeight - imageHeight) / 2;
+          // // Calculate the coordinates to center the image on the page
+          // const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
+          // const yCoordinate = (pageHeight - imageHeight) / 2;
 
           // Add a new page only for subsequent images
           if (index > 0) {
             console.log("Adding new page.");
             pdf.addPage();
           }
+          const pageWidth = pdf.internal.pageSize.getWidth();
+          const pageHeight = pdf.internal.pageSize.getHeight();
+
+          const aspectRatio = img.width / img.height;
+          let imgWidth, imgHeight;
+          if (img.width > img.height) {
+            imgWidth = pageWidth;
+            imgHeight = imgWidth / aspectRatio;
+          } else {
+            imgHeight = pageHeight;
+            imgWidth = imgHeight * aspectRatio;
+          }
+
+          // Calculate the coordinates to center the image on the page
+          const xCoordinate = (pageWidth - imgWidth) / 2;
+          const yCoordinate = (pageHeight - imgHeight) / 2;
 
           pdf.addImage(
             imgData,
             "PNG",
             xCoordinate,
             yCoordinate,
-            imageWidth,
-            imageHeight
+            imgWidth,
+            imgHeight
           ); // Adjust width and height as needed
 
           // Load the next image recursively
           loadImage(index + 1);
         };
+
         img.onerror = () => {
           console.error("Error loading image.");
           // Load the next image even if there's an error
