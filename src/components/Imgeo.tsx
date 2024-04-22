@@ -226,17 +226,19 @@ const Imgeo: React.FC = () => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = imageSrc;
-      increment += diff;
 
+      const diff = parseInt(toMin) - parseInt(fromMin);
+      const randomIncrement =
+        Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
+
+      increment += randomIncrement;
       if (increment >= 60) {
         incrementCounter++;
 
         hours++;
         if (hours > 24) {
           hours = 0;
-          console.log(hours, "1111");
         }
-        console.log(hours, "222");
 
         increment = 0;
       }
@@ -250,6 +252,7 @@ const Imgeo: React.FC = () => {
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
+
           if (increment >= 60) {
             incrementCounter++;
             hours++;
@@ -257,7 +260,6 @@ const Imgeo: React.FC = () => {
               setHours(0);
             }
             increment = 0;
-            console.log(increment, "hours3");
           }
 
           if (!ctx) {
@@ -298,9 +300,6 @@ const Imgeo: React.FC = () => {
             ctx.fillText(text, x, y);
           }
 
-          // ...Inside your image processing loop
-
-          // Calculate maximum text width based on image dimensions
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
 
           // Calculate positions for your texts; adjust basedb on your requirements
@@ -309,15 +308,12 @@ const Imgeo: React.FC = () => {
           const textYEmail = img.height - 30; // Position for email
           const textYName = img.height - 10; // Position for name
 
-          // Construct your text strings
-
-          // Formatting the date using date-fns for example
           const dateString = `${formatDate(
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${currentIncrement}:${currentSeconds}`;
 
-          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
+          const longitudeString = `${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -470,7 +466,7 @@ const Imgeo: React.FC = () => {
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${increment}:${seconds}`;
-          const longitudeString = `${longitude}${latitudeLongitude}${ew} ${latitude}${latitudeLongitude}${ns}`;
+          const longitudeString = ` ${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
@@ -533,31 +529,37 @@ const Imgeo: React.FC = () => {
     const inputValue = event.target.value;
     const numericValue = parseInt(inputValue, 10);
 
-    if (numericValue > 24 || numericValue < 0 || isNaN(numericValue)) {
+    if (numericValue > 23 || numericValue < 0 || isNaN(numericValue)) {
       setHours("");
     } else {
       setHours(inputValue);
     }
   };
   const handleMinutes = (e: any) => {
-    const value = e.target.value;
+    let value = e.target.value;
+
     // Check if the value contains only digits and has length <= 2
     if (/^\d*$/.test(value) && value.length <= 2) {
-      setMinutes(value);
+      // Ensure the value is within the range [0, 59]
+      value = Math.min(parseInt(value, 10), 59);
+      setMinutes(value.toString());
     }
   };
+
   const handleFromMinutes = (e: any) => {
-    const value = e.target.value;
+    let value = e.target.value;
     // Check if the value contains only digits and has length <= 2
     if (/^\d*$/.test(value) && value.length <= 2) {
-      setFromMin(value);
+      value = Math.min(parseInt(value, 10), 59);
+      setFromMin(value.toString());
     }
   };
   const handleToMinutes = (e: any) => {
-    const value = e.target.value;
+    let value = e.target.value;
     // Check if the value contains only digits and has length <= 2
     if (/^\d*$/.test(value) && value.length <= 2) {
-      setToMin(value);
+      value = Math.min(parseInt(value, 10), 59);
+      setToMin(value.toString());
     }
   };
 
@@ -830,55 +832,58 @@ const Imgeo: React.FC = () => {
               </div>
             </div>
           </div>
-
           <div className="row">
-            <div className="d-flex col-md-6">
-              <div className="form-group">
-                <label htmlFor="longitudeInput" style={{ color: "white" }}>
-                  Longitude:
-                </label>
-                <div className="d-flex">
-                  <input
-                    type="number"
-                    placeholder="Enter the Longitude"
-                    id="longitudeInput"
-                    className="form-control"
-                    value={longitude}
-                    onChange={handleLongitudeChange}
-                  />
-                  <select
-                    className="form-control"
-                    value={ew}
-                    onChange={handleSelectChangeLongitute}
-                  >
-                    <option value="E">E</option>
-                    <option value="W">W</option>
-                  </select>
+            <div className="col-md-6">
+              <div className="d-flex col-md-6 ">
+                <div className="form-group">
+                  <label htmlFor="latitudeInput" style={{ color: "white" }}>
+                    Latitude:
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="number"
+                      placeholder="Enter the Latitude"
+                      id="latitudeInput"
+                      className="form-control"
+                      value={latitude}
+                      onChange={handleLatitudeChange}
+                    />
+                    <select
+                      className="form-control"
+                      value={ns}
+                      onChange={handleSelectChangeLatitude}
+                    >
+                      <option value="N">N</option>
+                      <option value="S">S</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
             <div className="col-md-6">
-              <div className="form-group">
-                <label htmlFor="latitudeInput" style={{ color: "white" }}>
-                  Latitude:
-                </label>
-                <div className="d-flex">
-                  <input
-                    type="number"
-                    placeholder="Enter the Latitude"
-                    id="latitudeInput"
-                    className="form-control"
-                    value={latitude}
-                    onChange={handleLatitudeChange}
-                  />
-                  <select
-                    className="form-control"
-                    value={ns}
-                    onChange={handleSelectChangeLatitude}
-                  >
-                    <option value="N">N</option>
-                    <option value="S">S</option>
-                  </select>
+              <div className="d-flex col-md-6">
+                <div className="form-group">
+                  <label htmlFor="longitudeInput" style={{ color: "white" }}>
+                    Longitude:
+                  </label>
+                  <div className="d-flex">
+                    <input
+                      type="number"
+                      placeholder="Enter the Longitude"
+                      id="longitudeInput"
+                      className="form-control"
+                      value={longitude}
+                      onChange={handleLongitudeChange}
+                    />
+                    <select
+                      className="form-control"
+                      value={ew}
+                      onChange={handleSelectChangeLongitute}
+                    >
+                      <option value="E">E</option>
+                      <option value="W">W</option>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>

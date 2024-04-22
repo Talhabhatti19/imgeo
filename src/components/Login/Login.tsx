@@ -105,7 +105,7 @@ const Login = () => {
                   >
                     Login
                   </button>
-                  <div className="text-end mt-3">
+                  <div className="text-end mt-3" style={{ color: "white" }}>
                     <span
                       id="forgot-password"
                       onClick={() => setIsForgotPassword(!isForgotPassword)}

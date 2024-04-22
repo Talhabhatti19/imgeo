@@ -65,7 +65,6 @@ const DasbhboardHeader = () => {
                 />
               </div>
               <h4 style={{ color: "white" }}>Logout</h4>
-              <FaAngleDown />
             </div>
           </div>
         </div>
