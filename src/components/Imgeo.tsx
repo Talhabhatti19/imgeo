@@ -124,9 +124,7 @@ const Imgeo: React.FC = () => {
 
   const handleLongitudeChange = (event: any) => {
     const { value } = event.target;
-
     const regEx = /^-?\d{0,2}(\.\d{0,15})?$/;
-
     if (value === "" || value === "-" || regEx.test(value)) {
       let isValidRange = true;
 
@@ -137,7 +135,6 @@ const Imgeo: React.FC = () => {
           numericValue >= -99.999999999999999 &&
           numericValue <= 99.999999999999999;
       }
-
       if (isValidRange) {
         setLongitude(value);
       }
@@ -201,45 +198,25 @@ const Imgeo: React.FC = () => {
     const diff = parseInt(toMin) - parseInt(fromMin);
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
-    const format = window.prompt(
-      "Enter the format to save images (jpg, png, zip,jpeg,heic):"
-    );
-
-    if (
-      !format ||
-      !format ||
-      (format !== "jpg" &&
-        format !== "png" &&
-        format !== "zip" &&
-        format !== "heic")
-    ) {
-      toast.error("Invalid format selected.");
-      setLoading(false);
-      return;
-    }
+    const defaultFormat = "png";
 
     setLoading(true);
     let imagesProcessed = 0;
-    const zip = format === "zip" ? new JSZip() : null;
-
+    const zip = new JSZip();
     images.forEach((imageSrc, index) => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = imageSrc;
-
       const diff = parseInt(toMin) - parseInt(fromMin);
       const randomIncrement =
         Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
-
       increment += randomIncrement;
       if (increment >= 60) {
         incrementCounter++;
-
         hours++;
         if (hours > 24) {
           hours = 0;
         }
-
         increment = 0;
       }
       if (seconds >= 60) {
@@ -247,7 +224,6 @@ const Imgeo: React.FC = () => {
       } else {
         seconds += index + 5;
       }
-
       (function (currentIncrement, currentSeconds, hours) {
         img.onload = () => {
           const canvas = document.createElement("canvas");
@@ -267,15 +243,11 @@ const Imgeo: React.FC = () => {
             console.error("Failed to get canvas context");
             return; // Exit if ctx is null
           }
-
           canvas.width = img.width;
           canvas.height = img.height;
-
           ctx.drawImage(img, 9, 25);
-
           ctx.fillStyle = "white";
           ctx.font = `32px Arial`;
-
           latitudeLongitude = 10 * (index + 1);
           function drawText(
             ctx: CanvasRenderingContext2D,
@@ -289,69 +261,46 @@ const Imgeo: React.FC = () => {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
-
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
             while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
               fontSize--;
               ctx.font = `${fontSize}px Arial`;
             }
-
             // Draw text with a stroke to ensure visibility on varied backgrounds
             ctx.strokeText(text, x, y);
             ctx.fillText(text, x, y);
           }
-
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
-
           // Calculate positions for your texts; adjust basedb on your requirements
           const textYDate = img.height - 90; // Position for date
           const textYLongitude = img.height - 60; // Position for longitude
           const textYEmail = img.height - 30; // Position for email
           const textYName = img.height - 10; // Position for name
-
           const dateString = `${formatDate(
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${currentIncrement}:${currentSeconds}`;
-
           const longitudeString = `${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
-
           // Draw the texts onto the canvas
           drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
           drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
           drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
           drawText(ctx, nameString, 10, textYName, maxTextWidth);
-
           const handleBlob = (blob: any) => {
-            if (blob && format === "zip" && zip) {
-              zip.file(`modified_image_${index}.png`, blob);
-              imagesProcessed++;
-              if (imagesProcessed === images.length) {
-                zip.generateAsync({ type: "blob" }).then((content) => {
-                  saveAs(content, "images.zip");
-                  setLoading(false);
-                  toast.success("All images have been saved as ZIP.");
-                });
-              }
-            } else if (blob) {
-              saveAs(blob, `modified_image_${index}.${format}`);
-              imagesProcessed++;
-
-              if (imagesProcessed === images.length) {
+            zip.file(`modified_image_${index}.${defaultFormat}`, blob); // Use defaultFormat for ZIP
+            imagesProcessed++;
+            if (imagesProcessed === images.length) {
+              zip.generateAsync({ type: "blob" }).then((content) => {
+                saveAs(content, "images.zip");
                 setLoading(false);
-
-                toast.success("All images have been saved individually.");
-              }
+                toast.success("All images have been saved as ZIP.");
+              });
             }
           };
 
-          if (format === "zip" || format === "png") {
-            canvas.toBlob(handleBlob, "image/png");
-          } else if (format === "jpg" || format === "heic") {
-            canvas.toBlob(handleBlob, "image/jpeg");
-          }
+          canvas.toBlob(handleBlob, "image/png");
         };
       })(increment, seconds, hours);
 
