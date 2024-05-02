@@ -14,8 +14,10 @@ import { format as formatDate } from "date-fns";
 import toast from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import { FileUploader } from "react-drag-drop-files";
-var from: any = 0;
-var to: any = 0;
+import { v4 as uuidv4 } from "uuid";
+uuidv4();
+// var from: any = 0;
+// var to: any = 0;
 const Imgeo: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -26,7 +28,7 @@ const Imgeo: React.FC = () => {
   const [nameChange, setNameChange] = useState("");
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  let [selectedTime, setSelectedTime] = useState<any>();
+  // let [selectedTime, setSelectedTime] = useState<any>();
   let [ew, setEw] = useState<any>("E");
   const [open, setOpen] = useState(false);
 
@@ -37,6 +39,7 @@ const Imgeo: React.FC = () => {
   const [ns, setNs] = useState<any>("N");
   const [fontSize, setFontSize] = useState<any>("30");
   const [file, setFile] = useState<any>();
+  const [filenames, setFilenames] = useState<string[]>([]);
   const handleFontSizeChange = (e: any) => {
     setFontSize(Number(e.target.value)); // Convert input value to a number and update the state
   };
@@ -55,15 +58,15 @@ const Imgeo: React.FC = () => {
     setNameChange(event.target.value);
   };
 
-  const handleTimeChange = (event: any) => {
-    setSelectedTime(event.target.value);
-    const [hours, minutes] = selectedTime.split(":");
-    setMinutes(minutes);
-    setHours(hours);
-    console.log("Hours:", hours); // Outputs: Hours: 14
-    console.log("Minutes:", minutes);
-    console.log(selectedTime, "selectedTime");
-  };
+  // const handleTimeChange = (event: any) => {
+  //   setSelectedTime(event.target.value);
+  //   const [hours, minutes] = selectedTime.split(":");
+  //   setMinutes(minutes);
+  //   setHours(hours);
+  //   console.log("Hours:", hours); // Outputs: Hours: 14
+  //   console.log("Minutes:", minutes);
+  //   console.log(selectedTime, "selectedTime");
+  // };
   const fileTypes = ["JPEG", "PNG", "GIF", "JPG", "HEIC"];
 
   const handleChange = async (fileInput: any) => {
@@ -71,8 +74,9 @@ const Imgeo: React.FC = () => {
     if (fileInput) {
       const files: FileList = fileInput;
       const newUrls: string[] = [];
-
+      const newFilenames: string[] = [];
       for (const file of Array.from(files)) {
+        newFilenames.push(file.name);
         if (file.type === "image/heic") {
           try {
             // Convert HEIC to JPEG
@@ -97,30 +101,32 @@ const Imgeo: React.FC = () => {
 
       // Concatenate the new image URLs with the existing ones
       const updatedUrls = [...images, ...newUrls];
+      const updatedFilenames = [...filenames, ...newFilenames];
       setFile(fileInput); // Assuming this should be fileInput, not file
       setImages(updatedUrls);
+      setFilenames(updatedFilenames);
       setIndexNumber(0); // Reset indexNumber to display the first image
     }
   };
 
-  const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e, "newfile");
+  // const handleImageUploads = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   console.log(e, "newfile");
 
-    if (e.target.files) {
-      const files: FileList = e.target.files;
-      const newUrls: string[] = [];
+  //   if (e.target.files) {
+  //     const files: FileList = e.target.files;
+  //     const newUrls: string[] = [];
 
-      Array.from(files).forEach((file: File) => {
-        newUrls.push(URL.createObjectURL(file));
-      });
+  //     Array.from(files).forEach((file: File) => {
+  //       newUrls.push(URL.createObjectURL(file));
+  //     });
 
-      // Concatenate the new image URLs with the existing ones
-      const updatedUrls = [...images, ...newUrls];
+  //     // Concatenate the new image URLs with the existing ones
+  //     const updatedUrls = [...images, ...newUrls];
 
-      setImages(updatedUrls);
-      setIndexNumber(0); // Reset indexNumber to display the first image
-    }
-  };
+  //     setImages(updatedUrls);
+  //     setIndexNumber(0); // Reset indexNumber to display the first image
+  //   }
+  // };
 
   const handleLongitudeChange = (event: any) => {
     const { value } = event.target;
@@ -189,8 +195,8 @@ const Imgeo: React.FC = () => {
       return;
     }
     setLoading(true);
-    let currentHours = parseInt(hours); // Parse hours as an integer
-    let currentMinutes = parseInt(minutes); // Parse minutes as an integer
+    // let currentHours = parseInt(hours); // Parse hours as an integer
+    // let currentMinutes = parseInt(minutes); // Parse minutes as an integer
     let seconds = 0; // Initialize seconds to 0
 
     // Initialize incrementCounter and other variables
@@ -199,7 +205,6 @@ const Imgeo: React.FC = () => {
     let increment = parseInt(minutes);
     let latitudeLongitude = 123;
     const defaultFormat = "png";
-
     setLoading(true);
     let imagesProcessed = 0;
     const zip = new JSZip();
@@ -271,7 +276,6 @@ const Imgeo: React.FC = () => {
             ctx.fillText(text, x, y);
           }
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
-          // Calculate positions for your texts; adjust basedb on your requirements
           const textYDate = img.height - 90; // Position for date
           const textYLongitude = img.height - 60; // Position for longitude
           const textYEmail = img.height - 30; // Position for email
@@ -288,19 +292,22 @@ const Imgeo: React.FC = () => {
           drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
           drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
           drawText(ctx, nameString, 10, textYName, maxTextWidth);
-          const handleBlob = (blob: any) => {
-            zip.file(`modified_image_${index}.${defaultFormat}`, blob); // Use defaultFormat for ZIP
+          const handleBlob = (blob: any, originalFilename: string) => {
+            zip.file(originalFilename, blob);
             imagesProcessed++;
             if (imagesProcessed === images.length) {
               zip.generateAsync({ type: "blob" }).then((content) => {
                 saveAs(content, "images.zip");
+
                 setLoading(false);
                 toast.success("All images have been saved as ZIP.");
               });
             }
           };
-
-          canvas.toBlob(handleBlob, "image/png");
+          const originalFilename = filenames[index];
+          canvas.toBlob((blob: any) => {
+            handleBlob(blob, originalFilename); // Pass original filename to handleBlob
+          }, "image/png");
         };
       })(increment, seconds, hours);
 
@@ -314,6 +321,21 @@ const Imgeo: React.FC = () => {
       };
     });
   };
+  // const generateFilenameFromUrl = (url: string): string => {
+  //   console.log("Image URL:", url);
+
+  //   if (url.startsWith("blob:")) {
+  //     // For Blob URLs, extract the filename from the URL
+  //     const filenameWithExtension = url.split("/").pop();
+  //     console.log("Filename with extension:", filenameWithExtension);
+  //     return filenameWithExtension || "image.png"; // Return filename or default to "image.png"
+  //   } else {
+  //     // For regular URLs, extract the filename from the path
+  //     const filenameWithExtension = url.split("/").pop();
+  //     console.log("Filename with extension:", filenameWithExtension);
+  //     return filenameWithExtension || ""; // Return filename or an empty string if not found
+  //   }
+  // };
 
   const handleDownloadPdf = () => {
     setLoading(true); // Set loading state to true while processing
