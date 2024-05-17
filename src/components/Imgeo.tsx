@@ -15,6 +15,7 @@ import toast from "react-hot-toast";
 import Loader from "./Loader/Loader";
 import { FileUploader } from "react-drag-drop-files";
 import { v4 as uuidv4 } from "uuid";
+import { AnyARecord } from "dns";
 uuidv4();
 // var from: any = 0;
 // var to: any = 0;
@@ -102,6 +103,8 @@ const Imgeo: React.FC = () => {
       // Concatenate the new image URLs with the existing ones
       const updatedUrls = [...images, ...newUrls];
       const updatedFilenames = [...filenames, ...newFilenames];
+      console.log(updatedFilenames, "updatedFilenames");
+
       setFile(fileInput); // Assuming this should be fileInput, not file
       setImages(updatedUrls);
       setFilenames(updatedFilenames);
@@ -250,9 +253,9 @@ const Imgeo: React.FC = () => {
           }
           canvas.width = img.width;
           canvas.height = img.height;
-          ctx.drawImage(img, 9, 25);
+          ctx.drawImage(img, 0, 0, img.width, img.height);
           ctx.fillStyle = "white";
-          ctx.font = `32px Arial`;
+          ctx.font = `40px Arial`;
           latitudeLongitude = 10 * (index + 1);
           function drawText(
             ctx: CanvasRenderingContext2D,
@@ -261,13 +264,13 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 30; // Start with a default font size
+            let fontSize = 40; // Start with a default font size
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 2;
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 20) {
+            while (ctx.measureText(text).width > maxWidth && fontSize > 30) {
               fontSize--;
               ctx.font = `${fontSize}px Arial`;
             }
@@ -276,10 +279,10 @@ const Imgeo: React.FC = () => {
             ctx.fillText(text, x, y);
           }
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
-          const textYDate = img.height - 90; // Position for date
-          const textYLongitude = img.height - 60; // Position for longitude
-          const textYEmail = img.height - 30; // Position for email
-          const textYName = img.height - 10; // Position for name
+          const textYDate = img.height - 120; // Position for date
+          const textYLongitude = img.height - 80; // Position for longitude
+          const textYEmail = img.height - 40; // Position for email
+          const textYName = img.height - 10; //
           const dateString = `${formatDate(
             selectedDate,
             "dd MMM yyyy"
@@ -288,10 +291,11 @@ const Imgeo: React.FC = () => {
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
           // Draw the texts onto the canvas
-          drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
-          drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
-          drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
-          drawText(ctx, nameString, 10, textYName, maxTextWidth);
+          const textXPosition = img.width - 350; // Adjust the x-position to the right side within the image
+          drawText(ctx, dateString, textXPosition, textYDate, 290);
+          drawText(ctx, longitudeString, textXPosition, textYLongitude, 250);
+          drawText(ctx, emailString, textXPosition, textYEmail, 290);
+          drawText(ctx, nameString, textXPosition, textYName, 290);
           const handleBlob = (blob: any, originalFilename: string) => {
             zip.file(originalFilename, blob);
             imagesProcessed++;
@@ -321,22 +325,190 @@ const Imgeo: React.FC = () => {
       };
     });
   };
-  // const generateFilenameFromUrl = (url: string): string => {
-  //   console.log("Image URL:", url);
 
-  //   if (url.startsWith("blob:")) {
-  //     // For Blob URLs, extract the filename from the URL
-  //     const filenameWithExtension = url.split("/").pop();
-  //     console.log("Filename with extension:", filenameWithExtension);
-  //     return filenameWithExtension || "image.png"; // Return filename or default to "image.png"
-  //   } else {
-  //     // For regular URLs, extract the filename from the path
-  //     const filenameWithExtension = url.split("/").pop();
-  //     console.log("Filename with extension:", filenameWithExtension);
-  //     return filenameWithExtension || ""; // Return filename or an empty string if not found
-  //   }
+  // const handleDownloadPdf = () => {
+  //   setLoading(true); // Set loading state to true while processing
+
+  //   const pdf = new jsPDF();
+  //   let currentHours = parseInt(hours); // Parse hours as an integer
+  //   let currentMinutes = parseInt(minutes); // Parse minutes as an integer
+  //   let seconds = 0; // Initialize seconds to 0
+
+  //   // Initialize incrementCounter and other variables
+  //   let incrementCounter = 0;
+  //   const diff = parseInt(toMin) - parseInt(fromMin);
+  //   let increment = parseInt(minutes);
+  //   let latitudeLongitude = 123;
+
+  //   // Define a function to handle loading and processing of each image
+  //   const loadImage = (index: any) => {
+  //     if (index < images.length) {
+  //       const imageSrc = images[index];
+  //       const img = new Image();
+  //       img.crossOrigin = "Anonymous";
+  //       img.src = imageSrc;
+  //       const diff = parseInt(toMin) - parseInt(fromMin);
+  //       const randomIncrement =
+  //         Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
+
+  //       increment += randomIncrement;
+  //       console.log(randomIncrement, "randomIncrementrandomIncrementpdf");
+
+  //       if (increment >= 60) {
+  //         incrementCounter++;
+  //         hours++;
+  //         if (hours > 24) {
+  //           hours = 0;
+  //         }
+  //         increment = increment - 60;
+  //       }
+  //       if (seconds >= 60) {
+  //         seconds = 0;
+  //       } else {
+  //         seconds += index + 5;
+  //       }
+
+  //       img.onload = () => {
+  //         const canvas = document.createElement("canvas");
+  //         const ctx = canvas.getContext("2d");
+
+  //         if (increment >= 60) {
+  //           incrementCounter++;
+  //           hours++;
+  //           if (hours > 24) {
+  //             hours = 0;
+  //           }
+  //           increment = 0;
+  //         }
+  //         if (seconds >= 60) {
+  //           seconds = 0;
+  //         } else {
+  //           seconds += index + 5;
+  //         }
+  //         canvas.width = img.width;
+  //         canvas.height = img.height;
+  //         if (!ctx) {
+  //           return;
+  //         }
+  //         ctx.drawImage(img, 9, 25);
+
+  //         ctx.fillStyle = "white";
+  //         ctx.font = `30px Arial`;
+
+  //         latitudeLongitude = 10 * (index + 1);
+  //         function drawText(
+  //           ctx: CanvasRenderingContext2D,
+  //           text: string,
+  //           x: number,
+  //           y: number,
+  //           maxWidth: number
+  //         ) {
+  //           let fontSize = 30; // Start with a default font size
+  //           ctx.font = `${fontSize}px Arial`;
+  //           ctx.fillStyle = "white";
+  //           ctx.strokeStyle = "black";
+  //           ctx.lineWidth = 2;
+
+  //           // Reduce the font size until the text fits the canvas width or reaches a minimum size
+  //           while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
+  //             fontSize--;
+  //             ctx.font = `${fontSize}px Arial`;
+  //           }
+
+  //           // Draw text with a stroke to ensure visibility on varied backgrounds
+  //           ctx.strokeText(text, x, y);
+  //           ctx.fillText(text, x, y);
+  //         }
+
+  //         // Calculate maximum text width based on image dimensions
+  //         const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
+
+  //         // Calculate positions for your texts; adjust based on your requirements
+  //         const textYDate = img.height - 90; // Position for date
+  //         const textYLongitude = img.height - 60; // Position for longitude
+  //         const textYEmail = img.height - 30; // Position for email
+  //         const textYName = img.height - 10; // Position for name
+
+  //         // Formatting the date using date-fns for example
+  //         const dateString = `${formatDate(
+  //           selectedDate,
+  //           "dd MMM yyyy"
+  //         )} ${hours}:${increment}:${seconds}`;
+  //         const longitudeString = ` ${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
+  //         const emailString = `${email}`;
+  //         const nameString = `${nameChange}`;
+
+  //         // Draw the texts onto the canvas
+  //         drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
+  //         drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
+  //         drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
+  //         drawText(ctx, nameString, 10, textYName, maxTextWidth);
+
+  //         // Convert canvas to base64 image data
+  //         const imgData = canvas.toDataURL("image/png");
+
+  //         // Add image to PDF with fixed dimensions
+  //         // const pageWidth = 210; // in mm
+  //         // const pageHeight = 297; // in mm
+
+  //         // // Assuming image dimensions are known (width and height in mm)
+  //         // const imageWidth = 150; // in mm
+  //         // const imageHeight = 130; // in mm
+
+  //         // // Calculate the coordinates to center the image on the page
+  //         // const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
+  //         // const yCoordinate = (pageHeight - imageHeight) / 2;
+
+  //         // Add a new page only for subsequent images
+  //         if (index > 0) {
+  //           console.log("Adding new page.");
+  //           pdf.addPage();
+  //         }
+  //         const pageWidth = pdf.internal.pageSize.getWidth();
+  //         const pageHeight = pdf.internal.pageSize.getHeight();
+
+  //         const aspectRatio = img.width / img.height;
+  //         let imgWidth, imgHeight;
+  //         if (img.width > img.height) {
+  //           imgWidth = pageWidth;
+  //           imgHeight = imgWidth / aspectRatio;
+  //         } else {
+  //           imgHeight = pageHeight;
+  //           imgWidth = imgHeight * aspectRatio;
+  //         }
+
+  //         // Calculate the coordinates to center the image on the page
+  //         const xCoordinate = (pageWidth - imgWidth) / 2;
+  //         const yCoordinate = (pageHeight - imgHeight) / 2;
+
+  //         pdf.addImage(
+  //           imgData,
+  //           "PNG",
+  //           xCoordinate,
+  //           yCoordinate,
+  //           imgWidth,
+  //           imgHeight
+  //         ); // Adjust width and height as needed
+
+  //         // Load the next image recursively
+  //         loadImage(index + 1);
+  //       };
+
+  //       img.onerror = () => {
+  //         console.error("Error loading image.");
+  //         // Load the next image even if there's an error
+  //         loadImage(index + 1);
+  //       };
+  //     } else {
+  //       // If all images are processed, save the PDF and set loading to false
+  //       pdf.save("downloaded_images.pdf");
+  //       setLoading(false); // Set loading state to false after downloading
+  //     }
+  //   };
+
+  //   // Start loading the first image
+  //   loadImage(0);
   // };
-
   const handleDownloadPdf = () => {
     setLoading(true); // Set loading state to true while processing
 
@@ -352,18 +524,17 @@ const Imgeo: React.FC = () => {
     let latitudeLongitude = 123;
 
     // Define a function to handle loading and processing of each image
-    const loadImage = (index: any) => {
+    const loadImage = (index: number) => {
       if (index < images.length) {
         const imageSrc = images[index];
         const img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = imageSrc;
-        const diff = parseInt(toMin) - parseInt(fromMin);
         const randomIncrement =
           Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
 
         increment += randomIncrement;
-        console.log(randomIncrement, "randomIncrementrandomIncrementpdf");
+        console.log(randomIncrement, "randomIncrementpdf");
 
         if (increment >= 60) {
           incrementCounter++;
@@ -380,33 +551,24 @@ const Imgeo: React.FC = () => {
         }
 
         img.onload = () => {
+          // Create a canvas with the same size as the image
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
 
-          if (increment >= 60) {
-            incrementCounter++;
-            hours++;
-            if (hours > 24) {
-              hours = 0;
-            }
-            increment = 0;
-          }
-          if (seconds >= 60) {
-            seconds = 0;
-          } else {
-            seconds += index + 5;
-          }
+          // Set the canvas size to match the image size
           canvas.width = img.width;
           canvas.height = img.height;
+
           if (!ctx) {
             return;
           }
-          ctx.drawImage(img, 9, 25);
+          ctx.drawImage(img, 0, 0, img.width, img.height);
 
           ctx.fillStyle = "white";
-          ctx.font = `30px Arial`;
+          ctx.font = `40px Arial`; // Increased font size
 
           latitudeLongitude = 10 * (index + 1);
+
           function drawText(
             ctx: CanvasRenderingContext2D,
             text: string,
@@ -414,30 +576,27 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 30; // Start with a default font size
+            let fontSize = 23; // Start with a larger font size
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 1;
 
             // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 10) {
-              fontSize--;
-              ctx.font = `${fontSize}px Arial`;
-            }
+            // while (ctx.measureText(text).width > maxWidth && fontSize > 5) {
+            //   fontSize--;
+            //   ctx.font = `${fontSize}px Arial`;
+            // }
 
             // Draw text with a stroke to ensure visibility on varied backgrounds
             ctx.strokeText(text, x, y);
             ctx.fillText(text, x, y);
           }
 
-          // Calculate maximum text width based on image dimensions
-          const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
-
           // Calculate positions for your texts; adjust based on your requirements
-          const textYDate = img.height - 90; // Position for date
-          const textYLongitude = img.height - 60; // Position for longitude
-          const textYEmail = img.height - 30; // Position for email
+          const textYDate = img.height - 120; // Position for date
+          const textYLongitude = img.height - 80; // Position for longitude
+          const textYEmail = img.height - 40; // Position for email
           const textYName = img.height - 10; // Position for name
 
           // Formatting the date using date-fns for example
@@ -450,48 +609,29 @@ const Imgeo: React.FC = () => {
           const nameString = `${nameChange}`;
 
           // Draw the texts onto the canvas
-          drawText(ctx, dateString, 10, textYDate, maxTextWidth); // x-position is 10 for left alignment
-          drawText(ctx, longitudeString, 10, textYLongitude, maxTextWidth);
-          drawText(ctx, emailString, 10, textYEmail, maxTextWidth);
-          drawText(ctx, nameString, 10, textYName, maxTextWidth);
+          const textXPosition = img.width - 300; // Adjust the x-position to the right side within the image
+          drawText(ctx, dateString, textXPosition, textYDate, 290);
+          drawText(ctx, longitudeString, textXPosition, textYLongitude, 240);
+          drawText(ctx, emailString, textXPosition, textYEmail, 290);
+          drawText(ctx, nameString, textXPosition, textYName, 290);
 
           // Convert canvas to base64 image data
           const imgData = canvas.toDataURL("image/png");
 
-          // Add image to PDF with fixed dimensions
-          // const pageWidth = 210; // in mm
-          // const pageHeight = 297; // in mm
-
-          // // Assuming image dimensions are known (width and height in mm)
-          // const imageWidth = 150; // in mm
-          // const imageHeight = 130; // in mm
-
-          // // Calculate the coordinates to center the image on the page
-          // const xCoordinate = (pageWidth - imageWidth) / 2; // Center horizontally
-          // const yCoordinate = (pageHeight - imageHeight) / 2;
-
-          // Add a new page only for subsequent images
-          if (index > 0) {
-            console.log("Adding new page.");
-            pdf.addPage();
-          }
+          // Add image to PDF with fixed width and original height
           const pageWidth = pdf.internal.pageSize.getWidth();
           const pageHeight = pdf.internal.pageSize.getHeight();
 
-          const aspectRatio = img.width / img.height;
-          let imgWidth, imgHeight;
-          if (img.width > img.height) {
-            imgWidth = pageWidth;
-            imgHeight = imgWidth / aspectRatio;
-          } else {
-            imgHeight = pageHeight;
-            imgWidth = imgHeight * aspectRatio;
-          }
+          const imgWidth = 150; // Fixed width in points
+          const imgHeight = (img.height / img.width) * imgWidth; // Maintain original height
 
           // Calculate the coordinates to center the image on the page
           const xCoordinate = (pageWidth - imgWidth) / 2;
           const yCoordinate = (pageHeight - imgHeight) / 2;
 
+          if (index > 0) {
+            pdf.addPage();
+          }
           pdf.addImage(
             imgData,
             "PNG",
