@@ -7,6 +7,7 @@ import axios from "axios";
 import { isBrowser, isMobile, browserName, osName } from "react-device-detect";
 import { v4 as uuidv4 } from "uuid";
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { urlLocal } from "../../utils/const.utils";
 export const dummyValue = [
   {
     email: "dummy@example.com",
@@ -57,7 +58,7 @@ const Login = () => {
     //   toast.error("Invalid email or password");
     // }
     axios
-      .post("https://honeysuckle-merciful-store.glitch.me/api/login", {
+      .post(`${urlLocal}/api/login`, {
         email: email,
         password: password,
         device: uniqueDeviceId,

@@ -11,6 +11,7 @@ import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import toast from "react-hot-toast";
+import { urlLocal } from "../../utils/const.utils";
 
 const Leads = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -86,9 +87,7 @@ const Leads = () => {
     { value: "action2", label: "Action 2" },
   ];
   const getAllData = async () => {
-    const response = await axios.get(
-      "https://honeysuckle-merciful-store.glitch.me/api/users"
-    );
+    const response = await axios.get(`${urlLocal}/api/users`);
     if (response) {
       setAllData(response?.data);
       console.log(response.data, "123");
@@ -100,14 +99,11 @@ const Leads = () => {
     setUpdatePopup(false);
   };
   const login = async ({ email, password }: any) => {
-    const response = await axios.post(
-      "https://honeysuckle-merciful-store.glitch.me/api/signup",
-      {
-        email: email,
-        password: password,
-        device: "",
-      }
-    );
+    const response = await axios.post(`${urlLocal}/api/signup`, {
+      email: email,
+      password: password,
+      device: "",
+    });
     if (response) {
       setShowPopup(false);
       toast.success("Successfully added");
@@ -117,7 +113,7 @@ const Leads = () => {
   const update = async (formField: any) => {
     console.log(formField, "device");
     const response = await axios.patch(
-      `https://honeysuckle-merciful-store.glitch.me/api/users/${deleteData._id}`,
+      `${urlLocal}/api/users/${deleteData._id}`,
       {
         email: formField.email,
         password: formField.password,
@@ -132,9 +128,7 @@ const Leads = () => {
   };
 
   const deleteRow = async (id: any) => {
-    const response = await axios.delete(
-      `https://honeysuckle-merciful-store.glitch.me/api/users/${id}`
-    );
+    const response = await axios.delete(`${urlLocal}/api/users/${id}`);
     if (response) {
       setDeleteDialog(false);
       toast.success("Deleted Succesfully");
