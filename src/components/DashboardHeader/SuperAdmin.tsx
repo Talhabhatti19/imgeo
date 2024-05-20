@@ -6,6 +6,7 @@ import styled, { keyframes } from "styled-components";
 import { RootState } from "../../redux/rootReducer";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import axios from "axios";
 const AdminModal = () => {
   const navigate = useNavigate();
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
@@ -37,24 +38,51 @@ const AdminModal = () => {
     align-items: center;
   `;
 
-  const handleLogout = async () => {
-    // Assuming 'isLoggedIn' is the flag you set in localStorage when logging in
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-    if (isLoggedIn) {
-      localStorage.clear(); // Clear all local storage items
-      navigate(""); // Navigate to the login page
-      toast.success("You have been logged out.");
-    } else {
-      toast.error("You are not logged in.");
-    }
+  const login = async () => {
+    const emailLogout = localStorage.getItem("email");
+    const response = await axios.post(
+      `https://honeysuckle-merciful-store.glitch.me/api/logout`,
+      {
+        email: emailLogout,
+      }
+    );
+    navigate("");
+    localStorage.clear();
+    console.log(response, "response123");
+    // const emailLogout = localStorage.getItem("email");
+    // const passwordLogout = localStorage.getItem("password");
+    // console.log(emailLogout, passwordLogout);
+    // let data: any = localStorage.getItem("match");
+    // let dummyValue: any = JSON.parse(data);
+    // console.error("Error parsing data from localStorage:", dummyValue);
+    // if (data) {
+    //   try {
+    //     // Attempt to parse the data as JSON
+    //     dummyValue = JSON.parse(data);
+    //   } catch (error) {
+    //     // Log and handle any parsing errors
+    //     console.error("Error parsing data from localStorage:", error);
+    //   }
+    // }
+    // // Check if dummyValue is an array
+    // if (dummyValue) {
+    //   dummyValue.status = false; // Store the updated array back to localStorage
+    //   if (dummyValue.status == false) {
+    //     console.log("logout", dummyValue);
+    //     navigate("");
+    //     localStorage.clear();
+    //   }
+    // } else {
+    //   console.log("logout", dummyValue, emailLogout, passwordLogout);
+    //   toast.error("not match");
+    // }
   };
 
   return (
     <>
       <div className="login-form-data">
         <div
-          onClick={handleLogout}
+          onClick={login}
           className="d-flex justify-content-start align-items-center ms-2 border-bottom"
         >
           <div className="p-3">

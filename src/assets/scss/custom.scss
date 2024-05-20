@@ -1780,38 +1780,3 @@ label{
 .jWkLDY > span{
   color: white!important;
 }
-.selected-image-container {
-  position: relative;
-  display: inline-block;
-}
-
-.remove-button {
-  position: absolute;
-  top: -6px;
-  right: -2px;
-  background-color: rgba(255, 0, 0, 0.8);
-  color: white;
-  border: none;
-  border-radius: 79%;
-  width: 20px;
-  height: 20px;
-  font-size: 5px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-  z-index: 1;
-  transition: background-color 0.3s ease;
-}
-
-.remove-button:hover {
-  background-color: rgba(255, 0, 0, 1);
-}
-
-.selected-image {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 10px;
-}

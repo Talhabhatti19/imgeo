@@ -11,8 +11,12 @@ const DasbhboardSidebar = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [activeBar, setActiveBar] = useState();
   const toggled = useSelector((state: RootState) => state.block.toggled);
-  const sidebarItems = [{ label: "Imgeo", Link: "imgeo" }];
-
+  const sidebarItems = [
+    { label: "Admin", Link: "Admin" },
+    { label: "Imgeo", Link: "imgeo" },
+  ];
+  const sidebarItemsWithoutAdmin = [{ label: "Imgeo", Link: "imgeo" }];
+  const adminEmail = localStorage.getItem("email");
   const renderSubmenu = (item: any) => (
     <>
       <div className="menu-items">
@@ -288,7 +292,10 @@ const DasbhboardSidebar = () => {
           </div>
 
           <Menu>
-            {sidebarItems.map((item: any, index: any) => (
+            {(adminEmail == "Hello@britainenergy.co.uk"
+              ? sidebarItems
+              : sidebarItemsWithoutAdmin
+            ).map((item: any, index: any) => (
               <>
                 <React.Fragment key={index}>
                   {item.menu ? (

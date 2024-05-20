@@ -3,18 +3,25 @@ import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { isBrowser, isMobile, browserName, osName } from "react-device-detect";
+import { v4 as uuidv4 } from "uuid";
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
 export const dummyValue = [
   {
     email: "dummy@example.com",
     password: "pass123",
+    status: false,
   },
   {
     email: "test@example.com",
     password: "pass123",
+    status: false,
   },
   {
     email: "hello@example.com",
     password: "pass123",
+    status: false,
   },
 ];
 
@@ -22,19 +29,54 @@ const Login = () => {
   const [isForgotPassword, setIsForgotPassword] = useState(false);
   const navigate = useNavigate();
   const [swapPassword, setSwapPassword] = useState(false);
+  const uniqueSessionID = uuidv4();
+  console.log(uniqueSessionID, "uniqueSessionID");
+  const [uniqueDeviceId, setUniqueDeviceId] = useState("");
+  console.log(isBrowser, isMobile, browserName, osName, "12345678");
+  const fetchIP = async () => {
+    const response = await axios.get("https://api.ipify.org?format=json");
+    setUniqueDeviceId(response?.data?.ip);
+  };
+
+  fetchIP();
 
   const login = async ({ email, password }: any) => {
-    const match = dummyValue.find(
-      (dummy) => dummy.email === email && dummy.password === password
-    );
+    // const match = dummyValue.find(
+    //   (dummy) => dummy.email === email && dummy.password === password
+    // );
 
-    if (match) {
-      localStorage.setItem("isLoggedIn", "true");
-      navigate("/imgeo");
-      console.log("Status", dummyValue);
-    } else {
-      toast.error("Invalid email or password");
-    }
+    // if (match && match.status == false) {
+    //   localStorage.setItem("email", email);
+    //   localStorage.setItem("password", password);
+    //   match.status = true;
+    //   const jsonString = JSON.stringify(match);
+    //   localStorage.setItem("match", jsonString);
+    //   navigate("/imgeo");
+    //   console.log("Status", dummyValue);
+    // } else {
+    //   toast.error("Invalid email or password");
+    // }
+    axios
+      .post("https://honeysuckle-merciful-store.glitch.me/api/login", {
+        email: email,
+        password: password,
+        device: uniqueDeviceId,
+      })
+      .then((response) => {
+        console.log(response, "response");
+        if (response) {
+          localStorage.setItem("email", email);
+          navigate("/imgeo");
+          toast.success("Login Succesfully");
+          console.log(response, "response");
+        } else {
+          console.log("hello");
+        }
+      })
+      .catch((error) => {
+        toast.error(`${error?.response?.data?.message}`);
+        console.error("Error occurred:", error?.response?.data?.message);
+      });
   };
 
   const validationSchema = Yup.object().shape({
@@ -105,7 +147,7 @@ const Login = () => {
                   >
                     Login
                   </button>
-                  <div className="text-end mt-3" style={{ color: "white" }}>
+                  <div className="text-end mt-3">
                     <span
                       id="forgot-password"
                       onClick={() => setIsForgotPassword(!isForgotPassword)}

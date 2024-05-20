@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/rootReducer";
 import Switch from "react-switch";
@@ -8,130 +8,76 @@ import { DatePicker } from "antd";
 import { Modal, Button, Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import DynamicHeaderStructure from "../../components/DynamicHeaderStructure";
+import axios from "axios";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import toast from "react-hot-toast";
 
 const Leads = () => {
   const themeBuilder = useSelector((state: RootState) => state.block.theme);
   const [showPopup, setShowPopup] = useState(false);
-  const [rowData, setRowData] = useState([
-    {
-      Customer: "jhdbfs",
-      ProductName: "kajbdsf",
-      ApplicationNo: "2235",
-      CrNumber: "1234",
-      Email: "11@gmail.com",
-      Phone: "123456",
-      Date: "12.34.2044",
-      ParentStatus: "---",
-      Status: "active",
-      Action: "--",
-    },
-    {
-      Customer: "jhdbfs",
-      ProductName: "kajbdsf",
-      ApplicationNo: "2235",
-      CrNumber: "1234",
-      Email: "11@gmail.com",
-      Phone: "123456",
-      Date: "12.34.2044",
-      ParentStatus: "---",
-      Status: "inactive",
-      Action: "--",
-    },
-  ]);
+  const [allData, setAllData] = useState([]);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [updatePopup, setUpdatePopup] = useState(false);
+  const [deleteData, setDeleteData] = useState<any>("");
   const actionSelect = [
     { label: "Detail", img: Images.listIcon, Link: "detail" },
   ];
-  const handleToggleChange = (index: any, e: any) => {
-    console.log(index, e, "check");
-    const updatedData = [...rowData];
-    updatedData[index].Status =
-      updatedData[index].Status === "active" ? "inactive" : "active";
-    setRowData(updatedData);
 
-    if (e === false || e === true) {
-      setShowPopup(!showPopup);
-    }
-  };
   const Leads_Header = [
     {
-      name: "Customer Name",
-      selector: (row: { Customer: any }) => row.Customer,
+      name: "User Email",
+      selector: (row: { email: any }) => row.email,
     },
     {
-      name: "Application No.",
-      selector: (row: { ApplicationNo: any }) => row.ApplicationNo,
+      name: "User Password",
+      selector: (row: { password: any }) => row.password,
     },
     {
-      name: "Product Name",
-      selector: (row: { ProductName: any }) => row.ProductName,
+      name: "device",
+      selector: (row: { device: any }) => row.device,
     },
     {
-      name: "Cr Number.",
-      selector: (row: { CrNumber: any }) => row.CrNumber,
-    },
-    {
-      name: "Email",
-      selector: (row: { Email: any }) => row.Email,
-    },
-    {
-      name: "Phone",
-      selector: (row: { Phone: any }) => row.Phone,
-    },
-    {
-      name: "Date",
-      selector: (row: { Date: any }) => row.Date,
-    },
-    {
-      name: "Parent Status",
-      selector: (row: { ParentStatus: any }) => row.ParentStatus,
-    },
-    {
-      name: "Status",
-      selector: (row: { Status: any }) => row.Status,
-      cell: (row: any, index: any) => (
-        <div>
-          <Switch
-            onChange={(e: any) => handleToggleChange(index, e)}
-            checked={row.Status === "active"}
-            checkedIcon={false}
-            uncheckedIcon={false}
-            onColor="#004D72" // Adjust the color when the switch is on
-            offColor="#ccc" // Adjust the color when the switch is off
-            height={20} // Adjust the height of the switch
-            boxShadow="#fff"
-          />
-        </div>
-      ),
+      name: "LogIn Status",
+      selector: (row: { status: any }) => row.status,
     },
     {
       name: "Action",
-      selector: (row: { Action: any }) => row.Action,
+      selector: (row: { action: any }) => row.action,
       cell: (row: any) => (
-        <div>
-          <Dropdown>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Select
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu>
-              {actionSelect.map((item, index) => (
-                <Dropdown.Item>
-                  <>
-                    <Link to={`${item.Link}`} className="a-link">
-                      <div className="d-flex">
-                        <div className="col-3">
-                          <img src={item.img} alt="" />
-                        </div>
-
-                        {item.label}
-                      </div>
-                    </Link>
-                  </>
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
+        <>
+          <div
+            onClick={() => {
+              setDeleteDialog(true);
+              setDeleteData(row.action);
+            }}
+            style={{
+              padding: ".25rem 0.5rem",
+              borderRadius: "4px",
+              backgroundColor: "#dc3545",
+              color: "white",
+              marginRight: "4px",
+              cursor: "pointer",
+            }}
+          >
+            delete
+          </div>
+          <div
+            onClick={() => {
+              setUpdatePopup(true);
+              setDeleteData(row.action);
+            }}
+            style={{
+              padding: ".25rem 0.5rem",
+              borderRadius: "4px",
+              backgroundColor: "#0dcaf0",
+              color: "white",
+              marginRight: "4px",
+              cursor: "pointer",
+            }}
+          >
+            update
+          </div>
+        </>
       ),
     },
   ];
@@ -139,61 +85,254 @@ const Leads = () => {
     { value: "action1", label: "Action 1" },
     { value: "action2", label: "Action 2" },
   ];
-
-  const handleActionChange = (index: any, selectedAction: any) => {
-    const updatedData = [...rowData];
-    updatedData[index] = { ...updatedData[index], Action: selectedAction };
-    setRowData(updatedData);
-    console.log(updatedData);
+  const getAllData = async () => {
+    const response = await axios.get(
+      "https://honeysuckle-merciful-store.glitch.me/api/users"
+    );
+    if (response) {
+      setAllData(response?.data);
+      console.log(response.data, "123");
+    }
   };
-
   const closePopup = () => {
     setShowPopup(false);
+    setDeleteDialog(false);
+    setUpdatePopup(false);
+  };
+  const login = async ({ email, password }: any) => {
+    const response = await axios.post(
+      "https://honeysuckle-merciful-store.glitch.me/api/signup",
+      {
+        email: email,
+        password: password,
+        device: "",
+      }
+    );
+    if (response) {
+      setShowPopup(false);
+      toast.success("Successfully added");
+      getAllData();
+    }
+  };
+  const update = async (formField: any) => {
+    console.log(formField, "device");
+    const response = await axios.patch(
+      `https://honeysuckle-merciful-store.glitch.me/api/users/${deleteData._id}`,
+      {
+        email: formField.email,
+        password: formField.password,
+        device: formField.device,
+      }
+    );
+    if (response) {
+      getAllData();
+      toast.success("Update Successfully");
+      setUpdatePopup(false);
+    }
   };
 
+  const deleteRow = async (id: any) => {
+    const response = await axios.delete(
+      `https://honeysuckle-merciful-store.glitch.me/api/users/${id}`
+    );
+    if (response) {
+      setDeleteDialog(false);
+      toast.success("Deleted Succesfully");
+      getAllData();
+    }
+    console.log(response);
+  };
+  console.log(deleteData, "deletedata");
+  useEffect(() => {
+    getAllData();
+  }, []);
+
+  const mappedData =
+    allData &&
+    allData.map((item: any, index: any) => ({
+      email: item.email || null,
+      password: item.password || null,
+      device: item.lastDevice ? item.lastDevice : "-" || null,
+      status: item.isLoggedIn ? "true" : "false" || null,
+      action: item,
+    }));
   return (
     <>
       <div className="cs-table">
-        <DynamicHeaderStructure title={"Leads"} filter={true} />
-        <TableView
-          header={Leads_Header}
-          data={rowData.map((item: any, index: any) => ({
-            ...item,
-
-            Action: (
-              <select
-                value={item.Action}
-                onChange={(e) => handleActionChange(index, e.target.value)}
-              >
-                <option value="" disabled>
-                  Select Action
-                </option>
-                {actionOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            ),
-          }))}
-        />
+        <div className="col-12 d-flex p-3">
+          <div className="col-6" style={{ color: "white" }}>
+            Admin
+          </div>
+          <div className="col-6 justify-content-end d-flex">
+            <div
+              className="btn btn-light "
+              onClick={() => {
+                setShowPopup(true);
+              }}
+            >
+              Create User
+            </div>
+          </div>
+        </div>
+        <TableView header={Leads_Header} data={mappedData} />
       </div>
       <Modal show={showPopup} onHide={closePopup}>
         <Modal.Header closeButton>
-          <Modal.Title>Popup Content</Modal.Title>
+          <Modal.Title>Create User</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Additional content goes here */}
-          {showPopup && (
-            <div>
-              <p>Status: </p>
-              {/* Add more details as needed */}
-            </div>
-          )}
+          <Formik initialValues={{ email: "", password: "" }} onSubmit={login}>
+            {() => {
+              return (
+                <Form>
+                  <div className="form-group">
+                    <Field
+                      className="form-control "
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      id="email"
+                      autoComplete="off"
+                    />
+                    <label htmlFor="email " style={{ color: "white" }}>
+                      Email
+                    </label>
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="invalid-feedback text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type={"text"}
+                      name="password"
+                      id="password"
+                      className="form-control"
+                      placeholder="Password"
+                    />
+                    <label htmlFor="password" style={{ color: "white" }}>
+                      Password
+                    </label>
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="invalid-feedback text-danger"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-theme btn-lg w-100 mt-2"
+                    type="submit"
+                  >
+                    Submit
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closePopup}>
             Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={updatePopup} onHide={closePopup}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update User</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Formik
+            initialValues={{
+              email: deleteData.email,
+              password: deleteData.password,
+              device: deleteData.lastDevice,
+            }}
+            onSubmit={update}
+          >
+            {() => {
+              return (
+                <Form>
+                  <div className="form-group">
+                    <Field
+                      className="form-control "
+                      type="email"
+                      placeholder="Email"
+                      name="email"
+                      id="email"
+                      autoComplete="off"
+                    />
+                    <label htmlFor="email " style={{ color: "white" }}>
+                      Email
+                    </label>
+                    <ErrorMessage
+                      name="email"
+                      component="div"
+                      className="invalid-feedback text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type={"text"}
+                      name="password"
+                      id="password"
+                      className="form-control"
+                      placeholder="Password"
+                    />
+                    <label htmlFor="password" style={{ color: "white" }}>
+                      Password
+                    </label>
+                    <ErrorMessage
+                      name="password"
+                      component="div"
+                      className="invalid-feedback text-danger"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <Field
+                      type={"text"}
+                      name="device"
+                      id="device"
+                      className="form-control"
+                      placeholder="device"
+                    />
+                    <label htmlFor="password" style={{ color: "white" }}>
+                      Device
+                    </label>
+                    <ErrorMessage
+                      name="device"
+                      component="div"
+                      className="invalid-feedback text-danger"
+                    />
+                  </div>
+                  <button
+                    className="btn btn-theme btn-lg w-100 mt-2"
+                    type="submit"
+                  >
+                    Update
+                  </button>
+                </Form>
+              );
+            }}
+          </Formik>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closePopup}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={deleteDialog} onHide={closePopup}>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>Are You you want to delete this row</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              deleteRow(deleteData._id);
+            }}
+          >
+            Confirm
           </Button>
         </Modal.Footer>
       </Modal>

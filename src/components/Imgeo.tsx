@@ -198,8 +198,6 @@ const Imgeo: React.FC = () => {
       return;
     }
     setLoading(true);
-    // let currentHours = parseInt(hours); // Parse hours as an integer
-    // let currentMinutes = parseInt(minutes); // Parse minutes as an integer
     let seconds = 0; // Initialize seconds to 0
 
     // Initialize incrementCounter and other variables
@@ -215,7 +213,6 @@ const Imgeo: React.FC = () => {
       const img = new Image();
       img.crossOrigin = "Anonymous";
       img.src = imageSrc;
-      const diff = parseInt(toMin) - parseInt(fromMin);
       const randomIncrement =
         Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
       increment += randomIncrement;
@@ -255,8 +252,10 @@ const Imgeo: React.FC = () => {
           canvas.height = img.height;
           ctx.drawImage(img, 0, 0, img.width, img.height);
           ctx.fillStyle = "white";
-          ctx.font = `40px Arial`;
+          ctx.font = `28px Arial`;
+
           latitudeLongitude = 10 * (index + 1);
+
           function drawText(
             ctx: CanvasRenderingContext2D,
             text: string,
@@ -264,38 +263,41 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 40; // Start with a default font size
+            let fontSize = 28; // Font size for visibility
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 2;
-            // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            while (ctx.measureText(text).width > maxWidth && fontSize > 30) {
-              fontSize--;
-              ctx.font = `${fontSize}px Arial`;
-            }
-            // Draw text with a stroke to ensure visibility on varied backgrounds
-            ctx.strokeText(text, x, y);
-            ctx.fillText(text, x, y);
+
+            // Measure the text width
+            const textWidth = ctx.measureText(text).width;
+
+            // Adjust the x position so the text is right-aligned
+            const adjustedX = x - textWidth;
+
+            // Draw text without a stroke for better clarity
+            ctx.fillText(text, adjustedX, y);
           }
+
           const maxTextWidth = img.width - 20; // For example, 20 pixels from both sides
           const textYDate = img.height - 120; // Position for date
           const textYLongitude = img.height - 80; // Position for longitude
           const textYEmail = img.height - 40; // Position for email
-          const textYName = img.height - 10; //
+          const textYName = img.height - 10; // Position for name
+
           const dateString = `${formatDate(
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${currentIncrement}:${currentSeconds}`;
-          const longitudeString = `${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
+          const longitudeString = `${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
+
           // Draw the texts onto the canvas
-          const textXPosition = img.width - 350; // Adjust the x-position to the right side within the image
+          const textXPosition = img.width - 10; // Adjust the x-position to the right side within the image
           drawText(ctx, dateString, textXPosition, textYDate, 290);
-          drawText(ctx, longitudeString, textXPosition, textYLongitude, 250);
+          drawText(ctx, longitudeString, textXPosition, textYLongitude, 290);
           drawText(ctx, emailString, textXPosition, textYEmail, 290);
           drawText(ctx, nameString, textXPosition, textYName, 290);
+
           const handleBlob = (blob: any, originalFilename: string) => {
             zip.file(originalFilename, blob);
             imagesProcessed++;
@@ -565,7 +567,7 @@ const Imgeo: React.FC = () => {
           ctx.drawImage(img, 0, 0, img.width, img.height);
 
           ctx.fillStyle = "white";
-          ctx.font = `40px Arial`; // Increased font size
+          ctx.font = `28px Arial`; // Adjusted font size
 
           latitudeLongitude = 10 * (index + 1);
 
@@ -576,26 +578,23 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 23; // Start with a larger font size
+            let fontSize = 28; // Font size for visibility
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
-            ctx.strokeStyle = "black";
-            ctx.lineWidth = 1;
 
-            // Reduce the font size until the text fits the canvas width or reaches a minimum size
-            // while (ctx.measureText(text).width > maxWidth && fontSize > 5) {
-            //   fontSize--;
-            //   ctx.font = `${fontSize}px Arial`;
-            // }
+            // Measure the text width
+            const textWidth = ctx.measureText(text).width;
 
-            // Draw text with a stroke to ensure visibility on varied backgrounds
-            ctx.strokeText(text, x, y);
-            ctx.fillText(text, x, y);
+            // Adjust the x position so the text is right-aligned
+            const adjustedX = x - textWidth;
+
+            // Draw text without a stroke for better clarity
+            ctx.fillText(text, adjustedX, y);
           }
 
           // Calculate positions for your texts; adjust based on your requirements
-          const textYDate = img.height - 120; // Position for date
-          const textYLongitude = img.height - 80; // Position for longitude
+          const textYDate = img.height - 110; // Position for date
+          const textYLongitude = img.height - 70; // Position for longitude
           const textYEmail = img.height - 40; // Position for email
           const textYName = img.height - 10; // Position for name
 
@@ -604,19 +603,19 @@ const Imgeo: React.FC = () => {
             selectedDate,
             "dd MMM yyyy"
           )} ${hours}:${increment}:${seconds}`;
-          const longitudeString = ` ${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew} `;
+          const longitudeString = `${latitude}${latitudeLongitude}${ns} ${longitude}${latitudeLongitude}${ew}`;
           const emailString = `${email}`;
           const nameString = `${nameChange}`;
 
           // Draw the texts onto the canvas
-          const textXPosition = img.width - 300; // Adjust the x-position to the right side within the image
+          const textXPosition = img.width - 10; // Adjust the x-position to the right side within the image
           drawText(ctx, dateString, textXPosition, textYDate, 290);
-          drawText(ctx, longitudeString, textXPosition, textYLongitude, 240);
+          drawText(ctx, longitudeString, textXPosition, textYLongitude, 290);
           drawText(ctx, emailString, textXPosition, textYEmail, 290);
           drawText(ctx, nameString, textXPosition, textYName, 290);
 
           // Convert canvas to base64 image data
-          const imgData = canvas.toDataURL("image/png");
+          const imgData = canvas.toDataURL("image/jpeg", 0.7);
 
           // Add image to PDF with fixed width and original height
           const pageWidth = pdf.internal.pageSize.getWidth();
