@@ -222,10 +222,22 @@ const Imgeo: React.FC = () => {
             }
             increment = 0;
           }
-
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0, img.width, img.height);
+          const maxDimension = 1100; // Set max dimension for resizing
+          let { width, height } = img;
+          if (width > height) {
+            if (width > maxDimension) {
+              height *= maxDimension / width;
+              width = maxDimension;
+            }
+          } else {
+            if (height > maxDimension) {
+              width *= maxDimension / height;
+              height = maxDimension;
+            }
+          }
+          canvas.width = width;
+          canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
 
           ctx.fillStyle = "white";
           ctx.font = `bold 30px Arial`;
@@ -294,7 +306,7 @@ const Imgeo: React.FC = () => {
               handleBlob(blob, originalFilename); // Pass original filename to handleBlob
             },
             "image/png",
-            0.7
+            0.8
           );
         };
 
@@ -375,8 +387,9 @@ const Imgeo: React.FC = () => {
           ctx.drawImage(img, 0, 0, img.width, img.height);
 
           ctx.fillStyle = "white";
-          ctx.font = `38px Arial`; // Adjusted font size
-
+          ctx.font = `bold 28px Arial`; // Adjusted font size
+          const fontSize = Math.max(20, img.height / 25);
+          const lineHeight = fontSize * 1.2;
           latitudeLongitude = 10 * (index + 1);
 
           function drawText(
@@ -386,10 +399,8 @@ const Imgeo: React.FC = () => {
             y: number,
             maxWidth: number
           ) {
-            let fontSize = 38; // Font size for visibility
             ctx.font = `${fontSize}px Arial`;
             ctx.fillStyle = "white";
-
             // Measure the text width
             const textWidth = ctx.measureText(text).width;
 
@@ -400,20 +411,24 @@ const Imgeo: React.FC = () => {
             ctx.fillText(text, adjustedX, y);
           }
 
+          const baseYPosition = img.height - 2.5 * lineHeight; // Starting Y position for the first line of text
+          const textYDate = baseYPosition;
+          const textYLongitude = baseYPosition + lineHeight;
+          const textYEmail = baseYPosition + 2 * lineHeight;
+          const textYName = baseYPosition + 3 * lineHeight;
           // Calculate positions for your texts; adjust based on your requirements
-          const textYDate = img.height - 110; // Position for date
-          const textYLongitude = img.height - 70; // Position for longitude
-          const textYEmail = img.height - 40; // Position for email
-          const textYName = img.height - 10; // Position for name
+          // const textYDate = img.height - 110; // Position for date
+          // const textYLongitude = img.height - 70; // Position for longitude
+          // const textYEmail = img.height - 40; // Position for email
+          // const textYName = img.height - 10; // Position for name
 
           // Formatting the date using date-fns for example
-
           let dateString = "";
           if (selectedDate) {
             dateString = `${formatDate(
               selectedDate,
               "dd MMM yyyy"
-            )} ${currentHours}:${increment}:${seconds}`;
+            )} ${hours}:${increment}:${seconds}`;
           }
           const longitudeString = `${
             latitude ? latitude + latitudeLongitude + ns : ""
