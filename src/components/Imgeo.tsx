@@ -23,6 +23,7 @@ import Loader from "./Loader/Loader";
 import { FileUploader } from "react-drag-drop-files";
 import { v4 as uuidv4 } from "uuid";
 import { AnyARecord } from "dns";
+import { log } from "console";
 uuidv4();
 // var from: any = 0;
 // var to: any = 0;
@@ -34,6 +35,7 @@ const Imgeo: React.FC = () => {
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [nameChange, setNameChange] = useState("");
+  const [processedImagesCount, setProcessedImagesCount] = useState(0);
 
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   // let [selectedTime, setSelectedTime] = useState<any>();
@@ -129,24 +131,15 @@ const Imgeo: React.FC = () => {
 
   const handleLatitudeChange = (event: any) => {
     const { value } = event.target;
-    // Allow input that starts with a negative sign, up to two digits before the decimal,
-    // and up to 15 digits after the decimal
     const regEx = /^-?\d{0,2}(\.\d{0,15})?$/;
-
-    // Check if the input is either empty, a single minus for negative values, or matches the regex
     if (value === "" || value === "-" || regEx.test(value)) {
       let isValidRange = true;
-
-      // If it's not just a "-", check the range
       if (value !== "-" && value !== "") {
         const numericValue = parseFloat(value);
-        // Adjust the range check for negative values if necessary
         isValidRange =
           numericValue >= -99.999999999999999 &&
           numericValue <= 99.999999999999999;
       }
-
-      // If in range, update the state
       if (isValidRange) {
         setLatitude(value);
       }
@@ -176,8 +169,9 @@ const Imgeo: React.FC = () => {
     }
 
     setLoading(true);
+
     let seconds = 0;
-    let hour = hours; // Initialize hours
+    let hour = hours;
     let incrementCounter = 0;
     const diff = parseInt(toMin) - parseInt(fromMin);
     let increment = parseInt(minutes);
@@ -191,10 +185,11 @@ const Imgeo: React.FC = () => {
         const img = new Image();
         img.crossOrigin = "Anonymous";
         img.src = imageSrc;
-
         const randomIncrement =
           Math.floor(Math.random() * (diff + 1)) + parseInt(fromMin);
         increment += randomIncrement;
+        console.log(randomIncrement, "123456");
+
         if (increment >= 60) {
           incrementCounter++;
           hour++;
@@ -203,20 +198,14 @@ const Imgeo: React.FC = () => {
           }
           increment = 0;
         }
-
         if (seconds >= 60) {
           seconds = 0;
         } else {
           seconds += index + 5;
         }
-
-        // Capture the current values for the closure
         const currentIncrement = increment;
         const currentSeconds = seconds;
         const currentHours = hour;
-
-        console.log(currentHours, "currentHours");
-
         img.onload = () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
@@ -239,7 +228,7 @@ const Imgeo: React.FC = () => {
           ctx.drawImage(img, 0, 0, img.width, img.height);
 
           ctx.fillStyle = "white";
-          ctx.font = `30px Arial`;
+          ctx.font = `bold 30px Arial`;
 
           function drawText(
             ctx: CanvasRenderingContext2D,
@@ -249,9 +238,9 @@ const Imgeo: React.FC = () => {
             maxWidth: number
           ) {
             let fontSize = 35; // Font size for visibility
-            ctx.font = `${fontSize}px Arial`;
+            ctx.font = `bold ${fontSize}px Arial`;
             ctx.fillStyle = "white";
-
+            latitudeLongitude = 10 * (index + 1);
             // Measure the text width
             const textWidth = ctx.measureText(text).width;
 
@@ -267,7 +256,7 @@ const Imgeo: React.FC = () => {
           const textYLongitude = canvas.height - 80; // Position for longitude
           const textYEmail = canvas.height - 40; // Position for email
           const textYName = canvas.height - 10; // Position for name
-
+          setProcessedImagesCount(0);
           // Ensure the latest increment and hours are used
           const dateString = `${formatDate(
             selectedDate,
@@ -291,15 +280,22 @@ const Imgeo: React.FC = () => {
           const handleBlob = (blob: Blob | null, originalFilename: string) => {
             if (blob) {
               zip.file(originalFilename, blob);
+              setProcessedImagesCount((prevCount) => prevCount + 1);
+              console.log(processedImagesCount, "213425364758");
+
               resolve();
             } else {
               reject("Error creating blob.");
             }
           };
           const originalFilename = filenames[index];
-          canvas.toBlob((blob) => {
-            handleBlob(blob, originalFilename); // Pass original filename to handleBlob
-          }, "image/png");
+          canvas.toBlob(
+            (blob) => {
+              handleBlob(blob, originalFilename); // Pass original filename to handleBlob
+            },
+            "image/png",
+            0.7
+          );
         };
 
         img.onerror = () => {
@@ -527,7 +523,13 @@ const Imgeo: React.FC = () => {
 
   return (
     <div className="form-container mt-3 driver-details">
-      {loading && <Loader />}
+      {loading && (
+        <Loader
+          processedImagesCount={processedImagesCount}
+          totalImages={images.length}
+        />
+      )}
+
       <Col xl={12} className="px-custom">
         <Row className="mt-2 driver-details px-1 row-flex">
           <Col xl={12}>
@@ -539,6 +541,12 @@ const Imgeo: React.FC = () => {
                       <h2 className="box-title" style={{ color: "white" }}>
                         Images
                       </h2>
+                    </div>
+                    <div
+                      className="d-flex justify-content-center "
+                      style={{ color: "white" }}
+                    >
+                      Total number of uploaded images are {images.length}
                     </div>
                     <div className="col-12 d-flex justify-content-center">
                       <div className="">
@@ -722,6 +730,7 @@ const Imgeo: React.FC = () => {
                   selected={selectedDate}
                   onChange={handleDateChange}
                   dateFormat={"dd MMM yyyy"}
+                  autoComplete="off"
                   className="form-control"
                 />
               </div>
@@ -732,6 +741,7 @@ const Imgeo: React.FC = () => {
                   Hours:
                 </label>
                 <input
+                  autoComplete="off"
                   type="number"
                   id="fromMinsInput"
                   value={hours}
@@ -747,6 +757,7 @@ const Imgeo: React.FC = () => {
                 <input
                   type="number"
                   id="toMinsInput"
+                  autoComplete="off"
                   className="form-control"
                   value={minutes}
                   onChange={handleMinutes}
@@ -765,6 +776,7 @@ const Imgeo: React.FC = () => {
                 <input
                   placeholder="Enter the address"
                   type="address"
+                  autoComplete="off"
                   id="addressInput"
                   className="form-control"
                   value={email}
@@ -780,6 +792,7 @@ const Imgeo: React.FC = () => {
                 <input
                   value={fromMin}
                   type="number"
+                  autoComplete="off"
                   id="fromMinsInput"
                   className="form-control"
                   onChange={handleFromMinutes}
@@ -793,6 +806,7 @@ const Imgeo: React.FC = () => {
                   value={toMin}
                   type="number"
                   id="toMinsInput"
+                  autoComplete="off"
                   className="form-control"
                   onChange={handleToMinutes}
                 />
@@ -812,6 +826,7 @@ const Imgeo: React.FC = () => {
                       placeholder="Enter the Latitude"
                       id="latitudeInput"
                       className="form-control"
+                      autoComplete="off"
                       value={latitude}
                       onChange={handleLatitudeChange}
                     />
@@ -839,6 +854,7 @@ const Imgeo: React.FC = () => {
                       placeholder="Enter the Longitude"
                       id="longitudeInput"
                       className="form-control"
+                      autoComplete="off"
                       value={longitude}
                       onChange={handleLongitudeChange}
                     />

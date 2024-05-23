@@ -1,6 +1,13 @@
 import React from "react";
+interface LoaderProps {
+  processedImagesCount: number;
+  totalImages: number;
+}
 
-const Loader = () => {
+const Loader: React.FC<LoaderProps> = ({
+  processedImagesCount,
+  totalImages,
+}) => {
   const loader = [
     {
       loader: "I",
@@ -21,6 +28,9 @@ const Loader = () => {
   return (
     <div className="loader">
       <div className="loader-container col-md-12 col-10">
+        <div>
+          Processed {processedImagesCount} of {totalImages} images
+        </div>
         {loader.map((item: any) => (
           <div className="wave">{item.loader}</div>
         ))}
