@@ -388,7 +388,7 @@ const Imgeo: React.FC = () => {
 
           ctx.fillStyle = "white";
           ctx.font = `bold 28px Arial`; // Adjusted font size
-          const fontSize = Math.min(Math.max(20, img.height / 25), 40);
+          const fontSize = Math.max(20, img.height / 25, 40);
           const lineHeight = fontSize * 1.2;
           latitudeLongitude = 10 * (index + 1);
 
@@ -411,7 +411,7 @@ const Imgeo: React.FC = () => {
             ctx.fillText(text, adjustedX, y);
           }
 
-          const baseYPosition = img.height - 2.5 * lineHeight; // Starting Y position for the first line of text
+          const baseYPosition = img.height - 3.5 * lineHeight; // Starting Y position for the first line of text
           const textYDate = baseYPosition;
           const textYLongitude = baseYPosition + lineHeight;
           const textYEmail = baseYPosition + 2 * lineHeight;
