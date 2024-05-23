@@ -388,7 +388,7 @@ const Imgeo: React.FC = () => {
 
           ctx.fillStyle = "white";
           ctx.font = `bold 28px Arial`; // Adjusted font size
-          const fontSize = Math.max(20, img.height / 25);
+          const fontSize = Math.min(Math.max(20, img.height / 25), 40);
           const lineHeight = fontSize * 1.2;
           latitudeLongitude = 10 * (index + 1);
 
